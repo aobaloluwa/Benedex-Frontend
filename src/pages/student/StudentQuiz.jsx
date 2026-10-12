@@ -33,6 +33,8 @@ function StudentQuiz() {
   const [submitted, setSubmitted] = useState(false);
   const [score, setScore] = useState(0);
   const [serverPassed, setServerPassed] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState("");
 
   const [timeLeft, setTimeLeft] = useState(0);
   const timerRef = useRef(null);
@@ -143,32 +145,46 @@ function StudentQuiz() {
     setSubmitted(false);
     setScore(0);
     setServerPassed(false);
+    setSubmitting(false);
+    setSubmitError("");
     if (quiz) {
       setTimeLeft(quiz.questions.length * 60);
     }
   };
 
   /* ---------------- SUBMIT ---------------- */
+  // The browser must never grade a quiz or depend on correctAnswer being
+  // present in the quiz payload. Only the server is authoritative for grading.
   const handleSubmit = async () => {
-    if (submitted || !quiz || hasAttempted) return;
+    if (submitted || submitting || !quiz || hasAttempted) return;
 
-    let total = 0;
-    questions.forEach((q, i) => {
-      if (answers[i] === q.correctAnswer) {
-        total += 1;
-      }
-    });
-
-    setScore(total);
-    setSubmitted(true);
+    setSubmitting(true);
+    setSubmitError("");
     clearInterval(timerRef.current);
 
     try {
       const res = await API.post(`/quizzes/submit/${quizId}`, { answers });
-      setScore(res.data.correct);
-      setServerPassed(res.data.passed);
+      const result = res?.data;
+
+      if (
+        !result ||
+        !Number.isFinite(Number(result.correct)) ||
+        typeof result.passed !== "boolean"
+      ) {
+        throw new Error("The server returned an invalid quiz result. Please try again.");
+      }
+
+      setScore(Number(result.correct));
+      setServerPassed(result.passed);
+      setSubmitted(true);
     } catch (err) {
-      console.log(err);
+      setSubmitError(
+        err.response?.data?.message ||
+        err.message ||
+        "Your quiz could not be submitted. Please try again."
+      );
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -277,22 +293,32 @@ function StudentQuiz() {
                     })}
                   </div>
 
+                  {submitError && (
+                    <div className="quiz-submit-error" role="alert" aria-live="polite">
+                      {submitError}
+                    </div>
+                  )}
+
                   <div className="workspace-navigation-row-bar quiz-inner-controls">
                     <button
                       className="nav-control-button"
                       onClick={prev}
-                      disabled={current === 0}
+                      disabled={current === 0 || submitting}
                     >
                       <FiArrowLeft /> <span>Prev</span>
                     </button>
 
                     {current < questions.length - 1 ? (
-                      <button className="nav-control-button next" onClick={next}>
+                      <button className="nav-control-button next" onClick={next} disabled={submitting}>
                         <span>Next</span> <FiArrowRight />
                       </button>
                     ) : (
-                      <button className="nav-control-button center-complete submit-action-trigger" onClick={handleSubmit}>
-                        Submit Assessment
+                      <button
+                        className="nav-control-button center-complete submit-action-trigger"
+                        onClick={handleSubmit}
+                        disabled={submitting}
+                      >
+                        {submitting ? "Submitting…" : submitError ? "Retry Submission" : "Submit Assessment"}
                       </button>
                     )}
                   </div>
