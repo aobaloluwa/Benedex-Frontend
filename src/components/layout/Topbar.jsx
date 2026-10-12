@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { FiBell, FiChevronDown, FiSearch } from "react-icons/fi";
+import { FiBell, FiChevronDown, FiSearch, FiMenu } from "react-icons/fi";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { LuUser } from "react-icons/lu";
 
@@ -34,7 +34,7 @@ const ALL_DASHBOARD_PAGES = [
   { label: "System Settings", path: "/admin/settings", role: "admin" }
 ];
 
-function Topbar() {
+function Topbar({ onMenuClick = () => {} }) {
   const { user } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
@@ -154,6 +154,15 @@ function Topbar() {
 
   return (
     <header className="student-topbar">
+      <button
+        type="button"
+        className="student-menu-toggle"
+        onClick={onMenuClick}
+        aria-label="Open navigation menu"
+        aria-controls="student-navigation"
+      >
+        <FiMenu aria-hidden="true" />
+      </button>
       <div className="search-container-wrapper" ref={dropdownRef} style={{ position: "relative", width: "100%", maxWidth: "400px" }}>
         <label className="student-search" htmlFor="student-search-input">
           <FiSearch aria-hidden="true" />

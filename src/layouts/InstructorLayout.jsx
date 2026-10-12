@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 
 
 import {
@@ -18,6 +18,7 @@ import Sidebar from "../components/layout/Sidebar";
 import Topbar from "../components/layout/Topbar";
 
 function InstructorLayout() {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const links = useMemo(
     () => [
@@ -76,10 +77,10 @@ function InstructorLayout() {
   return (
 
     <div className="student-shell">
-      <Sidebar links={links} />
+      <Sidebar links={links} isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
       <div className="student-main">
-        <Topbar />
+        <Topbar onMenuClick={() => setSidebarOpen((open) => !open)} />
 
         <main className="student-content">
           <Outlet />

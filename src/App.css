@@ -2330,7 +2330,7 @@ input {
   }
 
   .student-sidebar {
-    padding-inline: 10px;
+    padding-inline: 10px;  
   }
 
   .student-sidebar-brand-copy,
@@ -2451,6 +2451,7 @@ input {
 }
   .student-sidebar {
     width: 72px;
+    gap: 6px !important;
   }
 
   .student-main {
@@ -2601,5 +2602,160 @@ input {
 
   .login-trust div {
     gap: 14px;
+  }
+}
+
+/* Mobile navigation drawer: hidden by default and opened from the topbar. */
+.student-menu-toggle,
+.student-sidebar-close,
+.student-sidebar-backdrop {
+  display: none;
+}
+
+@media (max-width: 640px) {
+  .student-main {
+    margin-left: 0 !important;
+    width: 100%;
+  }
+
+  .student-topbar {
+    left: 0 !important;
+    right: 0;
+    grid-template-columns: auto minmax(0, 1fr) auto !important;
+    gap: 10px !important;
+    padding-inline: 12px;
+    width: 100%;
+  }
+
+  .student-menu-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    flex: 0 0 40px;
+    border: 1px solid rgba(15, 23, 42, 0.12);
+    border-radius: 12px;
+    background: #ffffff;
+    color: #0f172a;
+    cursor: pointer;
+    font-size: 1.25rem;
+    padding: 0;
+  }
+
+  .student-menu-toggle:focus-visible,
+  .student-sidebar-close:focus-visible {
+    outline: 3px solid rgba(46, 127, 193, 0.45);
+    outline-offset: 2px;
+  }
+
+  .student-topbar .search-container-wrapper {
+    min-width: 0;
+    max-width: none !important;
+  }
+
+  .student-topbar .student-search {
+    min-width: 0;
+  }
+
+  .student-topbar .student-search input {
+    width: 100%;
+  }
+
+  .student-sidebar {
+    display: flex;
+    position: fixed;
+    inset: 0 auto 0 0;
+    width: min(300px, 86vw);
+    height: 100dvh;
+    min-height: 0 !important;
+    max-height: 100dvh !important;
+    padding: 18px 14px;
+    padding-top: max(18px, env(safe-area-inset-top));
+    padding-bottom: max(18px, env(safe-area-inset-bottom));
+    transform: translateX(-105%);
+    visibility: hidden;
+    transition: transform 220ms ease, visibility 220ms ease;
+    box-shadow: none;
+    z-index: 1001;
+    overflow-x: hidden;
+  }
+
+  .student-sidebar.is-open {
+    transform: translateX(0);
+    visibility: visible;
+    box-shadow: 12px 0 40px rgba(15, 23, 42, 0.18);
+  }
+
+  .student-sidebar-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    border: 0;
+    padding: 0;
+    background: rgba(15, 23, 42, 0.42);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 220ms ease, visibility 220ms ease;
+  }
+
+  .student-sidebar-backdrop.is-visible {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  .student-sidebar-close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    align-self: flex-end;
+    width: 38px;
+    height: 38px;
+    margin: -4px 0 -8px;
+    border: 1px solid rgba(15, 23, 42, 0.1);
+    border-radius: 10px;
+    background: #ffffff;
+    color: #0f172a;
+    cursor: pointer;
+    font-size: 1.2rem;
+  }
+
+  /* Restore full-width labels inside the expanded mobile drawer. */
+  .student-sidebar-brand {
+    justify-content: flex-start;
+    padding-inline: 10px;
+  }
+
+  .student-sidebar-brand-copy,
+  .student-sidebar-label {
+    display: initial !important;
+  }
+
+  .student-sidebar-nav {
+    width: 100%;
+  }
+
+  .student-sidebar-link {
+    justify-content: flex-start;
+    padding-inline: 12px;
+  }
+
+  .student-sidebar-logout {
+    justify-content: flex-start;
+    padding-inline: 12px;
+  }
+
+  .student-sidebar-logout .student-sidebar-label {
+    display: inline !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .student-sidebar,
+  .student-sidebar-backdrop {
+    transition: none;
   }
 }

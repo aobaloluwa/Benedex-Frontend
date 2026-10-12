@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import {
   FiBell,
   FiBookOpen,
@@ -20,6 +20,7 @@ import { GrAnalytics } from "react-icons/gr";
 import { CiSettings } from "react-icons/ci";
 
 function AdminLayout() {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const links = useMemo(
     () => [
       {
@@ -87,10 +88,10 @@ function AdminLayout() {
 
   return (
     <div className="student-shell">
-      <Sidebar links={links} />
+      <Sidebar links={links} isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
       <div className="student-main">
-        <Topbar />
+        <Topbar onMenuClick={() => setSidebarOpen((open) => !open)} />
 
         <main className="student-content">
           <Outlet />

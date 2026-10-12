@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { Outlet } from "react-router-dom";
 import {
   FiBell,
@@ -14,6 +14,7 @@ import Topbar from "../components/layout/Topbar";
 import AiSupportWidget from "../components/layout/AiSupportWidget"; // <-- Imported Support Widget
 
 function StudentLayout() {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const links = useMemo(
     () => [
       {
@@ -52,10 +53,10 @@ function StudentLayout() {
 
   return (
     <div className="student-shell">
-      <Sidebar links={links} />
+      <Sidebar links={links} isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
       <div className="student-main">
-        <Topbar />
+        <Topbar onMenuClick={() => setSidebarOpen((open) => !open)} />
 
         <main className="student-content">
           <Outlet />
