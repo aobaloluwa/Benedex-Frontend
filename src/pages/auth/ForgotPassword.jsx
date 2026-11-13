@@ -31,13 +31,13 @@ function ForgotPassword() {
 
     try {
       if (forgotPassword) {
-        await forgotPassword(email);
+        await forgotPassword(email.trim());
       } else {
         await new Promise((resolve) => setTimeout(resolve, 1200));
       }
       setIsCodeSent(true);
     } catch (err) {
-      const backendMessage = err.response?.data?.message || err.message || "Server Error";
+      const backendMessage = err.message || err.response?.data?.message || "Server Error";
       setError(backendMessage);
       console.error("Password reset dispatch failure details:", err);
     } finally {
@@ -67,7 +67,7 @@ function ForgotPassword() {
       }
       setIsResetComplete(true);
     } catch (err) {
-      const backendMessage = err.response?.data?.message || err.message || "Failed to reset password.";
+      const backendMessage = err.message || err.response?.data?.message || "Failed to reset password.";
       setError(backendMessage);
       console.error("Password change sequence failure details:", err);
     } finally {
