@@ -158,7 +158,7 @@ function ForgotPassword() {
       {/* Left Branding Panel */}
       <section className="login-visual-panel">
         <Link to="/" className="bx-nav-brand-group">
-          <img src={Logo} alt="" className="bx-nav-logo2 d-flex" />
+          <img src={Logo} alt="Benedex" className="bx-nav-logo d-flex" />
         </Link>
 
         <div className="login-visual-content">
