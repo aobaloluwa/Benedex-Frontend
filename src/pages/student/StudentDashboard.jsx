@@ -21,6 +21,7 @@ import {
   FiUsers,
   FiAlertCircle,
   FiX,
+  FiZap,
 } from "react-icons/fi";
 
 import API from "../../services/api";
