@@ -2822,6 +2822,19 @@ input {
   box-shadow: 0 0 0 3.5px rgba(7, 51, 92, 0.14);
 }
 
+/* SUCCESS ICON RING ENHANCEMENT */
+.bx-success-icon-ring {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background-color: #dcfce7;
+  color: #16a34a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 0 8px rgba(220, 252, 231, 0.45);
+}
+
 @media (max-width: 480px) {
   .otp-boxes-container {
     gap: 6px;

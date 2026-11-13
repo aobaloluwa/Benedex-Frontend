@@ -378,31 +378,49 @@ function ForgotPassword() {
           {/* STEP 4: Success Message Screen */}
           {step === 4 && (
             <motion.div
-              className="forgot-success-state"
-              initial={{ opacity: 0, scale: 0.96 }}
+              className="forgot-success-card"
+              initial={{ opacity: 0, scale: 0.94 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.4 }}
+              transition={{ duration: 0.45, ease: "easeOut" }}
               style={{ textAlign: "center", padding: "10px 0" }}
             >
-              <div style={{ fontSize: "3rem", color: "#1E844F", marginBottom: "16px", display: "grid", placeItems: "center" }}>
-                <FiCheckCircle />
+              <div className="bx-success-icon-ring mb-3 mx-auto">
+                <FiCheckCircle size={36} />
               </div>
-              <div className="login-form-header" style={{ textAlign: "center" }}>
-                <span className="login-form-eyebrow" style={{ justifyContent: "center", backgroundColor: "rgba(30, 132, 79, 0.1)", color: "#1E844F" }}>
-                  Success
+
+              <div className="login-form-header text-center mb-4">
+                <span
+                  className="login-form-eyebrow d-inline-flex mx-auto"
+                  style={{
+                    backgroundColor: "#ecfdf5",
+                    color: "#047857",
+                    border: "1px solid #a7f3d0",
+                    padding: "4px 14px",
+                    borderRadius: "99px",
+                    fontSize: "0.75rem",
+                    fontWeight: 700,
+                    textTransform: "uppercase",
+                    letterSpacing: "0.5px"
+                  }}
+                >
+                  Password Reset Complete
                 </span>
-                <h1 style={{ fontSize: "1.8rem" }}>Password Updated</h1>
-                <p style={{ color: "#6b7280", fontSize: "0.92rem", marginTop: "12px", lineHeight: "1.5" }}>
-                  {successMsg || "Your password has been successfully reset."}
+                <h1 style={{ fontSize: "1.75rem", fontWeight: 700, color: "#0f172a", marginTop: "14px", marginBottom: "8px" }}>
+                  Password Updated
+                </h1>
+                <p style={{ color: "#475569", fontSize: "0.95rem", lineHeight: "1.6", maxWidth: "380px", margin: "0 auto" }}>
+                  {successMsg || "Your account security credentials have been updated in our database. You can now sign in with your new password."}
                 </p>
               </div>
 
               <button
+                type="button"
                 onClick={() => navigate("/login")}
-                className="login-submit"
-                style={{ marginTop: "24px", cursor: "pointer" }}
+                className="login-submit w-100 d-inline-flex align-items-center justify-content-center gap-2"
+                style={{ marginTop: "12px", cursor: "pointer" }}
               >
-                Proceed to Sign In
+                <span>Proceed to Sign In</span>
+                <FiArrowRight size={18} />
               </button>
             </motion.div>
           )}
