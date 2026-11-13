@@ -276,9 +276,8 @@ function Profile() {
     .toUpperCase();
 
   return (
-    <div className="student-dashboard-wrapper">
-      <div className="bx-profile-container">
-        {/* PAGE HEADER STRIP */}
+    <div className="bx-profile-container">
+      {/* PAGE HEADER STRIP */}
         <header className="bx-profile-header mb-4">
           <div className="d-flex align-items-center justify-content-between flex-wrap gap-3">
             <div className="d-flex align-items-center gap-3">
@@ -938,7 +937,6 @@ function Profile() {
           )}
         </AnimatePresence>
       </div>
-    </div>
   );
 }
 
