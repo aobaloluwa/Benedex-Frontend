@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import { initPushNotifications } from "../../utils/registerPush";
 
@@ -20,17 +20,18 @@ import {
   FiTarget,
   FiUsers,
   FiAlertCircle,
+  FiX,
 } from "react-icons/fi";
 
 import API from "../../services/api";
 
 const badgeCatalog = [
-  { label: "Fast Learner", icon: <FiAward /> },
-  { label: "Code Master", icon: <FiBriefcase /> },
-  { label: "Bug Hunter", icon: <FiTarget /> },
-  { label: "Team Lead", icon: <FiUsers /> },
-  { label: "UI Architect", icon: <FiLayers /> },
-  { label: "Data Wizard", icon: <FiLock /> },
+  { label: "Fast Learner", icon: <FiAward />, description: "Completed registration or first course module.", xpRequired: 50 },
+  { label: "Code Master", icon: <FiBriefcase />, description: "Submitted technical coursework assignments.", xpRequired: 200 },
+  { label: "Bug Hunter", icon: <FiTarget />, description: "Completed lessons & exercises with precision.", xpRequired: 400 },
+  { label: "Team Lead", icon: <FiUsers />, description: "Participated in live interactive classes and forums.", xpRequired: 500 },
+  { label: "UI Architect", icon: <FiLayers />, description: "Mastered advanced UI and frontend modules.", xpRequired: 750 },
+  { label: "Data Wizard", icon: <FiLock />, description: "Achieved top scores in quizzes & assessments.", xpRequired: 900 },
 ];
 
 const monthNames = [
@@ -231,6 +232,7 @@ function StudentDashboard() {
   const [liveClasses, setLiveClasses] = useState([]);
   const [availableCourses, setAvailableCourses] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isBadgeModalOpen, setIsBadgeModalOpen] = useState(false);
 
   // ============================================================
   // PUSH NOTIFICATIONS
@@ -811,7 +813,7 @@ function StudentDashboard() {
             <div className="student-section-head">
               <h3>Earned Badges</h3>
 
-              <button type="button">
+              <button type="button" onClick={() => setIsBadgeModalOpen(true)}>
                 View All
               </button>
             </div>
@@ -1550,6 +1552,86 @@ function StudentDashboard() {
           </span>
         </div>
       </footer>
+
+      {/* ================================================== */}
+      {/* BADGES CATALOG MODAL */}
+      {/* ================================================== */}
+      <AnimatePresence>
+        {isBadgeModalOpen && (
+          <motion.div
+            className="bx-profile-modal-backdrop"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setIsBadgeModalOpen(false)}
+          >
+            <motion.div
+              className="bx-profile-modal-card"
+              style={{ maxWidth: "560px", padding: 0 }}
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="bx-profile-modal-header d-flex align-items-center justify-content-between p-3 border-bottom bg-light">
+                <div className="d-flex align-items-center gap-2">
+                  <FiAward className="text-primary-theme" size={20} />
+                  <h3 className="h6 mb-0 font-weight-bold text-dark">Platform Badges & Achievements</h3>
+                </div>
+                <button
+                  type="button"
+                  className="btn-close"
+                  onClick={() => setIsBadgeModalOpen(false)}
+                />
+              </div>
+
+              <div className="p-3" style={{ maxHeight: "70vh", overflowY: "auto" }}>
+                <div className="alert alert-info py-2 px-3 small mb-3">
+                  <strong>Unlocked ({viewModel.badgeNames.length} of {badgeCatalog.length})</strong>: Complete lessons, quizzes, and projects to earn badges!
+                </div>
+
+                <div className="row g-3">
+                  {badgeCatalog.map((badge) => {
+                    const isEarned = viewModel.badgeNames.includes(badge.label);
+                    return (
+                      <div key={badge.label} className="col-12 col-sm-6">
+                        <div className={`p-3 rounded border h-100 d-flex gap-3 align-items-start ${isEarned ? "bg-light border-primary-theme" : "bg-white text-muted"}`}>
+                          <div className={`p-2 rounded-3 flex-shrink-0 d-flex align-items-center justify-content-center ${isEarned ? "bg-primary text-white" : "bg-light text-muted"}`} style={{ width: 42, height: 42, fontSize: "1.2rem" }}>
+                            {badge.icon}
+                          </div>
+                          <div>
+                            <div className="d-flex align-items-center gap-2 mb-1">
+                              <strong className={`small ${isEarned ? "text-dark" : "text-muted"}`}>{badge.label}</strong>
+                              {isEarned ? (
+                                <span className="badge bg-success-subtle text-success extra-small">Unlocked</span>
+                              ) : (
+                                <span className="badge bg-secondary-subtle text-muted extra-small">{badge.xpRequired} XP</span>
+                              )}
+                            </div>
+                            <p className="extra-small mb-0 text-muted" style={{ lineHeight: "1.4" }}>
+                              {badge.description}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <div className="p-3 border-top bg-light text-end">
+                <button
+                  type="button"
+                  className="btn btn-sm btn-secondary font-weight-bold"
+                  onClick={() => setIsBadgeModalOpen(false)}
+                >
+                  Close Catalog
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 }
