@@ -48,9 +48,8 @@ function Footer() {
           {/* BRAND COLUMN / MATCHES NAVBAR IDENTITY STYLE */}
           <div className="bx-footer-brand-col">
             <Link to="/" className="bx-nav-brand-group">
-              <img src={Logo} alt="" className="bx-nav-logo2 d-lg-flex d-none" />
-              <img src={Logo} alt="" className="bx-nav-logo2 d-lg-none d-sm-flex" />
-              {/* <span className="bx-nav-brand-text student-sidebar-brand-copy">Benedex</span> */}
+              <img src={Logo} alt="Benedex" className="bx-nav-logo d-lg-flex d-none" />
+              <img src={Logo} alt="Benedex" className="bx-nav-logo d-lg-none d-flex" />
             </Link>
             <p className="bx-footer-brand-desc">
               The intelligence layer for modern educational institutions. Professional, secure, and infinitely scalable.

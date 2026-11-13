@@ -18,8 +18,8 @@ function Navbar() {
 
         {/* LOGO NODE WITH RECTANGLE ICON HOLDER */}
         <Link to="/" className="bx-nav-brand-group">
-          <img src={Logo} alt="" className="bx-nav-logo d-lg-flex d-none" />
-          <img src={Logo} alt="" className="bx-nav-logo d-lg-none d-sm-flex" />
+          <img src={Logo} alt="Benedex" className="bx-nav-logo d-lg-flex d-none" />
+          <img src={Logo} alt="Benedex" className="bx-nav-logo d-lg-none d-flex" />
           {/* <span className="bx-nav-brand-text student-sidebar-brand-copy">Benedex</span> */}
         </Link>
 
@@ -49,7 +49,7 @@ function Navbar() {
         <div className={`bx-nav-sidebar-drawer ${isOpen ? "is-active" : ""}`}>
           <div className="bx-nav-drawer-header">
             <Link to="/" className="bx-nav-brand-group">
-              <img src={Logo2} alt="" className="bx-nav-logo d-flex" />
+              <img src={Logo} alt="Benedex" className="bx-nav-logo d-flex" />
               {/* <span className="bx-nav-brand-text student-sidebar-brand-copy">Benedex</span> */}
             </Link>
             <button className="bx-nav-close-btn" onClick={toggleMenu} aria-label="Close drawer menu">

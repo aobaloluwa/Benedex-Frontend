@@ -27,9 +27,8 @@ function Sidebar({ links, isOpen = false, onClose = () => {} }) {
           <FiX aria-hidden="true" />
         </button>
       <Link to="/" className="bx-nav-brand-group">
-        <img src={Logo} alt="" className="bx-nav-logo d-lg-flex d-none" />
-        <img src={Logo2} alt="" className="bx-nav-logo2 d-lg-none d-sm-flex" />
-        {/* <span className="bx-nav-brand-text student-sidebar-brand-copy">Benedex</span> */}
+        <img src={Logo} alt="Benedex" className="bx-nav-logo d-lg-flex d-none" />
+        <img src={Logo2} alt="Benedex" className="bx-nav-logo2 d-lg-none d-flex" />
       </Link>
 
       <nav className="student-sidebar-nav" aria-label="Student navigation">
