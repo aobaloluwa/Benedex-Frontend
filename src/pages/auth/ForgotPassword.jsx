@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { FiArrowLeft, FiMail, FiCheckCircle, FiLock, FiShield, FiEye, FiEyeOff, FiRefreshCw } from "react-icons/fi";
 import { motion } from "framer-motion";
 import { useAuth } from "../../context/AuthContext";
-import API from "../../services/api";
+import API, { getErrorMessage } from "../../services/api";
 import "../../App.css";
 import Logo from "../../assets/20260623_190807.png";
 
@@ -61,8 +61,7 @@ function ForgotPassword() {
       setStep(2);
       setCountdown(60); // Start 1-minute countdown
     } catch (err) {
-      const backendMessage = err.message || err.response?.data?.message || "Server Error";
-      setError(backendMessage);
+      setError(getErrorMessage(err));
     } finally {
       setLoading(false);
     }
@@ -125,8 +124,7 @@ function ForgotPassword() {
       });
       setStep(3); // Advance to New Password step only when verified by backend
     } catch (err) {
-      const backendMessage = err.message || err.response?.data?.message || "Invalid or expired verification code.";
-      setError(backendMessage);
+      setError(getErrorMessage(err));
     } finally {
       setLoading(false);
     }
@@ -159,8 +157,7 @@ function ForgotPassword() {
       }
       setStep(4); // Advance to Success step
     } catch (err) {
-      const backendMessage = err.message || err.response?.data?.message || "Failed to reset password. Verify the code.";
-      setError(backendMessage);
+      setError(getErrorMessage(err));
     } finally {
       setLoading(false);
     }
@@ -288,8 +285,15 @@ function ForgotPassword() {
 
                 {error && <p className="login-error">{error}</p>}
 
-                <button type="submit" className="login-submit" disabled={otpDigits.join("").length < 6}>
-                  Confirm Code
+                <button type="submit" className="login-submit" disabled={otpDigits.join("").length < 6 || loading}>
+                  {loading ? (
+                    <span className="login-spinner-row">
+                      <span className="login-spinner" />
+                      Verifying Code...
+                    </span>
+                  ) : (
+                    "Confirm Code"
+                  )}
                 </button>
               </form>
             </>
