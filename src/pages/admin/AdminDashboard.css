@@ -11,12 +11,16 @@
 
 /* UNIFORM DESIGN COHESIVE PLATFORM SYSTEM LOADERS */
 .bx-ad-loading-pane {
-  min-height: 80vh;
+  min-height: calc(100vh - 140px);
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  text-align: center;
   background-color: #f8fafc;
+  margin: 0 auto;
+  box-sizing: border-box;
 }
 
 .bx-ad-spinner {
@@ -26,6 +30,7 @@
   border-top-color: #07335c;
   border-radius: 50%;
   animation: adSpin 1s linear infinite;
+  margin: 0 auto;
 }
 
 @keyframes adSpin { 

@@ -56,9 +56,9 @@ function AdminDashboard() {
   // EXACT MATCHING UNIFORM PLATFORM SYSTEM LOADER ACCROSS PANELS
   if (loading) {
     return (
-      <div className="bx-ad-loading-pane">
-        <div className="bx-ad-spinner"></div>
-        <p className="mt-3 text-muted font-weight-bold">Compiling Dynamic Platform Telemetry Matrices...</p>
+      <div className="bx-ad-loading-pane text-center">
+        <div className="bx-ad-spinner mx-auto mb-3"></div>
+        <p className="text-muted font-weight-bold mb-0">Compiling Dynamic Platform Telemetry Matrices...</p>
       </div>
     );
   }
