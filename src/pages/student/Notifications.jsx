@@ -69,7 +69,6 @@ function Notifications() {
 
     const fetchNotificationData = async () => {
       try {
-        // Fetch student dashboard log updates and instructor broadcast collections concurrently
         const [dashboardRes, broadcastsRes] = await Promise.all([
           API.get("/dashboard/student"),
           API.get("/notifications")
@@ -77,16 +76,13 @@ function Notifications() {
 
         if (isMounted) {
           setDashboard(dashboardRes.data);
-          
-          // Fallback array check to handle instances where notifications are empty or filtered
           setBroadcasts(broadcastsRes.data || []);
         }
 
-        // Keep indicators clear when checking page stream
         await API.put("/student/dashboard/activities/viewed");
         window.dispatchEvent(new Event("student-activities-updated"));
       } catch (error) {
-        console.error("Error aggregating notification parameters:", error);
+        console.error("Error fetching notification feed:", error);
       } finally {
         if (isMounted) {
           setLoading(false);
@@ -108,149 +104,167 @@ function Notifications() {
 
   if (loading) {
     return (
-      <div className="st-maint-loader-frame">
-        <div className="st-maint-spinner" />
-        <p>Loading your communication feed...</p>
+      <div className="bx-nt-loading-pane">
+        <div className="bx-nt-spinner" />
+        <p className="mt-3 text-muted font-weight-bold">Compiling Communication Streams...</p>
       </div>
     );
   }
 
   return (
-    <motion.main
-      className="st-notify-page"
-      initial={{ opacity: 0, y: 15 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, ease: "easeOut" }}
-    >
-      {/* HEADER SECTION */}
-      <header className="st-notify-header">
-        <div className="st-notify-header-left">
-          <h1>Communication Center</h1>
-          <p className="st-notify-subtitle">Stay updated with your campus bulletins and tracking logs.</p>
+    <div className="bx-nt-workspace">
+
+      {/* ADMIN-STYLE BRAND HEADER STRIP */}
+      <header className="bx-nt-header mb-4">
+        <div className="d-flex align-items-center justify-content-between flex-wrap gap-3">
+          <div className="d-flex align-items-center gap-3">
+            <div className="bx-nt-icon-box">
+              <FiBell size={24} />
+              <span className="bx-nt-pulse-light" />
+            </div>
+            <div>
+              <div className="d-flex align-items-center gap-2 flex-wrap">
+                <h1 className="h3 mb-0 font-weight-bold text-dark">Communication Center</h1>
+                <span className="bx-nt-ver-badge">Bulletins & Activity Log</span>
+              </div>
+              <p className="text-muted mb-0 small">
+                Stay informed with campus announcements, instructor bulletins, and system activities.
+              </p>
+            </div>
+          </div>
+
+          <Link className="bx-nt-btn-back" to="/student">
+            <FiArrowLeft /> Back to Dashboard
+          </Link>
         </div>
-        <Link className="st-notify-back-btn" to="/student">
-          <FiArrowLeft /> Back to Dashboard
-        </Link>
       </header>
 
-      {/* FILTER TABS */}
-      <div className="st-notify-actions">
-        <div className="st-notify-tabs">
-          <button
-            className={`st-notify-tab ${activeTab === "broadcasts" ? "is-active" : ""}`}
-            onClick={() => setActiveTab("broadcasts")}
-          >
-            Instructor Bulletins
-            <span className="st-notify-count-badge">{broadcasts.length}</span>
-          </button>
-          <button
-            className={`st-notify-tab ${activeTab === "activities" ? "is-active" : ""}`}
-            onClick={() => setActiveTab("activities")}
-          >
-            Your Activity Log
-            <span className="st-notify-count-badge">{recentActivities.length}</span>
-          </button>
-        </div>
+      {/* TAB SELECTORS */}
+      <div className="bx-nt-nav-tabs mb-4">
+        <button
+          type="button"
+          className={`bx-nt-tab-btn ${activeTab === "broadcasts" ? "active" : ""}`}
+          onClick={() => setActiveTab("broadcasts")}
+        >
+          <span>Instructor Bulletins</span>
+          <span className="bx-nt-tab-count">{broadcasts.length}</span>
+        </button>
+
+        <button
+          type="button"
+          className={`bx-nt-tab-btn ${activeTab === "activities" ? "active" : ""}`}
+          onClick={() => setActiveTab("activities")}
+        >
+          <span>Your Activity Log</span>
+          <span className="bx-nt-tab-count">{recentActivities.length}</span>
+        </button>
       </div>
 
-      {/* RENDER FEED STREAM PANEL */}
-      <section className="st-notify-feed">
+      {/* FEED LIST */}
+      <div className="bx-nt-feed-container">
         <AnimatePresence mode="wait">
-          
-          {/* VIEW ONE: INSTRUCTOR BROADCAST ALERTS FROM ADMIN PANEL */}
+          {/* TAB 1: INSTRUCTOR BROADCASTS */}
           {activeTab === "broadcasts" && (
             <motion.div
               key="broadcasts-feed"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="st-notify-feed"
+              className="d-flex flex-column gap-3"
             >
               {broadcasts.length > 0 ? (
                 broadcasts.map((item, index) => (
                   <motion.article
                     key={item._id || index}
-                    className={`st-notify-card ${!item.isRead ? "is-unread" : ""}`}
+                    className={`bx-nt-card ${!item.isRead ? "is-unread" : ""}`}
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3, delay: index * 0.02 }}
+                    transition={{ duration: 0.2, delay: index * 0.02 }}
                   >
-                    <span className="st-notify-avatar" aria-hidden="true">
+                    <div className="bx-nt-avatar-icon">
                       {instructorIconMap[item.type] || <FiBell />}
-                    </span>
-                    <div className="st-notify-details">
-                      <p className="st-notify-message">
-                        <strong>{item.title || "Untitled Bulletin"}</strong>
-                      </p>
-                      <p className="st-notify-body-text">
+                    </div>
+
+                    <div className="bx-nt-card-content">
+                      <div className="d-flex align-items-center justify-content-between gap-2 mb-1">
+                        <h3 className="h6 font-weight-bold text-dark mb-0">{item.title || "Untitled Bulletin"}</h3>
+                        {!item.isRead && <span className="bx-nt-unread-dot" />}
+                      </div>
+
+                      <p className="bx-nt-body-text mb-2">
                         {item.message || "No contextual message detailed."}
                       </p>
-                      <span className="st-notify-timestamp">
-                        <FiClock /> {formatTimeAgo(item.createdAt)} • <span className="st-notify-tag-label">{item.type || "announcement"}</span>
-                      </span>
-                    </div>
-                    <div className="st-notify-meta">
-                      {!item.isRead && <span className="st-notify-status-dot" />}
+
+                      <div className="d-flex align-items-center gap-2 text-muted extra-small">
+                        <FiClock /> {formatTimeAgo(item.createdAt)}
+                        <span>•</span>
+                        <span className="bx-nt-type-badge">{item.type || "announcement"}</span>
+                      </div>
                     </div>
                   </motion.article>
                 ))
               ) : (
-                <div className="st-notify-empty">
-                  <div className="st-notify-empty-icon">
-                    <FiArchive />
+                <div className="bx-nt-card bx-nt-empty-card text-center py-5">
+                  <div className="bx-nt-empty-icon mb-3">
+                    <FiArchive size={36} />
                   </div>
-                  <h3>No bulletins found</h3>
-                  <p>Instructors haven't deployed any announcement payloads out to the stream yet.</p>
+                  <h3 className="h5 font-weight-bold text-dark mb-2">No Bulletins Found</h3>
+                  <p className="text-muted small mb-0 max-width-400 mx-auto">
+                    Instructors haven't deployed any announcement bulletins to the stream yet.
+                  </p>
                 </div>
               )}
             </motion.div>
           )}
 
-          {/* VIEW TWO: PERSONAL STUDENT SYSTEM LOGS */}
+          {/* TAB 2: PERSONAL ACTIVITIES */}
           {activeTab === "activities" && (
             <motion.div
               key="activities-feed"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="st-notify-feed"
+              className="d-flex flex-column gap-3"
             >
               {recentActivities.length > 0 ? (
                 recentActivities.map((item, index) => (
                   <motion.article
                     key={item._id || `${item.type}-${item.createdAt}-${index}`}
-                    className="st-notify-card"
+                    className="bx-nt-card"
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3, delay: index * 0.02 }}
+                    transition={{ duration: 0.2, delay: index * 0.02 }}
                   >
-                    <span className="st-notify-avatar" aria-hidden="true">
+                    <div className="bx-nt-avatar-icon">
                       {activityIconMap[item.type] || <FiClock />}
-                    </span>
-                    <div className="st-notify-details">
-                      <p className="st-notify-message">
-                        <strong>{item.title || "System Log Notification"}</strong>
-                      </p>
-                      <span className="st-notify-timestamp">
-                        <FiClock /> {formatTimeAgo(item.createdAt)} • <span style={{ textTransform: "capitalize" }}>{item.type ? item.type.replaceAll("_", " ") : "Log Item"}</span>
-                      </span>
+                    </div>
+
+                    <div className="bx-nt-card-content">
+                      <h3 className="h6 font-weight-bold text-dark mb-1">{item.title || "System Log Notification"}</h3>
+                      <div className="d-flex align-items-center gap-2 text-muted extra-small">
+                        <FiClock /> {formatTimeAgo(item.createdAt)}
+                        <span>•</span>
+                        <span className="text-capitalize">{item.type ? item.type.replaceAll("_", " ") : "Log Item"}</span>
+                      </div>
                     </div>
                   </motion.article>
                 ))
               ) : (
-                <div className="st-notify-empty">
-                  <div className="st-notify-empty-icon">
-                    <FiClock />
+                <div className="bx-nt-card bx-nt-empty-card text-center py-5">
+                  <div className="bx-nt-empty-icon mb-3">
+                    <FiClock size={36} />
                   </div>
-                  <h3>Activity log empty</h3>
-                  <p>Actions like registering, enrolling, and submitting assignments will compile updates here.</p>
+                  <h3 className="h5 font-weight-bold text-dark mb-2">Activity Log Empty</h3>
+                  <p className="text-muted small mb-0 max-width-400 mx-auto">
+                    Actions like registering, enrolling, and submitting assignments will compile updates here.
+                  </p>
                 </div>
               )}
             </motion.div>
           )}
         </AnimatePresence>
-      </section>
-    </motion.main>
+      </div>
+    </div>
   );
 }
 

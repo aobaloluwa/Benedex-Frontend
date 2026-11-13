@@ -1,491 +1,291 @@
 /* ==========================================================================
-   BENEDEX WORKSPACE THEME - ASSIGNMENTS CORE STYLING (MOBILE-FIRST)
+   BENEDEX ASSIGNMENTS WORKSPACE (ADMIN-THEMED & RESPONSIVE)
    ========================================================================== */
 
-/* GLOBAL COMPONENT BOX PREPARATION SAFETY MATRIX */
-.assignment-layout-root,
-.assignment-layout-root *,
-.assignment-layout-root *::before,
-.assignment-layout-root *::after {
-  box-sizing: border-box;
-  /* Ensures padding doesn't widen elements beyond 100% */
-}
-
-.assignment-layout-root {
-  min-height: 100vh;
-  background-color: var(--bg-main, #f8fafc);
-  padding-bottom: 3rem;
+.bx-as-workspace {
   width: 100%;
-  overflow-x: hidden;
-  /* Hard viewport boundary armor */
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: 'Poppins', sans-serif;
+  color: #1e293b;
 }
 
-/* 1. HERO BRAND BANNER */
-.assignment-hero-banner {
-  background: linear-gradient(135deg, #021a30 0%, #07335c 50%, #155187 100%);
-  border-radius: 24px;
-  padding: 2.5rem 1.5rem;
-  margin-bottom: 2rem;
-  box-shadow: 0 20px 40px rgba(2, 26, 48, 0.12);
-  color: #ffffff;
+/* BRAND HEADER COMPONENTS */
+.bx-as-icon-box {
   position: relative;
-  overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  width: 100%;
+  width: 48px;
+  height: 48px;
+  background-color: #07335c;
+  color: #ffffff;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }
 
-@media (min-width: 768px) {
-  .assignment-hero-banner {
-    padding: 3.5rem 3rem;
-    margin-bottom: 2.5rem;
-  }
-}
-
-.assignment-hero-banner::after {
-  content: "";
+.bx-as-pulse-light {
   position: absolute;
-  top: -50%;
-  right: -20%;
-  width: 600px;
-  height: 600px;
-  background: radial-gradient(circle, rgba(46, 127, 193, 0.15) 0%, transparent 70%);
-  pointer-events: none;
+  top: -2px;
+  right: -2px;
+  width: 10px;
+  height: 10px;
+  background-color: #10b981;
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.4);
 }
 
-.assignment-hero-banner .hero-badge {
-  display: inline-block;
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(4px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  padding: 6px 14px;
-  border-radius: 50px;
-  font-size: 11px;
+.bx-as-ver-badge {
+  font-size: 0.65rem;
   font-weight: 700;
-  letter-spacing: 1.5px;
-  color: #63b3ed;
-  margin-bottom: 1.25rem;
+  background-color: #e2e8f0;
+  color: #475569;
+  padding: 2px 8px;
+  border-radius: 6px;
   text-transform: uppercase;
 }
 
-.assignment-hero-banner h1 {
-  font-size: 2rem;
-  font-weight: 800;
-  letter-spacing: -1px;
-  margin-bottom: 0.75rem;
-  color: #ffffff;
-}
-
-@media (min-width: 768px) {
-  .assignment-hero-banner h1 {
-    font-size: 2.75rem;
-  }
-}
-
-.assignment-hero-banner p {
-  font-size: 1rem;
-  color: #cbd5e1;
-  max-width: 720px;
-  line-height: 1.6;
-  margin: 0;
-}
-
-@media (min-width: 768px) {
-  .assignment-hero-banner p {
-    font-size: 1.1rem;
-  }
-}
-
-/* 2. METRICS PANEL CARDS */
-.metrics-summary-grid {
-  display: grid;
-  /* Default: Stacks perfectly down to 1 item per line on mobile phones */
-  grid-template-columns: 1fr;
-  gap: 1.25rem;
-  margin-bottom: 2.5rem;
-  width: 100%;
-}
-
-/* Break strings smoothly onto multiple lines on tablet and desktops */
-@media (min-width: 576px) {
-  .metrics-summary-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (min-width: 992px) {
-  .metrics-summary-grid {
-    grid-template-columns: repeat(3, 1fr);
-    margin-bottom: 3.5rem;
-  }
-}
-
-.metric-panel-card {
+/* STAT CARDS ROW */
+.bx-as-stat-card {
   background: #ffffff;
   border: 1px solid #e2e8f0;
-  border-radius: 20px;
-  padding: 1.5rem;
+  border-radius: 16px;
+  padding: 20px;
   display: flex;
   align-items: center;
-  gap: 1.25rem;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -1px rgba(0, 0, 0, 0.01);
-  width: 100%;
-}
-
-.metric-panel-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 20px -5px rgba(0, 0, 0, 0.05), 0 8px 8px -5px rgba(0, 0, 0, 0.03);
-  border-color: #cbd5e1;
-}
-
-.metric-icon-box {
-  width: 52px;
-  height: 52px;
-  border-radius: 14px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 22px;
-  flex-shrink: 0;
-}
-
-.metric-icon-box.primary-variant {
-  background-color: rgba(46, 127, 193, 0.08);
-  color: #2e7fc1;
-}
-
-.metric-icon-box.success-variant {
-  background-color: rgba(16, 185, 129, 0.08);
-  color: #10b981;
-}
-
-.metric-icon-box.warning-variant {
-  background-color: rgba(245, 158, 11, 0.08);
-  color: #f59e0b;
-}
-
-.metric-info-data h3 {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #021a30;
-  margin: 0;
-  line-height: 1.2;
-}
-
-.metric-info-data span {
-  font-size: 0.85rem;
-  color: #64748b;
-  font-weight: 500;
-}
-
-/* 3. GRID CONTENT SECTIONS & MASONRY STRUCTURAL ARCHITECTURE */
-.workspace-section-heading {
-  font-size: 1.35rem;
-  font-weight: 700;
-  color: #021a30;
-  margin-bottom: 1.25rem;
-  letter-spacing: -0.5px;
-}
-
-@media (min-width: 768px) {
-  .workspace-section-heading {
-    font-size: 1.5rem;
-    margin-bottom: 1.5rem;
-  }
-}
-
-.assignments-masonry-grid {
-  display: grid;
-  /* CRITICAL MOBILE FIX: Force exactly ONE card per row on small screens */
-  grid-template-columns: 1fr;
-  gap: 1.5rem;
-  width: 100%;
-}
-
-/* Base adjustment for side-by-side splitting ONLY on larger monitors */
-@media (min-width: 992px) {
-  .assignments-masonry-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.75rem;
-  }
-}
-
-.workspace-assignment-card {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 20px;
-  padding: 1.5rem;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-
-  /* FLUID CELL STABILIZATION ARRESTORS */
-  max-width: 100% !important;
-  width: 100%;
-  overflow: hidden;
-  word-wrap: break-word;
-  hyphens: auto;
-
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  gap: 16px;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.01);
+  transition: transform 0.2s ease;
 }
 
-@media (min-width: 768px) {
-  .workspace-assignment-card {
-    padding: 2rem;
-    border-radius: 24px;
-  }
+.bx-as-stat-card:hover {
+  transform: translateY(-2px);
 }
 
-.workspace-assignment-card:hover {
-  border-color: #cbd5e1;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
-}
-
-.workspace-assignment-card.is-submitted {
-  background: #ffffff;
-  border-left: 4px solid #10b981;
-}
-
-.assignment-card-header {
+.bx-as-stat-icon-box {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 1rem;
-  margin-bottom: 1rem;
-  width: 100%;
-}
-
-.assignment-card-header h3 {
-  font-size: 1.15rem;
-  font-weight: 700;
-  color: #021a30;
-  margin: 0;
-  line-height: 1.4;
-  flex: 1;
-  min-width: 0;
-  word-wrap: break-word;
-}
-
-@media (min-width: 768px) {
-  .assignment-card-header h3 {
-    font-size: 1.25rem;
-  }
-}
-
-.status-badge {
-  padding: 6px 14px;
-  border-radius: 50px;
-  font-size: 12px;
-  font-weight: 600;
-  white-space: nowrap;
+  align-items: center;
+  justify-content: center;
   flex-shrink: 0;
 }
 
-.status-badge.variant-completed {
-  background-color: rgba(16, 185, 129, 0.1);
-  color: #059669;
+.color-blue {
+  background-color: #e0f2fe;
+  color: #0284c7;
 }
 
-.status-badge.variant-pending {
-  background-color: rgba(245, 158, 11, 0.1);
+.color-green {
+  background-color: #dcfce7;
+  color: #16a34a;
+}
+
+.color-amber {
+  background-color: #fef3c7;
   color: #d97706;
 }
 
-.assignment-card-description {
-  font-size: 0.95rem;
-  color: #475569;
-  line-height: 1.6;
-  margin-bottom: 1.5rem;
-  flex-grow: 1;
-}
-
-.assignment-card-meta-row {
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-  padding-bottom: 1.5rem;
-  border-bottom: 1px dashed #e2e8f0;
-  margin-bottom: 1.5rem;
-  width: 100%;
-}
-
-.meta-timestamp-tag {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 0.85rem;
+.bx-as-stat-label {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 700;
   color: #64748b;
-  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
 }
 
-.meta-timestamp-tag svg {
-  font-size: 15px;
-  color: #94a3b8;
+.bx-as-stat-number {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
 }
 
-/* 4. THEMED UPLOAD CONTROL WORKSPACE */
-.assignment-upload-control-zone {
+/* CARDS & CONTAINERS */
+.bx-as-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 18px;
+  padding: 24px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.01);
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
-  width: 100%;
+  justify-content: space-between;
+  transition: border-color 0.2s ease;
 }
 
-.custom-file-upload-canvas {
-  width: 100%;
-  max-width: 100%;
-  border: 2px dashed #cbd5e1;
-  border-radius: 14px;
-  padding: 14px 16px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  cursor: pointer;
-  background-color: #f8fafc;
-  overflow: hidden;
-  /* Clips wild filename text layouts */
-  transition: all 0.2s ease;
+.bx-as-card.is-submitted {
+  border-color: #cbd5e1;
 }
 
-.custom-file-upload-canvas:hover {
-  background-color: #f1f5f9;
-  border-color: #2e7fc1;
-}
-
-.custom-file-upload-canvas .clip-icon {
-  color: #64748b;
-  font-size: 18px;
-  flex-shrink: 0;
-}
-
-.file-truncate-text {
-  font-size: 0.9rem;
+.bx-as-card-desc {
+  font-size: 0.88rem;
   color: #475569;
-  font-weight: 500;
-  flex: 1;
-  min-width: 0;
-  /* Forces text layout container compression inside flex elements */
-  overflow: hidden;
-  text-overflow: ellipsis;
+  line-height: 1.5;
+}
+
+/* STATUS BADGES */
+.bx-as-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  border-radius: 99px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
   white-space: nowrap;
 }
 
-.hidden-native-input {
-  display: none !important;
+.badge-submitted {
+  background-color: #ecfdf5;
+  color: #047857;
+  border: 1px solid #a7f3d0;
 }
 
-.width-full-override {
-  width: 100%;
-  max-width: 100%;
-  justify-content: center;
-  padding: 0.85rem 1.5rem;
+.badge-pending {
+  background-color: #fffbeb;
+  color: #b45309;
+  border: 1px solid #fde68a;
 }
 
-/* 5. SUBMISSION BOX & GRADING RECEIPT SHEETS */
-.submission-receipt-workspace {
+/* RECEIPT & SUBMISSION DETAILS */
+.bx-as-receipt-box {
   background-color: #f8fafc;
   border: 1px solid #e2e8f0;
-  border-radius: 16px;
-  padding: 1.25rem;
-  width: 100%;
+  border-radius: 12px;
+  padding: 16px;
+  margin-top: 12px;
 }
 
-.receipt-success-banner {
+.bx-as-grade-box {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 0.9rem;
-  color: #10b981;
-  font-weight: 600;
-  margin-bottom: 0.75rem;
-}
-
-.receipt-success-banner svg {
-  font-size: 18px;
-  flex-shrink: 0;
-}
-
-.receipt-evaluation-score-box {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background-color: rgba(16, 185, 129, 0.05);
-  border: 1px dashed rgba(16, 185, 129, 0.3);
-  padding: 10px 14px;
-  border-radius: 10px;
-  color: #065f46;
-  font-size: 0.9rem;
-  font-weight: 500;
-  margin-bottom: 0.75rem;
-  width: 100%;
-}
-
-.receipt-evaluation-score-box svg {
-  color: #10b981;
-  font-size: 16px;
-  flex-shrink: 0;
-}
-
-.receipt-feedback-workspace-block {
-  background-color: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 10px;
-  padding: 12px;
-  width: 100%;
-}
-
-.feedback-header-label {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: #64748b;
-  font-weight: 700;
-  margin-bottom: 4px;
-}
-
-.feedback-header-label svg {
-  flex-shrink: 0;
-}
-
-.feedback-body-copy {
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   color: #334155;
-  line-height: 1.5;
-  margin: 0;
-  font-style: italic;
-  word-wrap: break-word;
+  background: #ffffff;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
 }
 
-/* EMPTY STATE WORKSPACE FALLBACK */
-.empty-state-workspace-card {
-  background-color: #ffffff;
-  border: 1px dashed #cbd5e1;
-  border-radius: 24px;
-  padding: 5rem 2rem;
-  text-align: center;
-  color: #64748b;
+.bx-as-feedback-box {
+  background: #ffffff;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+
+/* FILE DROPZONE & SUBMIT BUTTON */
+.bx-as-file-dropzone {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   width: 100%;
+  padding: 12px 14px;
+  background-color: #f8fafc;
+  border: 1.5px dashed #cbd5e1;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
 }
 
-.empty-state-workspace-card svg {
+.bx-as-file-dropzone:hover {
+  border-color: #07335c;
+  background-color: #f0f7ff;
+}
+
+.bx-as-submit-btn {
+  background-color: #07335c;
+  color: #ffffff;
+  padding: 11px 20px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.88rem;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.bx-as-submit-btn:hover:not(:disabled) {
+  background-color: #052442;
+  box-shadow: 0 4px 12px rgba(7, 51, 92, 0.15);
+}
+
+.bx-as-submit-btn:disabled {
+  background-color: #94a3b8;
+  cursor: not-allowed;
+}
+
+.bx-as-spin {
+  animation: asSpin 1s linear infinite;
+}
+
+@keyframes asSpin { to { transform: rotate(360deg); } }
+
+/* LOADER & EMPTY CARD */
+.bx-as-loading-pane {
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.bx-as-spinner {
+  width: 44px;
+  height: 44px;
+  border: 3px solid #e2e8f0;
+  border-top-color: #07335c;
+  border-radius: 50%;
+  animation: asSpin 1s linear infinite;
+}
+
+.bx-as-empty-card {
+  align-items: center;
+  justify-content: center;
+}
+
+.bx-as-empty-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background-color: #f8fafc;
   color: #94a3b8;
-  margin-bottom: 1.25rem;
-}
-
-.empty-state-workspace-card h4 {
-  font-size: 1.25rem;
-  color: #021a30;
-  font-weight: 700;
-  margin-bottom: 0.5rem;
-}
-
-.empty-state-workspace-card p {
-  font-size: 0.95rem;
-  max-width: 420px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin: 0 auto;
-  line-height: 1.6;
+}
+
+.max-width-400 {
+  max-width: 400px;
+}
+
+.extra-small {
+  font-size: 0.74rem;
+}
+
+/* RESPONSIVE BREAKPOINTS */
+@media (max-width: 576px) {
+  .bx-as-stat-card {
+    padding: 14px;
+  }
+
+  .bx-as-card {
+    padding: 18px 14px;
+  }
+
+  .bx-as-submit-btn {
+    width: 100%;
+  }
 }

@@ -10,8 +10,11 @@ import {
   FiAward,
   FiMessageSquare,
   FiAlertCircle,
-  FiPaperclip
+  FiPaperclip,
+  FiCheck,
+  FiLoader
 } from "react-icons/fi";
+import { motion, AnimatePresence } from "framer-motion";
 import "./Assignments.css";
 
 function Assignments() {
@@ -22,10 +25,13 @@ function Assignments() {
   const [submissions, setSubmissions] = useState([]);
   const [selectedFiles, setSelectedFiles] = useState({});
   const [loading, setLoading] = useState(true);
+  const [submittingId, setSubmittingId] = useState(null);
+  const [toastMessage, setToastMessage] = useState({ type: "", text: "" });
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setLoading(true);
         const [assignmentsRes, submissionsRes] = await Promise.all([
           API.get("/assignments"),
           API.get("/assignments/my-submissions")
@@ -34,7 +40,7 @@ function Assignments() {
         setAssignments(assignmentsRes.data || []);
         setSubmissions(submissionsRes.data || []);
       } catch (error) {
-        console.error("Error loading baseline structural coursework info:", error);
+        console.error("Error loading assignments:", error);
       } finally {
         setLoading(false);
       }
@@ -42,6 +48,13 @@ function Assignments() {
 
     fetchData();
   }, [location.pathname]);
+
+  const showToast = (type, text) => {
+    setToastMessage({ type, text });
+    setTimeout(() => {
+      setToastMessage({ type: "", text: "" });
+    }, 4000);
+  };
 
   const handleFileChange = (assignmentId, file) => {
     setSelectedFiles((prev) => ({
@@ -51,13 +64,14 @@ function Assignments() {
   };
 
   const handleSubmit = async (assignmentId) => {
-    try {
-      const file = selectedFiles[assignmentId];
-      if (!file) {
-        alert("Please select a valid academic asset document file.");
-        return;
-      }
+    const file = selectedFiles[assignmentId];
+    if (!file) {
+      showToast("error", "Please select a valid project file or document first.");
+      return;
+    }
 
+    try {
+      setSubmittingId(assignmentId);
       const formData = new FormData();
       formData.append("assignment", assignmentId);
       formData.append("file", file);
@@ -68,15 +82,24 @@ function Assignments() {
         },
       });
 
-      // Pull optimized fresh records after data modification
+      // Refresh submissions
       const submissionsRes = await API.get("/assignments/my-submissions");
       setSubmissions(submissionsRes.data || []);
-      
-      // Notify layout metrics listeners
+
+      // Reset selected file for this assignment
+      setSelectedFiles((prev) => {
+        const copy = { ...prev };
+        delete copy[assignmentId];
+        return copy;
+      });
+
+      showToast("success", "Assignment submitted successfully!");
       window.dispatchEvent(new Event("student-activities-updated"));
     } catch (error) {
-      console.error("Submission pipeline error tracking configuration:", error);
-      alert(error?.response?.data?.message || "Gateway error uploading project files.");
+      console.error("Submission error:", error);
+      showToast("error", error?.response?.data?.message || "Failed to submit assignment.");
+    } finally {
+      setSubmittingId(null);
     }
   };
 
@@ -88,9 +111,9 @@ function Assignments() {
 
   if (loading) {
     return (
-      <div className="scd-loader-container">
-        <div className="scd-spinner" />
-        <p>Loading Assignment Matrices...</p>
+      <div className="bx-as-loading-pane">
+        <div className="bx-as-spinner" />
+        <p className="mt-3 text-muted font-weight-bold">Loading Academic Coursework & Assignments...</p>
       </div>
     );
   }
@@ -99,161 +122,202 @@ function Assignments() {
   const pendingCount = Math.max(0, assignments.length - submittedCount);
 
   return (
-    <div className="benedex-lms-theme assignment-layout-root">
-      {/* THEMED COMPONENT BODY FRAMEWORK */}
-      <div className="benedex-container">
-        {/* HERO BRAND HEADER */}
-        <div className="assignment-hero-banner">
-          <div className="hero-badge">ACADEMIC WORKSPACE</div>
-          <h1>Coursework Assignments</h1>
-          <p>
-            Submit evaluation benchmarks, track real-time grading matrices, and inspect custom review engineering parameters assigned by academic leads.
+    <div className="bx-as-workspace">
+
+      {/* ADMIN-STYLE BRAND HEADER STRIP */}
+      <header className="bx-as-header mb-4">
+        <div className="d-flex align-items-center justify-content-between flex-wrap gap-3">
+          <div className="d-flex align-items-center gap-3">
+            <div className="bx-as-icon-box">
+              <FiFileText size={24} />
+              <span className="bx-as-pulse-light" />
+            </div>
+            <div>
+              <div className="d-flex align-items-center gap-2 flex-wrap">
+                <h1 className="h3 mb-0 font-weight-bold text-dark">Coursework Assignments</h1>
+                <span className="bx-as-ver-badge">Academic Workspace</span>
+              </div>
+              <p className="text-muted mb-0 small">
+                Submit course milestones, view instructor feedback, and track assignment evaluation grades.
+              </p>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* TOAST FEEDBACK ALERT */}
+      <AnimatePresence>
+        {toastMessage.text && (
+          <motion.div
+            className={`alert alert-${toastMessage.type === "success" ? "success" : "danger"} d-flex align-items-center gap-2 mb-4 bx-as-toast`}
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+          >
+            {toastMessage.type === "success" ? <FiCheckCircle size={18} /> : <FiAlertCircle size={18} />}
+            <span className="small">{toastMessage.text}</span>
+            <button className="btn-close ms-auto" onClick={() => setToastMessage({ type: "", text: "" })} />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* ADMIN-STYLE METRICS SUMMARY ROW */}
+      <div className="row g-3 mb-4">
+        <div className="col-12 col-sm-6 col-lg-4">
+          <div className="bx-as-stat-card">
+            <div className="bx-as-stat-icon-box color-blue">
+              <FiFileText size={20} />
+            </div>
+            <div>
+              <span className="bx-as-stat-label">Total Assignments</span>
+              <h3 className="bx-as-stat-number">{assignments.length}</h3>
+            </div>
+          </div>
+        </div>
+
+        <div className="col-12 col-sm-6 col-lg-4">
+          <div className="bx-as-stat-card">
+            <div className="bx-as-stat-icon-box color-green">
+              <FiCheckCircle size={20} />
+            </div>
+            <div>
+              <span className="bx-as-stat-label">Evaluated & Submitted</span>
+              <h3 className="bx-as-stat-number">{submittedCount}</h3>
+            </div>
+          </div>
+        </div>
+
+        <div className="col-12 col-sm-6 col-lg-4">
+          <div className="bx-as-stat-card">
+            <div className="bx-as-stat-icon-box color-amber">
+              <FiClock size={20} />
+            </div>
+            <div>
+              <span className="bx-as-stat-label">Pending Submissions</span>
+              <h3 className="bx-as-stat-number">{pendingCount}</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ASSIGNMENTS SECTION GRID */}
+      <div className="d-flex align-items-center justify-content-between mb-3">
+        <h2 className="h5 font-weight-bold text-dark mb-0">Assigned Course Milestones</h2>
+        <span className="badge bg-light text-dark border">{assignments.length} Milestones</span>
+      </div>
+
+      {assignments.length === 0 ? (
+        <div className="bx-as-card bx-as-empty-card text-center py-5">
+          <div className="bx-as-empty-icon mb-3">
+            <FiAlertCircle size={36} />
+          </div>
+          <h3 className="h5 font-weight-bold text-dark mb-2">No Coursework Records Found</h3>
+          <p className="text-muted small mb-0 max-width-400 mx-auto">
+            Your currently enrolled course modules do not have pending assignment submissions configured.
           </p>
         </div>
+      ) : (
+        <div className="row g-4">
+          {assignments.map((assignment) => {
+            const submission = getSubmission(assignment._id);
+            const fileSelected = selectedFiles[assignment._id];
+            const isSubmitting = submittingId === assignment._id;
 
-        {/* METRICS ROW DASHBOARD SYSTEM */}
-        <div className="metrics-summary-grid">
-          <div className="metric-panel-card">
-            <div className="metric-icon-box primary-variant">
-              <FiFileText />
-            </div>
-            <div className="metric-info-data">
-              <h3>{assignments.length}</h3>
-              <span>Total Assignments</span>
-            </div>
-          </div>
+            return (
+              <div key={assignment._id} className="col-12 col-lg-6">
+                <div className={`bx-as-card h-100 ${submission ? "is-submitted" : ""}`}>
+                  {/* CARD HEADER */}
+                  <div className="d-flex align-items-start justify-content-between gap-2 mb-3">
+                    <div>
+                      <h3 className="h6 font-weight-bold text-dark mb-1">{assignment.title}</h3>
+                      <span className="text-muted extra-small d-flex align-items-center gap-1">
+                        <FiClock /> Due Date: {new Date(assignment.dueDate).toLocaleDateString()}
+                      </span>
+                    </div>
 
-          <div className="metric-panel-card">
-            <div className="metric-icon-box success-variant">
-              <FiCheckCircle />
-            </div>
-            <div className="metric-info-data">
-              <h3>{submittedCount}</h3>
-              <span>Evaluated & Submitted</span>
-            </div>
-          </div>
-
-          <div className="metric-panel-card">
-            <div className="metric-icon-box warning-variant">
-              <FiClock />
-            </div>
-            <div className="metric-info-data">
-              <h3>{pendingCount}</h3>
-              <span>Pending Task Nodes</span>
-            </div>
-          </div>
-        </div>
-
-        {/* GRID LAYOUT SECTION */}
-        <h2 className="workspace-section-heading">Assigned Milestones</h2>
-        
-        {assignments.length === 0 ? (
-          <div className="empty-state-workspace-card">
-            <FiAlertCircle size={44} />
-            <h4>No Coursework Records Found</h4>
-            <p>Your current active track modules do not have pending engineering files configured for submission.</p>
-          </div>
-        ) : (
-          <div className="assignments-masonry-grid">
-            {assignments.map((assignment) => {
-              const submission = getSubmission(assignment._id);
-              const fileSelected = selectedFiles[assignment._id];
-
-              return (
-                <div key={assignment._id} className={`workspace-assignment-card ${submission ? "is-submitted" : "is-active"}`}>
-                  <div className="assignment-card-header">
-                    <h3>{assignment.title}</h3>
                     {submission ? (
-                      <span className="status-badge variant-completed">Submitted</span>
+                      <span className="bx-as-badge badge-submitted">
+                        <FiCheck size={12} /> Submitted
+                      </span>
                     ) : (
-                      <span className="status-badge variant-pending">Pending Entry</span>
+                      <span className="bx-as-badge badge-pending">
+                        <FiClock size={12} /> Pending Entry
+                      </span>
                     )}
                   </div>
 
-                  <p className="assignment-card-description">
-                    {assignment.description || "No project configuration schematic breakdown provided by the supervisor framework."}
+                  {/* DESCRIPTION */}
+                  <p className="bx-as-card-desc mb-3">
+                    {assignment.description || "No project breakdown or specification provided for this milestone."}
                   </p>
 
-                  <div className="assignment-card-meta-row">
-                    <div className="meta-timestamp-tag">
-                      <FiClock />
-                      <span>Due Date: {new Date(assignment.dueDate).toLocaleDateString()}</span>
-                    </div>
-                  </div>
-
-                  {/* CONDITIONAL INTERFACE: ALREADY SUBMITTED STATE */}
+                  {/* IF SUBMITTED: SHOW RECEIPT & GRADE */}
                   {submission && (
-                    <div className="submission-receipt-workspace">
-                      <div className="receipt-success-banner">
-                        <FiCheckCircle />
-                        <span>Academic Record Locked & Uploaded</span>
+                    <div className="bx-as-receipt-box">
+                      <div className="d-flex align-items-center gap-2 text-success font-weight-bold small mb-2">
+                        <FiCheckCircle /> Record Locked & Uploaded
                       </div>
 
                       {submission.grade !== null && submission.grade !== undefined && (
-                        <div className="receipt-evaluation-score-box">
-                          <FiAward />
-                          <span>Evaluation Performance Grade: <strong>{submission.grade}%</strong></span>
+                        <div className="bx-as-grade-box mb-2">
+                          <FiAward className="text-warning" />
+                          <span>
+                            Grade Score: <strong>{submission.grade}%</strong>
+                          </span>
                         </div>
                       )}
 
                       {submission.feedback && (
-                        <div className="receipt-feedback-workspace-block">
-                          <div className="feedback-header-label">
-                            <FiMessageSquare /> <span>Instructor Advisory Feedback:</span>
+                        <div className="bx-as-feedback-box">
+                          <div className="d-flex align-items-center gap-1 text-dark font-weight-bold extra-small mb-1">
+                            <FiMessageSquare /> Instructor Advisory:
                           </div>
-                          <p className="feedback-body-copy">"{submission.feedback}"</p>
+                          <p className="mb-0 extra-small text-muted fst-italic">"{submission.feedback}"</p>
                         </div>
                       )}
                     </div>
                   )}
 
-                  {/* CONDITIONAL INTERFACE: UN-SUBMITTED INTERACTIVE CONTROL */}
+                  {/* IF NOT SUBMITTED: UPLOAD ZONE */}
                   {!submission && (
-                    <div className="assignment-upload-control-zone">
-                      <label className="custom-file-upload-canvas" htmlFor={`file-input-${assignment._id}`}>
-                        <FiPaperclip className="clip-icon" />
-                        <span className="file-truncate-text">
-                          {fileSelected ? fileSelected.name : "Select technical source file or project PDF..."}
+                    <div className="bx-as-upload-zone mt-3 pt-3 border-top">
+                      <label className="bx-as-file-dropzone mb-3" htmlFor={`file-${assignment._id}`}>
+                        <FiPaperclip size={18} className="text-muted" />
+                        <span className="small text-truncate">
+                          {fileSelected ? fileSelected.name : "Choose source file or PDF document..."}
                         </span>
                         <input
-                          id={`file-input-${assignment._id}`}
+                          id={`file-${assignment._id}`}
                           type="file"
-                          className="hidden-native-input"
                           onChange={(e) => handleFileChange(assignment._id, e.target.files[0])}
+                          style={{ display: "none" }}
                         />
                       </label>
 
                       <button
-                        className="btn-primary-action-buy width-full-override"
+                        type="button"
+                        className="bx-as-submit-btn w-100"
                         onClick={() => handleSubmit(assignment._id)}
-                        disabled={!fileSelected}
+                        disabled={!fileSelected || isSubmitting}
                       >
-                        <FiUpload /> Submit Engineering Assignment
+                        {isSubmitting ? (
+                          <>
+                            <FiLoader className="bx-as-spin" /> Submitting...
+                          </>
+                        ) : (
+                          <>
+                            <FiUpload /> Submit Assignment File
+                          </>
+                        )}
                       </button>
                     </div>
                   )}
                 </div>
-              );
-            })}
-          </div>
-        )}
-      </div>
-
-      {/* FOOTER CANVAS MATCHING LMS */}
-      <footer className="benedex-footer-wrapper" style={{ marginTop: "6rem" }}>
-        <div className="footer-top-row">
-          <div className="footer-brand-column">
-            <h3>Benedex Digital</h3>
-            <p>© 2026 Benedex Digital Hub. Built for African Excellence.</p>
-          </div>
-          <div className="footer-links-column">
-            <span>Privacy Policy</span>
-            <span>Terms of Service</span>
-            <span className="badge bg-secondary-subtle text-dark">Currency: NGN</span>
-            <span>Contact Support</span>
-          </div>
+              </div>
+            );
+          })}
         </div>
-      </footer>
+      )}
     </div>
   );
 }

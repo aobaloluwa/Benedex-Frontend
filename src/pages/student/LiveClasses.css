@@ -1,401 +1,235 @@
 /* ==========================================================================
-   BENEDEX WORKSPACE THEME - LIVE CLASSES STYLING (MOBILE-FIRST FLEX RULES)
+   BENEDEX LIVE CLASSES WORKSPACE (ADMIN-THEMED & RESPONSIVE)
    ========================================================================== */
 
-/* GLOBAL COMPONENT BOX PREPARATION SAFETY MATRIX */
-.live-page-layout-root,
-.live-page-layout-root *,
-.live-page-layout-root *::before,
-.live-page-layout-root *::after {
-  box-sizing: border-box; /* Strict: padding rules don't bloat the width past 100% */
-}
-
-.live-page-layout-root {
-  min-height: 100vh;
-  background-color: var(--bg-main, #f8fafc);
-  padding-bottom: 3rem;
+.bx-lc-workspace {
   width: 100%;
-  overflow-x: hidden; /* Total lock on horizontal bleed */
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: 'Poppins', sans-serif;
+  color: #1e293b;
 }
 
-/* 1. HERO BRAND BANNER */
-.live-hero-banner {
-  background: linear-gradient(135deg, #021a30 0%, #07335c 50%, #155187 100%);
-  border-radius: 24px;
-  padding: 2.5rem 1.5rem;
-  margin-bottom: 2rem;
-  box-shadow: 0 20px 40px rgba(2, 26, 48, 0.12);
-  color: #ffffff;
+/* BRAND HEADER COMPONENTS */
+.bx-lc-icon-box {
   position: relative;
-  overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  width: 100%;
+  width: 48px;
+  height: 48px;
+  background-color: #07335c;
+  color: #ffffff;
+  border-radius: 12px;
   display: flex;
-  flex-direction: column;
-  gap: 2rem;
-}
-
-@media (min-width: 992px) {
-  .live-hero-banner {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    padding: 3.5rem 3rem;
-    margin-bottom: 2.5rem;
-  }
-}
-
-.live-hero-banner::after {
-  content: "";
-  position: absolute;
-  top: -50%;
-  right: -20%;
-  width: 600px;
-  height: 600px;
-  background: radial-gradient(circle, rgba(46, 127, 193, 0.15) 0%, transparent 70%);
-  pointer-events: none;
-}
-
-.hero-content-block {
-  flex: 1;
-}
-
-.live-hero-banner .hero-badge {
-  display: inline-flex;
   align-items: center;
-  gap: 8px;
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(4px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  padding: 6px 14px;
-  border-radius: 50px;
-  font-size: 11px;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.bx-lc-pulse-light {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 10px;
+  height: 10px;
+  background-color: #10b981;
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.4);
+}
+
+.bx-lc-ver-badge {
+  font-size: 0.65rem;
   font-weight: 700;
-  letter-spacing: 1.5px;
-  color: #63b3ed;
-  margin-bottom: 1.25rem;
+  background-color: #e2e8f0;
+  color: #475569;
+  padding: 2px 8px;
+  border-radius: 6px;
   text-transform: uppercase;
 }
 
-.live-hero-banner h1 {
-  font-size: 2rem;
-  font-weight: 800;
-  letter-spacing: -1px;
-  margin-bottom: 0.75rem;
-  color: #ffffff;
-  line-height: 1.2;
-}
-
-@media (min-width: 768px) {
-  .live-hero-banner h1 {
-    font-size: 2.75rem;
-  }
-}
-
-.live-hero-banner p {
-  font-size: 1rem;
-  color: #cbd5e1;
-  max-width: 680px;
-  line-height: 1.6;
-  margin: 0;
-}
-
-@media (min-width: 768px) {
-  .live-hero-banner p {
-    font-size: 1.1rem;
-  }
-}
-
-.hero-floating-analytics-box {
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(10px);
-  padding: 1.5rem;
-  border-radius: 20px;
-  text-align: center;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  min-width: 180px;
-  align-self: flex-start;
-}
-
-@media (min-width: 992px) {
-  .hero-floating-analytics-box {
-    align-self: auto;
-  }
-}
-
-.hero-floating-analytics-box strong {
-  display: block;
-  font-size: 2.25rem;
-  font-weight: 800;
-  color: #ffffff;
-  line-height: 1;
-  margin-bottom: 4px;
-}
-
-.hero-floating-analytics-box span {
-  font-size: 0.85rem;
-  color: #cbd5e1;
-  font-weight: 500;
-}
-
-/* 2. METRICS PANEL CARDS */
-.metrics-summary-grid {
-  display: grid;
-  /* CRITICAL MOBILE-FIRST RULE: Exactly 1 card per line */
-  grid-template-columns: 1fr;
-  gap: 1.25rem;
-  margin-bottom: 2.5rem;
-  width: 100%;
-}
-
-@media (min-width: 576px) {
-  .metrics-summary-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (min-width: 992px) {
-  .metrics-summary-grid {
-    grid-template-columns: repeat(3, 1fr);
-    margin-bottom: 3.5rem;
-  }
-}
-
-.metric-panel-card {
+/* STAT CARDS ROW */
+.bx-lc-stat-card {
   background: #ffffff;
   border: 1px solid #e2e8f0;
-  border-radius: 20px;
-  padding: 1.5rem;
+  border-radius: 16px;
+  padding: 20px;
   display: flex;
   align-items: center;
-  gap: 1.25rem;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -1px rgba(0, 0, 0, 0.01);
-  width: 100%;
-}
-
-.metric-panel-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 20px -5px rgba(0, 0, 0, 0.05), 0 8px 8px -5px rgba(0, 0, 0, 0.03);
-  border-color: #cbd5e1;
-}
-
-.metric-icon-box {
-  width: 52px;
-  height: 52px;
-  border-radius: 14px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 22px;
-  flex-shrink: 0;
-}
-
-.metric-icon-box.primary-variant {
-  background-color: rgba(46, 127, 193, 0.08);
-  color: #2e7fc1;
-}
-
-.metric-icon-box.success-variant {
-  background-color: rgba(16, 185, 129, 0.08);
-  color: #10b981;
-}
-
-.metric-icon-box.warning-variant {
-  background-color: rgba(245, 158, 11, 0.08);
-  color: #f59e0b;
-}
-
-.metric-info-data h3 {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #021a30;
-  margin: 0;
-  line-height: 1.2;
-}
-
-.metric-info-data span {
-  font-size: 0.85rem;
-  color: #64748b;
-  font-weight: 500;
-}
-
-/* 3. RESPONSIVE LIVE CLASSES ARCHITECTURE */
-.workspace-section-heading {
-  font-size: 1.35rem;
-  font-weight: 700;
-  color: #021a30;
-  margin-bottom: 1.25rem;
-  letter-spacing: -0.5px;
-}
-
-@media (min-width: 768px) {
-  .workspace-section-heading {
-    font-size: 1.5rem;
-    margin-bottom: 1.5rem;
-  }
-}
-
-.live-classes-responsive-grid {
-  display: grid;
-  /* CRITICAL BREAKOUT CONTROL: Exactly ONE card per row on small viewports */
-  grid-template-columns: 1fr;
-  gap: 1.5rem;
-  width: 100%;
-}
-
-@media (min-width: 768px) {
-  .live-classes-responsive-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (min-width: 1200px) {
-  .live-classes-responsive-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.75rem;
-  }
-}
-
-.workspace-class-card {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 20px;
-  padding: 1.5rem;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  
-  /* MOBILITY CELL CONTAINMENT */
-  max-width: 100% !important;
-  width: 100%;
-  overflow: hidden;
-  word-wrap: break-word;
-
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  gap: 16px;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.01);
+  transition: transform 0.2s ease;
 }
 
-@media (min-width: 768px) {
-  .workspace-class-card {
-    padding: 1.75rem;
-    border-radius: 24px;
-  }
-}
-
-.workspace-class-card:hover {
-  border-color: #cbd5e1;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
+.bx-lc-stat-card:hover {
   transform: translateY(-2px);
 }
 
-.class-card-header-row {
+.bx-lc-stat-icon-box {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
   display: flex;
-  justify-content: flex-start;
-  margin-bottom: 1.25rem;
-  width: 100%;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }
 
-.stream-status-indicator {
+.color-blue {
+  background-color: #e0f2fe;
+  color: #0284c7;
+}
+
+.color-green {
+  background-color: #dcfce7;
+  color: #16a34a;
+}
+
+.color-amber {
+  background-color: #fef3c7;
+  color: #d97706;
+}
+
+.bx-lc-stat-label {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.bx-lc-stat-number {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+}
+
+/* CLASS CARDS */
+.bx-lc-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 18px;
+  padding: 24px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.01);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.bx-lc-live-badge {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background-color: rgba(46, 127, 193, 0.08);
-  color: #2e7fc1;
-  padding: 6px 14px;
-  border-radius: 50px;
-  font-size: 12px;
-  font-weight: 600;
-}
-
-/* Pulsing broadcasting indicator animation module */
-.pulse-active svg {
-  animation: streamPulse 1.8s infinite ease-in-out;
-}
-
-@keyframes streamPulse {
-  0% { opacity: 0.4; transform: scale(0.92); }
-  50% { opacity: 1; transform: scale(1.08); }
-  100% { opacity: 0.4; transform: scale(0.92); }
-}
-
-.class-card-title {
-  font-size: 1.2rem;
+  padding: 4px 12px;
+  border-radius: 99px;
+  font-size: 0.72rem;
   font-weight: 700;
-  color: #021a30;
-  margin: 0 0 1.25rem 0;
-  line-height: 1.4;
-  flex-shrink: 0;
-  min-width: 0;
-  word-wrap: break-word;
+  text-transform: uppercase;
+  background-color: #fef2f2;
+  color: #ef4444;
+  border: 1px solid #fecaca;
 }
 
-.class-metadata-sheet {
+.bx-pulse-icon {
+  animation: lcPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes lcPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.1); }
+}
+
+.bx-lc-meta-list {
   display: flex;
   flex-direction: column;
-  gap: 0.85rem;
-  padding: 1.25rem 0;
-  border-top: 1px solid #f1f5f9;
-  border-bottom: 1px dashed #e2e8f0;
-  margin-bottom: 1.5rem;
-  flex-grow: 1; /* Pushes button anchors uniformly to the bottom baseline */
-  width: 100%;
+  gap: 10px;
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 14px;
 }
 
-.metadata-item-row {
+.bx-lc-meta-item {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
+  font-size: 0.85rem;
   color: #475569;
-  font-size: 0.9rem;
-  font-weight: 500;
 }
 
-.metadata-item-row svg {
-  color: #2e7fc1;
-  font-size: 16px;
-  flex-shrink: 0;
-}
-
-.metadata-item-row span {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.width-full-override {
-  width: 100%;
-  max-width: 100%;
+.bx-lc-btn-join {
+  background-color: #07335c;
+  color: #ffffff;
+  padding: 11px 20px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.88rem;
+  border: none;
+  display: inline-flex;
+  align-items: center;
   justify-content: center;
-  padding: 0.85rem 1.5rem;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-/* 4. EMPTY STATE FALLBACK */
-.empty-state-workspace-card {
-  background-color: #ffffff;
-  border: 1px dashed #cbd5e1;
-  border-radius: 24px;
-  padding: 5rem 2rem;
-  text-align: center;
-  color: #64748b;
-  width: 100%;
+.bx-lc-btn-join:hover {
+  background-color: #052442;
+  box-shadow: 0 4px 12px rgba(7, 51, 92, 0.15);
 }
 
-.empty-state-workspace-card svg {
+/* LOADER & EMPTY CARD */
+.bx-lc-loading-pane {
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.bx-lc-spinner {
+  width: 44px;
+  height: 44px;
+  border: 3px solid #e2e8f0;
+  border-top-color: #07335c;
+  border-radius: 50%;
+  animation: lcSpin 1s linear infinite;
+}
+
+@keyframes lcSpin { to { transform: rotate(360deg); } }
+
+.bx-lc-empty-card {
+  align-items: center;
+  justify-content: center;
+}
+
+.bx-lc-empty-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background-color: #f8fafc;
   color: #94a3b8;
-  margin-bottom: 1.25rem;
-}
-
-.empty-state-workspace-card h4 {
-  font-size: 1.25rem;
-  color: #021a30;
-  font-weight: 700;
-  margin-bottom: 0.5rem;
-}
-
-.empty-state-workspace-card p {
-  font-size: 0.95rem;
-  max-width: 420px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin: 0 auto;
-  line-height: 1.6;
+}
+
+.max-width-400 {
+  max-width: 400px;
+}
+
+/* RESPONSIVE BREAKPOINTS */
+@media (max-width: 576px) {
+  .bx-lc-stat-card {
+    padding: 14px;
+  }
+
+  .bx-lc-card {
+    padding: 18px 14px;
+  }
+
+  .bx-lc-btn-join {
+    width: 100%;
+  }
 }
