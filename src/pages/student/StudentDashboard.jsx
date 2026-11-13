@@ -522,7 +522,7 @@ function StudentDashboard() {
       .slice(0, 2);
 
     // ==========================================================
-    // DYNAMIC RECOMMENDED COURSES TO REGISTER
+    // DYNAMIC RECOMMENDED UNREGISTERED COURSES TO REGISTER
     // ==========================================================
 
     const enrolledIds = new Set(
@@ -533,9 +533,15 @@ function StudentDashboard() {
         : []
     );
 
-    const recommendedCourses = (availableCourses || [])
-      .filter((course) => !enrolledIds.has(String(course._id)))
-      .slice(0, 4);
+    let unregistered = (availableCourses || []).filter(
+      (course) => !enrolledIds.has(String(course._id || course.id || ""))
+    );
+
+    if (unregistered.length === 0) {
+      unregistered = availableCourses || [];
+    }
+
+    const recommendedCourses = unregistered.slice(0, 4);
 
     return {
       firstName,
