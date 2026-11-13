@@ -11,7 +11,6 @@ import {
   FiAlertCircle,
   FiLogOut,
   FiGrid,
-  FiEdit3,
   FiEye,
   FiEyeOff,
   FiAward,
@@ -20,7 +19,9 @@ import {
   FiX,
   FiCheck,
   FiBookOpen,
-  FiLock
+  FiLock,
+  FiSave,
+  FiSettings
 } from "react-icons/fi";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
@@ -35,13 +36,13 @@ function Profile() {
   const [profileLoading, setProfileLoading] = useState(false);
   const [feedback, setFeedback] = useState({ type: "", message: "" });
 
-  // Profile Edit State
+  // Profile Form States
   const [fullName, setFullName] = useState(user?.fullName || "");
   const [profileImage, setProfileImage] = useState(user?.profileImage || "");
   const [isEditingAvatar, setIsEditingAvatar] = useState(false);
   const [tempImageUrl, setTempImageUrl] = useState("");
 
-  // Password Security Form State
+  // Password Security Form States
   const [showCurrentPw, setShowCurrentPw] = useState(false);
   const [showNewPw, setShowNewPw] = useState(false);
   const [passwordData, setPasswordData] = useState({
@@ -50,7 +51,6 @@ function Profile() {
     confirmPassword: ""
   });
 
-  // Sync user state on load
   useEffect(() => {
     if (user) {
       setFullName(user.fullName || "");
@@ -58,7 +58,7 @@ function Profile() {
     }
   }, [user]);
 
-  // Fetch fresh profile data from backend
+  // Sync profile details on load
   useEffect(() => {
     let isMounted = true;
     const fetchFreshProfile = async () => {
@@ -84,7 +84,6 @@ function Profile() {
     }, 4000);
   };
 
-  // Back to Dashboard routing
   const handleBackToDashboard = () => {
     const targetRole = user?.role || "student";
     if (targetRole === "admin") navigate("/admin");
@@ -97,7 +96,7 @@ function Profile() {
     navigate("/login");
   };
 
-  // Update Profile (Name & Avatar)
+  // Update Name & Avatar
   const handleUpdateProfile = async (e) => {
     e.preventDefault();
     if (!fullName.trim()) {
@@ -126,7 +125,7 @@ function Profile() {
     }
   };
 
-  // Handle Avatar Change from Modal
+  // Avatar Modal Save
   const handleSaveAvatar = async () => {
     const finalUrl = tempImageUrl.trim();
     setProfileImage(finalUrl);
@@ -143,21 +142,21 @@ function Profile() {
       } else {
         updateUser({ profileImage: finalUrl });
       }
-      showBanner("success", "Profile picture updated successfully!");
+      showBanner("success", "Profile photo updated successfully!");
     } catch (err) {
-      showBanner("error", err.response?.data?.message || "Failed to update profile picture.");
+      showBanner("error", err.response?.data?.message || "Failed to update profile photo.");
     } finally {
       setProfileLoading(false);
     }
   };
 
-  // File to Base64 Avatar Upload Handler
+  // File Upload to Data URI
   const handleFileUpload = (e) => {
     const file = e.target.files[0];
     if (!file) return;
 
     if (file.size > 2 * 1024 * 1024) {
-      showBanner("error", "Image size should be less than 2MB.");
+      showBanner("error", "Image file must be smaller than 2MB.");
       return;
     }
 
@@ -180,7 +179,7 @@ function Profile() {
     }
 
     if (passwordData.newPassword.length < 6) {
-      showBanner("error", "New password must be at least 6 characters long.");
+      showBanner("error", "New password must be at least 6 characters.");
       setLoading(false);
       return;
     }
@@ -196,14 +195,13 @@ function Profile() {
     } catch (err) {
       showBanner(
         "error",
-        err.response?.data?.message || "Failed to update password. Please check your credentials."
+        err.response?.data?.message || "Failed to update password. Verify current credentials."
       );
     } finally {
       setLoading(false);
     }
   };
 
-  // Trigger Forgot Password Code Dispatch
   const handleTriggerResetToken = async () => {
     setLoading(true);
     try {
@@ -228,13 +226,57 @@ function Profile() {
     .toUpperCase();
 
   return (
-    <div className="bx-profile-wrapper">
-      {/* HERO COVER HEADER CARD */}
-      <div className="bx-profile-hero">
-        <div className="bx-profile-hero-bg" />
+    <div className="bx-profile-container">
+      {/* PAGE HEADER STRIP */}
+      <header className="bx-profile-header mb-4">
+        <div className="d-flex align-items-center justify-content-between flex-wrap gap-3">
+          <div className="d-flex align-items-center gap-3">
+            <div className="bx-profile-icon-box">
+              <FiUser size={24} />
+              <span className="bx-profile-pulse-light" />
+            </div>
+            <div>
+              <div className="d-flex align-items-center gap-2">
+                <h1 className="h3 mb-0 font-weight-bold text-dark">User Account & Profile</h1>
+                <span className="bx-profile-ver-badge">{userRole} Node</span>
+              </div>
+              <p className="text-muted mb-0 small">
+                Manage your identity credentials, profile photo, and password security.
+              </p>
+            </div>
+          </div>
 
-        <div className="bx-profile-hero-content">
-          <div className="bx-profile-avatar-container">
+          <div className="d-flex align-items-center gap-2">
+            <button type="button" className="bx-profile-btn-dash" onClick={handleBackToDashboard}>
+              <FiGrid /> Go to Dashboard
+            </button>
+            <button type="button" className="bx-profile-btn-logout" onClick={handleSignOut}>
+              <FiLogOut /> Sign Out
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {/* FEEDBACK TOAST */}
+      <AnimatePresence>
+        {feedback.message && (
+          <motion.div
+            className={`alert alert-${feedback.type === "success" ? "success" : "danger"} d-flex align-items-center gap-2 mb-4 bx-profile-toast`}
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+          >
+            {feedback.type === "success" ? <FiCheckCircle size={18} /> : <FiAlertCircle size={18} />}
+            <span className="small">{feedback.message}</span>
+            <button className="btn-close ms-auto" onClick={() => setFeedback({ type: "", message: "" })} />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* IDENTITY SUMMARY HERO CARD */}
+      <div className="bx-profile-hero-card mb-4">
+        <div className="d-flex align-items-center gap-4 flex-wrap">
+          <div className="bx-profile-avatar-wrapper">
             {profileImage ? (
               <img src={profileImage} alt={user?.fullName} className="bx-profile-avatar-img" />
             ) : (
@@ -242,7 +284,7 @@ function Profile() {
             )}
             <button
               type="button"
-              className="bx-profile-avatar-badge"
+              className="bx-profile-avatar-edit-badge"
               onClick={() => {
                 setTempImageUrl(profileImage);
                 setIsEditingAvatar(true);
@@ -253,473 +295,440 @@ function Profile() {
             </button>
           </div>
 
-          <div className="bx-profile-hero-info">
-            <div className="bx-profile-name-row">
-              <h2>{user?.fullName || "Benedex Member"}</h2>
-              <span className={`bx-profile-role-pill role-${userRole}`}>
-                <FiShield /> {userRole}
+          <div className="bx-profile-hero-meta">
+            <div className="d-flex align-items-center gap-2 mb-1 flex-wrap">
+              <h2 className="h4 mb-0 text-white font-weight-bold">{user?.fullName || "Benedex Member"}</h2>
+              <span className={`bx-profile-role-tag role-${userRole}`}>
+                <FiShield size={12} /> {userRole}
               </span>
             </div>
-            <p className="bx-profile-email">
+            <p className="text-white-50 mb-0 small d-flex align-items-center gap-2">
               <FiMail /> {user?.email || "user@benedex.org"}
             </p>
           </div>
 
-          <div className="bx-profile-hero-actions">
-            <button type="button" className="bx-btn-dashboard" onClick={handleBackToDashboard}>
-              <FiGrid /> Return to Dashboard
-            </button>
-            <button type="button" className="bx-btn-logout" onClick={handleSignOut}>
-              <FiLogOut /> Sign Out
-            </button>
-          </div>
-        </div>
-
-        {/* HERO STATS BAR */}
-        <div className="bx-profile-stats-bar">
-          <div className="bx-stat-item">
-            <span className="bx-stat-label">Account Status</span>
-            <span className="bx-stat-value status-active">
-              <span className="status-dot" /> Active
-            </span>
-          </div>
-          <div className="bx-stat-item">
-            <span className="bx-stat-label">Role Privilege</span>
-            <span className="bx-stat-value text-capitalize">{userRole} Access</span>
-          </div>
-          {user?.xp !== undefined && (
-            <div className="bx-stat-item">
-              <span className="bx-stat-label">Total Experience</span>
-              <span className="bx-stat-value">
-                <FiZap className="icon-gold" /> {user.xp} XP
+          <div className="ms-auto d-flex align-items-center gap-3 bx-profile-hero-stats">
+            <div className="bx-profile-stat-box">
+              <span className="bx-profile-stat-label">Status</span>
+              <span className="bx-profile-stat-val text-success">
+                <span className="bx-profile-dot-green" /> Active
               </span>
             </div>
-          )}
-          <div className="bx-stat-item">
-            <span className="bx-stat-label">Security Tier</span>
-            <span className="bx-stat-value text-success">
-              <FiCheckCircle /> Verified
-            </span>
+            {user?.xp !== undefined && (
+              <div className="bx-profile-stat-box">
+                <span className="bx-profile-stat-label">XP Points</span>
+                <span className="bx-profile-stat-val text-warning">
+                  <FiZap /> {user.xp} XP
+                </span>
+              </div>
+            )}
           </div>
         </div>
       </div>
 
-      {/* ALERT FEEDBACK TOAST */}
-      <AnimatePresence>
-        {feedback.message && (
-          <motion.div
-            className={`bx-profile-alert alert-${feedback.type}`}
-            initial={{ opacity: 0, y: -15 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-          >
-            {feedback.type === "success" ? <FiCheckCircle /> : <FiAlertCircle />}
-            <span>{feedback.message}</span>
-            <button className="bx-alert-close" onClick={() => setFeedback({ type: "", message: "" })}>
-              <FiX />
-            </button>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* MAIN BODY GRID LAYOUT */}
-      <div className="bx-profile-body-grid">
-        {/* SIDEBAR NAVIGATION TABS */}
-        <aside className="bx-profile-nav-card">
-          <button
-            type="button"
-            className={`bx-profile-nav-item ${activeTab === "general" ? "active" : ""}`}
-            onClick={() => setActiveTab("general")}
-          >
-            <FiUser className="nav-icon" />
-            <div className="nav-text">
-              <strong>Personal Information</strong>
-              <span>Name, photo & contact details</span>
-            </div>
-          </button>
-
-          <button
-            type="button"
-            className={`bx-profile-nav-item ${activeTab === "security" ? "active" : ""}`}
-            onClick={() => setActiveTab("security")}
-          >
-            <FiShield className="nav-icon" />
-            <div className="nav-text">
-              <strong>Security & Password</strong>
-              <span>Password, auth & recovery</span>
-            </div>
-          </button>
-
-          <button
-            type="button"
-            className={`bx-profile-nav-item ${activeTab === "activity" ? "active" : ""}`}
-            onClick={() => setActiveTab("activity")}
-          >
-            <FiActivity className="nav-icon" />
-            <div className="nav-text">
-              <strong>Account & Capabilities</strong>
-              <span>Role overview & privileges</span>
-            </div>
-          </button>
-        </aside>
-
-        {/* MAIN PANEL CONTENT VIEWS */}
-        <main className="bx-profile-panel-card">
-          {/* TAB 1: GENERAL PERSONAL INFORMATION */}
-          {activeTab === "general" && (
-            <motion.div
-              className="bx-profile-tab-content"
-              initial={{ opacity: 0, x: 10 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.2 }}
-            >
-              <div className="bx-panel-header">
-                <div>
-                  <h3>Personal Information</h3>
-                  <p>Manage your account profile details and display preferences.</p>
+      {/* MAIN TWO-COLUMN WORKSPACE GRID */}
+      <div className="row g-4">
+        {/* LEFT COLUMN: NAVIGATION TABS */}
+        <div className="col-12 col-lg-4 col-xl-3">
+          <div className="bx-profile-card">
+            <div className="bx-profile-nav-list">
+              <button
+                type="button"
+                className={`bx-profile-nav-btn ${activeTab === "general" ? "active" : ""}`}
+                onClick={() => setActiveTab("general")}
+              >
+                <FiUser className="nav-btn-icon" />
+                <div className="text-start">
+                  <span className="d-block font-weight-bold small">Personal Information</span>
+                  <span className="extra-small text-muted d-block">Name, email & profile photo</span>
                 </div>
-              </div>
+              </button>
 
-              <form onSubmit={handleUpdateProfile} className="bx-profile-form">
-                <div className="form-group">
-                  <label htmlFor="fullName">
-                    <FiUser /> Full Name
-                  </label>
-                  <input
-                    id="fullName"
-                    type="text"
-                    value={fullName}
-                    onChange={(e) => setFullName(e.target.value)}
-                    placeholder="Enter your full name"
-                    required
-                  />
-                  <span className="form-hint">This name will appear across your courses, certificates, and dashboard.</span>
+              <button
+                type="button"
+                className={`bx-profile-nav-btn ${activeTab === "security" ? "active" : ""}`}
+                onClick={() => setActiveTab("security")}
+              >
+                <FiShield className="nav-btn-icon" />
+                <div className="text-start">
+                  <span className="d-block font-weight-bold small">Security & Password</span>
+                  <span className="extra-small text-muted d-block">System password & auth reset</span>
+                </div>
+              </button>
+
+              <button
+                type="button"
+                className={`bx-profile-nav-btn ${activeTab === "activity" ? "active" : ""}`}
+                onClick={() => setActiveTab("activity")}
+              >
+                <FiActivity className="nav-btn-icon" />
+                <div className="text-start">
+                  <span className="d-block font-weight-bold small">Account Capabilities</span>
+                  <span className="extra-small text-muted d-block">Role privileges & shortcuts</span>
+                </div>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* RIGHT COLUMN: TAB CONTENT PANEL */}
+        <div className="col-12 col-lg-8 col-xl-9">
+          <div className="bx-profile-card">
+            {/* TAB 1: PERSONAL INFORMATION */}
+            {activeTab === "general" && (
+              <motion.div
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.15 }}
+              >
+                <div className="bx-profile-card-header mb-4">
+                  <h2 className="h5 mb-1 font-weight-bold text-dark">Personal Information</h2>
+                  <p className="text-muted small mb-0">Update your account display name and photo.</p>
                 </div>
 
-                <div className="form-group">
-                  <label htmlFor="email">
-                    <FiMail /> Email Address
-                  </label>
-                  <input
-                    id="email"
-                    type="email"
-                    value={user?.email || ""}
-                    disabled
-                    className="input-disabled"
-                  />
-                  <span className="form-hint">Email address is tied to your primary authentication account.</span>
-                </div>
-
-                <div className="form-row-two">
-                  <div className="form-group">
-                    <label>
-                      <FiShield /> Account Role
-                    </label>
-                    <div className="role-read-badge text-capitalize">{userRole} Account</div>
-                  </div>
-
-                  <div className="form-group">
-                    <label>
-                      <FiCheckCircle /> Verification Status
-                    </label>
-                    <div className="verification-status-badge">
-                      <FiCheck /> Active & Verified
+                <form onSubmit={handleUpdateProfile} className="d-flex flex-column gap-3">
+                  <div className="bx-profile-field-group">
+                    <label className="bx-profile-label">Full Name</label>
+                    <div className="bx-profile-input-wrapper">
+                      <FiUser className="bx-profile-field-icon" />
+                      <input
+                        type="text"
+                        value={fullName}
+                        onChange={(e) => setFullName(e.target.value)}
+                        placeholder="Enter your full name"
+                        required
+                      />
                     </div>
                   </div>
-                </div>
 
-                {user?.googleId && (
-                  <div className="bx-social-connected-box">
-                    <div className="social-icon-circle">⚡</div>
-                    <div>
-                      <strong>Google Single Sign-On Active</strong>
-                      <p>Your account is linked to Google authentication for easy 1-click access.</p>
+                  <div className="bx-profile-field-group">
+                    <label className="bx-profile-label">Email Address (Read-Only)</label>
+                    <div className="bx-profile-input-wrapper">
+                      <FiMail className="bx-profile-field-icon" />
+                      <input
+                        type="email"
+                        value={user?.email || ""}
+                        disabled
+                        className="bg-light"
+                      />
                     </div>
                   </div>
-                )}
 
-                <div className="bx-form-actions">
-                  <button type="submit" className="bx-btn-primary" disabled={profileLoading}>
-                    {profileLoading ? "Saving Changes..." : <><FiEdit3 /> Save Profile Changes</>}
-                  </button>
-                </div>
-              </form>
-            </motion.div>
-          )}
+                  <div className="row g-3 mt-1">
+                    <div className="col-12 col-md-6">
+                      <div className="bx-profile-field-group">
+                        <label className="bx-profile-label">Account Role</label>
+                        <div className="bx-profile-read-badge text-capitalize">
+                          <FiShield className="text-primary-theme" /> {userRole} Profile
+                        </div>
+                      </div>
+                    </div>
 
-          {/* TAB 2: SECURITY & PASSWORD */}
-          {activeTab === "security" && (
-            <motion.div
-              className="bx-profile-tab-content"
-              initial={{ opacity: 0, x: 10 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.2 }}
-            >
-              <div className="bx-panel-header">
-                <div>
-                  <h3>Security & Password</h3>
-                  <p>Ensure your account remains safe with strong credentials.</p>
-                </div>
-              </div>
-
-              {user?.googleId && !user?.password ? (
-                <div className="bx-google-sec-box">
-                  <div className="google-sec-icon">
-                    <FiKey />
+                    <div className="col-12 col-md-6">
+                      <div className="bx-profile-field-group">
+                        <label className="bx-profile-label">Security Tier</label>
+                        <div className="bx-profile-read-badge text-success">
+                          <FiCheckCircle /> Active & Verified
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div>
-                    <h4>Using Google Authentication</h4>
-                    <p>
-                      You currently log in using Google OAuth. If you would like to set up a local password for your account, trigger the email verification sequence below.
+
+                  {user?.googleId && (
+                    <div className="bx-profile-social-notice p-3 rounded mt-2">
+                      <div className="d-flex align-items-start gap-3">
+                        <span className="badge bg-primary rounded-circle p-2">⚡</span>
+                        <div>
+                          <strong className="d-block text-dark small">Google Single Sign-On Active</strong>
+                          <span className="text-muted extra-small">
+                            Your authentication credentials are signed and verified directly via Google OAuth.
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  <div className="text-end mt-3 pt-3 border-top">
+                    <button
+                      type="submit"
+                      className="bx-profile-btn-submit"
+                      disabled={profileLoading}
+                    >
+                      {profileLoading ? (
+                        <span>Saving...</span>
+                      ) : (
+                        <>
+                          <FiSave />
+                          <span>Save Changes</span>
+                        </>
+                      )}
+                    </button>
+                  </div>
+                </form>
+              </motion.div>
+            )}
+
+            {/* TAB 2: SECURITY & PASSWORD */}
+            {activeTab === "security" && (
+              <motion.div
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.15 }}
+              >
+                <div className="bx-profile-card-header mb-4">
+                  <h2 className="h5 mb-1 font-weight-bold text-dark">Security & Password</h2>
+                  <p className="text-muted small mb-0">Update your access password and security settings.</p>
+                </div>
+
+                {user?.googleId && !user?.password ? (
+                  <div className="p-3 bg-light rounded border">
+                    <h3 className="h6 font-weight-bold text-dark mb-2">Google Single Sign-On Active</h3>
+                    <p className="text-muted small mb-3">
+                      You currently log in using Google Auth. If you want to set up a local password, trigger the password reset verification sequence below.
                     </p>
                     <button
                       type="button"
-                      className="bx-btn-secondary"
+                      className="bx-profile-btn-outline"
                       onClick={handleTriggerResetToken}
                       disabled={loading}
                     >
-                      {loading ? "Dispatching Email..." : <><FiKey /> Set Up Local Password</>}
+                      <FiKey /> {loading ? "Sending..." : "Set Up Local Password"}
                     </button>
                   </div>
-                </div>
-              ) : (
-                <form onSubmit={handleUpdatePassword} className="bx-profile-form">
-                  <div className="form-group">
-                    <label htmlFor="currentPassword">
-                      <FiLock /> Current Password
-                    </label>
-                    <div className="password-input-wrapper">
-                      <input
-                        id="currentPassword"
-                        type={showCurrentPw ? "text" : "password"}
-                        value={passwordData.currentPassword}
-                        onChange={(e) =>
-                          setPasswordData((prev) => ({ ...prev, currentPassword: e.target.value }))
-                        }
-                        placeholder="••••••••"
-                        required
-                      />
-                      <button
-                        type="button"
-                        className="password-toggle-btn"
-                        onClick={() => setShowCurrentPw(!showCurrentPw)}
-                        tabIndex={-1}
-                      >
-                        {showCurrentPw ? <FiEyeOff /> : <FiEye />}
-                      </button>
-                    </div>
-                  </div>
-
-                  <div className="form-row-two">
-                    <div className="form-group">
-                      <label htmlFor="newPassword">
-                        <FiKey /> New Password
-                      </label>
-                      <div className="password-input-wrapper">
+                ) : (
+                  <form onSubmit={handleUpdatePassword} className="d-flex flex-column gap-3">
+                    <div className="bx-profile-field-group">
+                      <label className="bx-profile-label">Current Password</label>
+                      <div className="bx-profile-input-wrapper">
+                        <FiLock className="bx-profile-field-icon" />
                         <input
-                          id="newPassword"
-                          type={showNewPw ? "text" : "password"}
-                          value={passwordData.newPassword}
+                          type={showCurrentPw ? "text" : "password"}
+                          value={passwordData.currentPassword}
                           onChange={(e) =>
-                            setPasswordData((prev) => ({ ...prev, newPassword: e.target.value }))
+                            setPasswordData((prev) => ({ ...prev, currentPassword: e.target.value }))
                           }
-                          placeholder="Min. 6 characters"
+                          placeholder="••••••••"
                           required
                         />
                         <button
                           type="button"
-                          className="password-toggle-btn"
-                          onClick={() => setShowNewPw(!showNewPw)}
-                          tabIndex={-1}
+                          className="bx-profile-pw-toggle"
+                          onClick={() => setShowCurrentPw(!showCurrentPw)}
                         >
-                          {showNewPw ? <FiEyeOff /> : <FiEye />}
+                          {showCurrentPw ? <FiEyeOff /> : <FiEye />}
                         </button>
                       </div>
                     </div>
 
-                    <div className="form-group">
-                      <label htmlFor="confirmPassword">
-                        <FiKey /> Confirm Password
-                      </label>
-                      <input
-                        id="confirmPassword"
-                        type="password"
-                        value={passwordData.confirmPassword}
-                        onChange={(e) =>
-                          setPasswordData((prev) => ({ ...prev, confirmPassword: e.target.value }))
-                        }
-                        placeholder="Re-enter new password"
-                        required
-                      />
+                    <div className="row g-3">
+                      <div className="col-12 col-md-6">
+                        <div className="bx-profile-field-group">
+                          <label className="bx-profile-label">New Password</label>
+                          <div className="bx-profile-input-wrapper">
+                            <FiKey className="bx-profile-field-icon" />
+                            <input
+                              type={showNewPw ? "text" : "password"}
+                              value={passwordData.newPassword}
+                              onChange={(e) =>
+                                setPasswordData((prev) => ({ ...prev, newPassword: e.target.value }))
+                              }
+                              placeholder="Min. 6 characters"
+                              required
+                            />
+                            <button
+                              type="button"
+                              className="bx-profile-pw-toggle"
+                              onClick={() => setShowNewPw(!showNewPw)}
+                            >
+                              {showNewPw ? <FiEyeOff /> : <FiEye />}
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="col-12 col-md-6">
+                        <div className="bx-profile-field-group">
+                          <label className="bx-profile-label">Confirm New Password</label>
+                          <div className="bx-profile-input-wrapper">
+                            <FiKey className="bx-profile-field-icon" />
+                            <input
+                              type="password"
+                              value={passwordData.confirmPassword}
+                              onChange={(e) =>
+                                setPasswordData((prev) => ({ ...prev, confirmPassword: e.target.value }))
+                              }
+                              placeholder="Re-enter password"
+                              required
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="d-flex align-items-center justify-content-between flex-wrap gap-2 mt-3 pt-3 border-top">
+                      <button
+                        type="submit"
+                        className="bx-profile-btn-submit"
+                        disabled={loading}
+                      >
+                        {loading ? "Updating..." : "Update Password"}
+                      </button>
+
+                      <button
+                        type="button"
+                        className="btn btn-link text-decoration-none small text-primary p-0"
+                        onClick={handleTriggerResetToken}
+                        disabled={loading}
+                      >
+                        Send password reset email
+                      </button>
+                    </div>
+                  </form>
+                )}
+              </motion.div>
+            )}
+
+            {/* TAB 3: ACCOUNT & CAPABILITIES */}
+            {activeTab === "activity" && (
+              <motion.div
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.15 }}
+              >
+                <div className="bx-profile-card-header mb-4">
+                  <h2 className="h5 mb-1 font-weight-bold text-dark">Account Capabilities</h2>
+                  <p className="text-muted small mb-0">Overview of your role privileges and system shortcuts.</p>
+                </div>
+
+                <div className="row g-3 mb-4">
+                  <div className="col-12 col-md-6">
+                    <div className="p-3 rounded border bg-light">
+                      <div className="d-flex align-items-center gap-2 mb-2">
+                        <FiShield className="text-primary-theme" size={20} />
+                        <h3 className="h6 mb-0 font-weight-bold text-capitalize">{userRole} Account</h3>
+                      </div>
+                      <p className="text-muted extra-small mb-0">
+                        {userRole === "admin"
+                          ? "Administrative privileges across analytics, user management, payments, and site settings."
+                          : userRole === "instructor"
+                          ? "Course creation, assignment grading, student live classes, and lesson management."
+                          : "Full access to enrolled courses, live learning rooms, assignments, and certificates."}
+                      </p>
                     </div>
                   </div>
 
-                  <div className="bx-form-actions-split">
-                    <button type="submit" className="bx-btn-primary" disabled={loading}>
-                      {loading ? "Updating Password..." : "Update System Password"}
-                    </button>
-                    <button
-                      type="button"
-                      className="bx-btn-link"
-                      onClick={handleTriggerResetToken}
-                      disabled={loading}
-                    >
-                      Send password reset email
-                    </button>
-                  </div>
-                </form>
-              )}
-            </motion.div>
-          )}
-
-          {/* TAB 3: ACCOUNT & CAPABILITIES */}
-          {activeTab === "activity" && (
-            <motion.div
-              className="bx-profile-tab-content"
-              initial={{ opacity: 0, x: 10 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.2 }}
-            >
-              <div className="bx-panel-header">
-                <div>
-                  <h3>Account & Capabilities</h3>
-                  <p>Overview of your platform permissions and learning achievements.</p>
-                </div>
-              </div>
-
-              <div className="bx-capabilities-grid">
-                <div className="capability-card">
-                  <div className="cap-icon color-blue">
-                    <FiShield />
-                  </div>
-                  <div>
-                    <h4>Role Level: <span className="text-capitalize">{userRole}</span></h4>
-                    <p>
-                      {userRole === "admin"
-                        ? "Full administrative system permissions, user management, course audits, and site configuration."
-                        : userRole === "instructor"
-                        ? "Authoring tools, course management, live streams, student grading, and syllabus tools."
-                        : "Access to enrolled courses, live interactive classes, assignments, and certified learning paths."}
-                    </p>
+                  <div className="col-12 col-md-6">
+                    <div className="p-3 rounded border bg-light">
+                      <div className="d-flex align-items-center gap-2 mb-2">
+                        <FiAward className="text-success" size={20} />
+                        <h3 className="h6 mb-0 font-weight-bold">Achievements</h3>
+                      </div>
+                      <p className="text-muted extra-small mb-1">
+                        Total XP: <strong>{user?.xp || 0} XP</strong>
+                      </p>
+                      <p className="text-muted extra-small mb-0">
+                        Badges: <strong>{user?.badges?.length || 0} Earned</strong>
+                      </p>
+                    </div>
                   </div>
                 </div>
 
-                <div className="capability-card">
-                  <div className="cap-icon color-green">
-                    <FiAward />
-                  </div>
-                  <div>
-                    <h4>Gamification & Progress</h4>
-                    <p>
-                      Earned Points: <strong>{user?.xp || 0} XP</strong>
-                    </p>
-                    <p>
-                      Unlocked Badges: <strong>{user?.badges?.length || 0} Badges</strong>
-                    </p>
+                <div className="p-3 rounded border">
+                  <h3 className="h6 font-weight-bold mb-3">Workspace Shortcuts</h3>
+                  <div className="d-flex gap-2 flex-wrap">
+                    <button type="button" className="bx-profile-shortcut-btn" onClick={handleBackToDashboard}>
+                      <FiGrid /> Main Dashboard
+                    </button>
+                    {userRole === "student" && (
+                      <button type="button" className="bx-profile-shortcut-btn" onClick={() => navigate("/student/courses")}>
+                        <FiBookOpen /> My Courses
+                      </button>
+                    )}
+                    {userRole === "instructor" && (
+                      <button type="button" className="bx-profile-shortcut-btn" onClick={() => navigate("/instructor/courses")}>
+                        <FiBookOpen /> Manage Courses
+                      </button>
+                    )}
+                    {userRole === "admin" && (
+                      <button type="button" className="bx-profile-shortcut-btn" onClick={() => navigate("/admin/users")}>
+                        <FiUser /> Manage Users
+                      </button>
+                    )}
                   </div>
                 </div>
-              </div>
-
-              <div className="bx-quick-navigation-box">
-                <h4>Quick Workspace Shortcuts</h4>
-                <div className="quick-links-row">
-                  <button type="button" className="bx-shortcut-btn" onClick={handleBackToDashboard}>
-                    <FiGrid /> Go to Dashboard
-                  </button>
-                  {userRole === "student" && (
-                    <button type="button" className="bx-shortcut-btn" onClick={() => navigate("/student/courses")}>
-                      <FiBookOpen /> My Enrolled Courses
-                    </button>
-                  )}
-                  {userRole === "instructor" && (
-                    <button type="button" className="bx-shortcut-btn" onClick={() => navigate("/instructor/courses")}>
-                      <FiBookOpen /> Manage Courses
-                    </button>
-                  )}
-                  {userRole === "admin" && (
-                    <button type="button" className="bx-shortcut-btn" onClick={() => navigate("/admin/users")}>
-                      <FiUser /> Users Directory
-                    </button>
-                  )}
-                </div>
-              </div>
-            </motion.div>
-          )}
-        </main>
+              </motion.div>
+            )}
+          </div>
+        </div>
       </div>
 
       {/* AVATAR EDIT MODAL */}
       <AnimatePresence>
         {isEditingAvatar && (
           <motion.div
-            className="bx-modal-backdrop"
+            className="bx-profile-modal-backdrop"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setIsEditingAvatar(false)}
           >
             <motion.div
-              className="bx-modal-card"
-              initial={{ scale: 0.9, opacity: 0 }}
+              className="bx-profile-modal-card"
+              initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
+              exit={{ scale: 0.95, opacity: 0 }}
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="bx-modal-header">
-                <h3>Update Profile Photo</h3>
-                <button className="bx-modal-close" onClick={() => setIsEditingAvatar(false)}>
-                  <FiX />
-                </button>
+              <div className="bx-profile-modal-header">
+                <h3 className="h6 mb-0 font-weight-bold text-dark">Update Profile Photo</h3>
+                <button type="button" className="btn-close" onClick={() => setIsEditingAvatar(false)} />
               </div>
 
-              <div className="bx-modal-body">
-                <div className="avatar-preview-box">
+              <div className="bx-profile-modal-body">
+                <div className="text-center mb-3">
                   {tempImageUrl ? (
-                    <img src={tempImageUrl} alt="Preview" className="avatar-preview-img" />
+                    <img src={tempImageUrl} alt="Preview" className="bx-profile-avatar-img mx-auto" />
                   ) : (
-                    <div className="avatar-preview-fallback">{userInitials}</div>
+                    <div className="bx-profile-avatar-fallback mx-auto">{userInitials}</div>
                   )}
                 </div>
 
-                <div className="form-group">
-                  <label>Image URL</label>
+                <div className="bx-profile-field-group mb-3">
+                  <label className="bx-profile-label">Image URL</label>
                   <input
                     type="url"
                     value={tempImageUrl}
                     onChange={(e) => setTempImageUrl(e.target.value)}
                     placeholder="https://example.com/avatar.jpg"
+                    className="form-control form-control-sm"
                   />
                 </div>
 
-                <div className="avatar-upload-divider">
-                  <span>OR UPLOAD IMAGE</span>
-                </div>
+                <div className="text-center text-muted extra-small mb-2">— OR —</div>
 
-                <div className="form-group">
-                  <label htmlFor="avatar-file" className="file-upload-btn">
-                    <FiCamera /> Choose Image File (Max 2MB)
-                  </label>
-                  <input
-                    id="avatar-file"
-                    type="file"
-                    accept="image/*"
-                    onChange={handleFileUpload}
-                    style={{ display: "none" }}
-                  />
-                </div>
+                <label htmlFor="modal-avatar-file" className="btn btn-outline-secondary btn-sm w-100 d-flex align-items-center justify-content-center gap-2">
+                  <FiCamera /> Choose Image File (Max 2MB)
+                </label>
+                <input
+                  id="modal-avatar-file"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFileUpload}
+                  style={{ display: "none" }}
+                />
               </div>
 
-              <div className="bx-modal-footer">
+              <div className="bx-profile-modal-footer">
                 <button
                   type="button"
-                  className="bx-btn-secondary"
+                  className="btn btn-light btn-sm font-weight-bold"
                   onClick={() => setIsEditingAvatar(false)}
                 >
                   Cancel
                 </button>
                 <button
                   type="button"
-                  className="bx-btn-primary"
+                  className="bx-profile-btn-submit btn-sm"
                   onClick={handleSaveAvatar}
                   disabled={profileLoading}
                 >

@@ -83,6 +83,23 @@ function HomeRedirect() {
   return <Navigate to="/login" replace />;
 }
 
+function ProfileLayoutShell() {
+  const { user } = useAuth();
+
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
+
+  if (user.role === "admin") {
+    return <AdminLayout />;
+  }
+
+  if (user.role === "instructor") {
+    return <InstructorLayout />;
+  }
+
+  return <StudentLayout />;
+}
 
 function App() {
   return (
@@ -116,8 +133,14 @@ function App() {
 
         <Route
           path="/profile"
-          element={<Profile />}
-        />
+          element={
+            <ProtectedRoute roles={["student", "instructor", "admin"]}>
+              <ProfileLayoutShell />
+            </ProtectedRoute>
+          }
+        >
+          <Route index element={<Profile />} />
+        </Route>
 
         <Route
           path="/payments/callback"
@@ -190,6 +213,11 @@ function App() {
           <Route
             path="certificate-callback"
             element={<PaymentCallback />}
+          />
+
+          <Route
+            path="profile"
+            element={<Profile />}
           />
         </Route>
 
@@ -279,6 +307,11 @@ function App() {
             path="quiz-builder/:moduleId"
             element={<InstructorQuizBuilder />}
           />
+
+          <Route
+            path="profile"
+            element={<Profile />}
+          />
         </Route>
 
         <Route
@@ -342,6 +375,11 @@ function App() {
           <Route
             path="courses/:courseId/review"
             element={<AdminCourseReview />}
+          />
+
+          <Route
+            path="profile"
+            element={<Profile />}
           />
         </Route>
 
