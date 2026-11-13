@@ -1,11 +1,12 @@
 import axios from "axios";
 
 // Dynamically set Gateway target while keeping the /api path base intact
+const rawBaseUrl = import.meta.env.VITE_API_BASE_URL || "https://benedex-backend.onrender.com";
+const cleanBaseUrl = rawBaseUrl.replace(/\/+$/, "");
+const apiBaseUrl = cleanBaseUrl.endsWith("/api") ? cleanBaseUrl : `${cleanBaseUrl}/api`;
+
 const API = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL
-    ? `${import.meta.env.VITE_API_BASE_URL.replace(/\/+$/, "")}/api`
-    : "https://benedex-backend.onrender.com/api",
-    // : "http://localhost:5000/api",
+  baseURL: apiBaseUrl,
   headers: {
     "Content-Type": "application/json",
   },
