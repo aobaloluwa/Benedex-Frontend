@@ -2771,6 +2771,45 @@ input {
   }
 }
 
+/* OTP 6-DIGIT RECTANGLE INPUT BOXES */
+.otp-boxes-container {
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.otp-digit-box {
+  width: 48px;
+  height: 56px;
+  border-radius: 12px;
+  border: 1.5px solid #cbd5e1;
+  background: #ffffff;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #0f172a;
+  outline: none;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+.otp-digit-box:focus {
+  border-color: #07335c;
+  box-shadow: 0 0 0 3.5px rgba(7, 51, 92, 0.14);
+}
+
+@media (max-width: 480px) {
+  .otp-boxes-container {
+    gap: 6px;
+  }
+  .otp-digit-box {
+    width: 40px;
+    height: 48px;
+    font-size: 1.25rem;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .student-sidebar,
   .student-sidebar-backdrop {
