@@ -85,6 +85,15 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  // Update logged in user profile state & local persistence
+  const updateUser = (updatedFields) => {
+    setUser((prev) => {
+      const updated = { ...prev, ...updatedFields };
+      localStorage.setItem("user", JSON.stringify(updated));
+      return updated;
+    });
+  };
+
   // Logout
   const logout = () => {
     localStorage.removeItem("token");
@@ -102,7 +111,8 @@ export const AuthProvider = ({ children }) => {
         logout,
         loginWithGoogle,
         forgotPassword,
-        resetPassword
+        resetPassword,
+        updateUser
       }}
     >
       {children}

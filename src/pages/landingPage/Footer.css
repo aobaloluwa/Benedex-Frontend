@@ -40,6 +40,10 @@
   align-items: flex-start;
 }
 
+.bx-footer-brand-col .bx-nav-brand-group {
+  margin-bottom: 1.25rem;
+}
+
 .bx-footer-logo-link {
   text-decoration: none;
 }
