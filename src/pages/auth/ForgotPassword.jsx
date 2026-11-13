@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { FiArrowLeft, FiMail, FiCheckCircle, FiLock, FiShield, FiEye, FiEyeOff, FiRefreshCw } from "react-icons/fi";
 import { motion } from "framer-motion";
 import { useAuth } from "../../context/AuthContext";
+import API from "../../services/api";
 import "../../App.css";
 import Logo from "../../assets/20260623_190807.png";
 
@@ -106,7 +107,7 @@ function ForgotPassword() {
   };
 
   // Step 2 Confirm OTP & Proceed to Password
-  const handleVerifyOtp = (e) => {
+  const handleVerifyOtp = async (e) => {
     e.preventDefault();
     setError("");
 
@@ -116,7 +117,19 @@ function ForgotPassword() {
       return;
     }
 
-    setStep(3); // Advance to New Password step
+    setLoading(true);
+    try {
+      await API.post("/auth/verify-reset-code", {
+        code: fullCode.trim(),
+        email: email.trim()
+      });
+      setStep(3); // Advance to New Password step only when verified by backend
+    } catch (err) {
+      const backendMessage = err.message || err.response?.data?.message || "Invalid or expired verification code.";
+      setError(backendMessage);
+    } finally {
+      setLoading(false);
+    }
   };
 
   // Step 3 Submit Code & Reset Password
