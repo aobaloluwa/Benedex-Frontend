@@ -305,14 +305,14 @@ function ForgotPassword() {
                       placeholder="••••••••"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
+                      style={{ paddingRight: "40px" }}
                       required
                     />
                     <button
                       type="button"
-                      className="password-toggle-btn"
+                      className="login-pw-toggle-btn"
                       onClick={() => setShowPassword(!showPassword)}
                       tabIndex={-1}
-                      style={{ background: "none", border: "none", color: "#94a3b8", cursor: "pointer", position: "absolute", right: 12 }}
                     >
                       {showPassword ? <FiEyeOff /> : <FiEye />}
                     </button>
@@ -328,14 +328,14 @@ function ForgotPassword() {
                       placeholder="••••••••"
                       value={confirmPassword}
                       onChange={(e) => setConfirmPassword(e.target.value)}
+                      style={{ paddingRight: "40px" }}
                       required
                     />
                     <button
                       type="button"
-                      className="password-toggle-btn"
+                      className="login-pw-toggle-btn"
                       onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                       tabIndex={-1}
-                      style={{ background: "none", border: "none", color: "#94a3b8", cursor: "pointer", position: "absolute", right: 12 }}
                     >
                       {showConfirmPassword ? <FiEyeOff /> : <FiEye />}
                     </button>

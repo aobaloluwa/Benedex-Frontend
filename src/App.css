@@ -378,6 +378,7 @@ input {
 }
 
 .login-input-shell {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 12px;
@@ -387,6 +388,28 @@ input {
   border-radius: 14px;
   background: rgba(15, 23, 42, 0.03);
   transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+}
+
+.login-pw-toggle-btn {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  color: #7b8195;
+  cursor: pointer;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  z-index: 5;
+  transition: color 0.15s ease;
+}
+
+.login-pw-toggle-btn:hover {
+  color: #0f172a;
 }
 
 .login-input-shell:focus-within {
