@@ -11,6 +11,7 @@ import {
 import { FaGoogle } from "react-icons/fa";
 import { AnimatePresence, motion } from "framer-motion";
 import { useAuth } from "../../context/AuthContext";
+import API, { getErrorMessage } from "../../services/api";
 import "../../App.css";
 import Logo from "../../assets/20260623_190807.png";
 import SEO from "../../components/SEO";
@@ -101,10 +102,7 @@ function Register() {
         navigate("/");
       }
     } catch (googleError) {
-      setError(
-        "Google authentication failed. Please try again."
-      );
-
+      setError(getErrorMessage(googleError));
       console.error(
         "Google Auth pipeline failure:",
         googleError
@@ -142,10 +140,7 @@ function Register() {
       await register(formData);
       navigate("/login");
     } catch (registerError) {
-      setError(
-        "We could not create your account right now. Please check your details and try again."
-      );
-
+      setError(getErrorMessage(registerError));
       console.error(
         "Registration pipeline submission failure:",
         registerError
