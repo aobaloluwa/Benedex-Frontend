@@ -33,41 +33,6 @@ const badgeCatalog = [
   { label: "Data Wizard", icon: <FiLock /> },
 ];
 
-const defaultFeaturedCourses = [
-  {
-    _id: "featured-1",
-    title: "Full-Stack Web Engineering",
-    description: "Master modern web application architecture, React, Node.js, and cloud deployment.",
-    price: 45000,
-    instructor: { fullName: "Benedex Academic Faculty" },
-    students: [1, 2, 3, 4, 5]
-  },
-  {
-    _id: "featured-2",
-    title: "AI & Machine Learning Systems",
-    description: "Build, train, and deploy generative AI, neural networks, and machine learning models.",
-    price: 60000,
-    instructor: { fullName: "AI Subsystems Team" },
-    students: [1, 2, 3]
-  },
-  {
-    _id: "featured-3",
-    title: "UI/UX Product Design Masterclass",
-    description: "Learn user research, wireframing, high-fidelity Figma prototyping, and design systems.",
-    price: 35000,
-    instructor: { fullName: "Design Studio Faculty" },
-    students: [1, 2, 3, 4]
-  },
-  {
-    _id: "featured-4",
-    title: "Cloud Infrastructure & DevOps",
-    description: "Docker, Kubernetes, CI/CD pipelines, AWS deployment, and infrastructure as code.",
-    price: 50000,
-    instructor: { fullName: "DevOps Engineering Lead" },
-    students: [1, 2]
-  }
-];
-
 const monthNames = [
   "January",
   "February",
@@ -561,7 +526,7 @@ function StudentDashboard() {
       .slice(0, 2);
 
     // ==========================================================
-    // DYNAMIC RECOMMENDED UNREGISTERED COURSES TO REGISTER
+    // DYNAMIC UNREGISTERED COURSES FROM DATABASE
     // ==========================================================
 
     const enrolledIds = new Set(
@@ -572,17 +537,9 @@ function StudentDashboard() {
         : []
     );
 
-    let unregistered = (availableCourses || []).filter(
+    const unregistered = (availableCourses || []).filter(
       (course) => !enrolledIds.has(String(course._id || course.id || ""))
     );
-
-    if (unregistered.length === 0 && (availableCourses || []).length > 0) {
-      unregistered = availableCourses;
-    }
-
-    if (unregistered.length === 0) {
-      unregistered = defaultFeaturedCourses;
-    }
 
     const recommendedCourses = unregistered.slice(0, 4);
 
@@ -1127,89 +1084,125 @@ function StudentDashboard() {
           </section>
 
           {/* ================================================== */}
-          {/* EXPLORE & REGISTER COURSES RECOMMENDATION */}
+          {/* EXPLORE & REGISTER COURSES FROM DATABASE */}
           {/* ================================================== */}
-          {viewModel.recommendedCourses.length > 0 && (
-            <section className="student-section" style={{ marginTop: "16px" }}>
-              <div className="student-section-head student-section-head-inline">
-                <div>
-                  <h3 style={{ margin: 0 }}>Explore & Register Programs</h3>
-                  <p style={{ margin: "2px 0 0 0", fontSize: "0.8rem", color: "rgba(15, 23, 42, 0.62)" }}>
-                    Recommended courses available for immediate enrollment
-                  </p>
-                </div>
-
-                <Link to="/student/courses" className="student-see-more-link">
-                  See all <FiArrowRight />
-                </Link>
+          <section className="student-section" style={{ marginTop: "16px" }}>
+            <div className="student-section-head student-section-head-inline">
+              <div>
+                <h3 style={{ margin: 0 }}>Explore & Register Programs</h3>
+                <p style={{ margin: "2px 0 0 0", fontSize: "0.8rem", color: "rgba(15, 23, 42, 0.62)" }}>
+                  Recommended courses available for immediate enrollment
+                </p>
               </div>
 
+              <Link to="/student/courses" className="student-see-more-link">
+                See all <FiArrowRight />
+              </Link>
+            </div>
+
+            {viewModel.recommendedCourses.length > 0 ? (
               <div className="student-course-grid">
-                {viewModel.recommendedCourses.map((course, index) => (
-                  <motion.article
-                    key={course._id || index}
-                    className="student-course-card"
-                    initial={{ opacity: 0, y: 18 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.4, delay: index * 0.05 }}
-                  >
-                    <div
-                      className="student-course-preview"
-                      style={{
-                        backgroundImage: course.image || course.coverImage || course.thumbnail
-                          ? `url("${course.image || course.coverImage || course.thumbnail}")`
-                          : "none",
-                        backgroundSize: "cover",
-                        backgroundPosition: "center",
-                        backgroundRepeat: "no-repeat",
-                      }}
+                {viewModel.recommendedCourses.map((course, index) => {
+                  const courseImg = course.image || course.coverImage || course.thumbnail;
+                  return (
+                    <motion.article
+                      key={course._id || index}
+                      className="student-course-card"
+                      initial={{ opacity: 0, y: 18 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.4, delay: index * 0.05 }}
                     >
-                      <span>{course.price ? `₦${Number(course.price).toLocaleString()}` : "Free"}</span>
-                      <FiBookOpen />
-                    </div>
-
-                    <div className="student-course-body">
-                      <h4>{course.title}</h4>
-
-                      <p
+                      <div
+                        className="student-course-preview"
                         style={{
-                          display: "-webkit-box",
-                          WebkitBoxOrient: "vertical",
-                          WebkitLineClamp: 3,
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                          lineHeight: "1.5",
-                          minHeight: "4.5em",
+                          backgroundImage: courseImg ? `url("${courseImg}")` : "none",
+                          backgroundSize: "cover",
+                          backgroundPosition: "center",
+                          backgroundRepeat: "no-repeat",
                         }}
-                        title={course.description}
                       >
-                        {course.description || "Comprehensive academic program designed for skills mastery."}
-                      </p>
-
-                      <div className="student-course-meta">
-                        <span>Faculty: {course.instructor?.fullName || "Faculty"}</span>
-                        <span>{course.students?.length || 0} Enrolled</span>
+                        <span>{course.price ? `₦${Number(course.price).toLocaleString()}` : "Free"}</span>
+                        <FiBookOpen />
                       </div>
 
-                      <Link
-                        to={`/student/courses/${course._id}`}
-                        className="student-course-button"
-                        style={{
-                          display: "inline-flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          textDecoration: "none",
-                        }}
-                      >
-                        Explore & Register
-                        <FiArrowRight style={{ marginLeft: "8px" }} />
-                      </Link>
-                    </div>
-                  </motion.article>
-                ))}
+                      <div className="student-course-body">
+                        <h4>{course.title}</h4>
+
+                        <p
+                          style={{
+                            display: "-webkit-box",
+                            WebkitBoxOrient: "vertical",
+                            WebkitLineClamp: 3,
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                            lineHeight: "1.5",
+                            minHeight: "4.5em",
+                          }}
+                          title={course.description}
+                        >
+                          {course.description || "Comprehensive academic program."}
+                        </p>
+
+                        <div className="student-course-meta">
+                          <span>Faculty: {course.instructor?.fullName || "Faculty"}</span>
+                          <span>{course.students?.length || 0} Enrolled</span>
+                        </div>
+
+                        <Link
+                          to={`/student/courses/${course._id}`}
+                          className="student-course-button"
+                          style={{
+                            display: "inline-flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            textDecoration: "none",
+                          }}
+                        >
+                          Explore & Register
+                          <FiArrowRight style={{ marginLeft: "8px" }} />
+                        </Link>
+                      </div>
+                    </motion.article>
+                  );
+                })}
               </div>
-            </section>
-          )}
+            ) : (
+              <div
+                className="student-activity-item student-activity-empty w-100 mt-3"
+                style={{
+                  padding: "2rem 1.5rem",
+                  background: "#ffffff",
+                  borderRadius: "14px",
+                  border: "1px dashed rgba(15, 23, 42, 0.15)",
+                  display: "flex",
+                  gap: "1rem",
+                  alignItems: "center",
+                }}
+              >
+                <span
+                  className="student-activity-icon"
+                  style={{
+                    fontSize: "1.5rem",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                  aria-hidden="true"
+                >
+                  <FiAlertCircle />
+                </span>
+
+                <div>
+                  <strong style={{ display: "block", fontSize: "0.95rem", color: "#0f172a" }}>
+                    No Available Courses
+                  </strong>
+                  <p style={{ fontSize: "0.85rem", color: "#64748b", margin: "4px 0 0 0" }}>
+                    There are currently no new unregistered courses available in the catalog.
+                  </p>
+                </div>
+              </div>
+            )}
+          </section>
         </div>
 
         {/* ==================================================== */}
