@@ -437,7 +437,9 @@ function Profile() {
                   {user?.googleId && (
                     <div className="bx-profile-social-notice p-3 rounded mt-2">
                       <div className="d-flex align-items-start gap-3">
-                        <span className="badge bg-primary rounded-circle p-2">⚡</span>
+                        <span className="badge bg-primary rounded-circle p-2 text-white">
+                          <FiZap size={14} />
+                        </span>
                         <div>
                           <strong className="d-block text-dark small">Google Single Sign-On Active</strong>
                           <span className="text-muted extra-small">
