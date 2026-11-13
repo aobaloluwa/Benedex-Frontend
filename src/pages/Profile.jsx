@@ -41,7 +41,7 @@ function Profile() {
   const [profileLoading, setProfileLoading] = useState(false);
   const [feedback, setFeedback] = useState({ type: "", message: "" });
 
-  // Role Dashboard Summary Metrics
+  // Role Summary Metrics
   const [roleMetrics, setRoleMetrics] = useState({
     coursesCount: 0,
     submissionsCount: 0,
@@ -70,7 +70,7 @@ function Profile() {
     }
   }, [user]);
 
-  // Sync profile details and role-based summary metrics on load
+  // Fetch fresh profile data & metrics on load
   useEffect(() => {
     let isMounted = true;
     const fetchFreshProfile = async () => {
@@ -146,7 +146,7 @@ function Profile() {
     navigate("/login");
   };
 
-  // Update Name & Avatar
+  // Update Profile Name & Avatar
   const handleUpdateProfile = async (e) => {
     e.preventDefault();
     if (!fullName.trim()) {
@@ -200,7 +200,7 @@ function Profile() {
     }
   };
 
-  // File Upload to Data URI
+  // File Upload
   const handleFileUpload = (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -217,7 +217,7 @@ function Profile() {
     reader.readAsDataURL(file);
   };
 
-  // Handle Password Update
+  // Password Update
   const handleUpdatePassword = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -276,667 +276,674 @@ function Profile() {
     .toUpperCase();
 
   return (
-    <div className="bx-profile-container">
-      {/* PAGE HEADER STRIP */}
-        <header className="bx-profile-header mb-4">
-          <div className="d-flex align-items-center justify-content-between flex-wrap gap-3">
-            <div className="d-flex align-items-center gap-3">
-              <div className="bx-profile-icon-box">
-                <FiUser size={24} />
-                <span className="bx-profile-pulse-light" />
-              </div>
-              <div>
-                <div className="d-flex align-items-center gap-2 flex-wrap">
-                  <h1 className="h3 mb-0 font-weight-bold text-dark">User Profile & Account</h1>
-                  <span className="bx-profile-ver-badge">{userRole} Node</span>
-                </div>
-                <p className="text-muted mb-0 small">
-                  Manage your personal credentials, profile picture, and password security.
-                </p>
-              </div>
-            </div>
-
-            <div className="d-flex align-items-center gap-2 bx-profile-header-actions">
-              <button type="button" className="bx-profile-btn-dash" onClick={handleBackToDashboard}>
-                <FiGrid /> Go to Dashboard
-              </button>
-              <button type="button" className="bx-profile-btn-logout" onClick={handleSignOut}>
-                <FiLogOut /> Sign Out
-              </button>
-            </div>
+    <div className="bx-profile-page">
+      {/* PAGE HEADER HERO STRIP */}
+      <header className="student-hero mb-4">
+        <div className="d-flex align-items-center justify-content-between flex-wrap gap-3">
+          <div>
+            <p className="student-hero-kicker mb-1">Account & Preferences</p>
+            <h1 className="mb-0 font-weight-bold">My Profile</h1>
           </div>
-        </header>
 
-        {/* FEEDBACK TOAST */}
-        <AnimatePresence>
-          {feedback.message && (
-            <motion.div
-              className={`alert alert-${feedback.type === "success" ? "success" : "danger"} d-flex align-items-center gap-2 mb-4 bx-profile-toast`}
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0 }}
+          <div className="d-flex align-items-center gap-2 bx-profile-header-btns">
+            <button type="button" className="bx-profile-btn-dash" onClick={handleBackToDashboard}>
+              <FiGrid /> Go to Dashboard
+            </button>
+            <button type="button" className="bx-profile-btn-logout" onClick={handleSignOut}>
+              <FiLogOut /> Sign Out
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {/* FEEDBACK TOAST */}
+      <AnimatePresence>
+        {feedback.message && (
+          <motion.div
+            className={`alert alert-${feedback.type === "success" ? "success" : "danger"} d-flex align-items-center gap-2 mb-4 bx-profile-toast`}
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+          >
+            {feedback.type === "success" ? <FiCheckCircle size={18} /> : <FiAlertCircle size={18} />}
+            <span className="small">{feedback.message}</span>
+            <button className="btn-close ms-auto" onClick={() => setFeedback({ type: "", message: "" })} />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* WHITE IDENTITY HEADER CARD */}
+      <div className="student-card mb-4 p-4">
+        <div className="d-flex align-items-center gap-4 flex-wrap">
+          <div className="bx-profile-avatar-box">
+            {profileImage ? (
+              <img src={profileImage} alt={user?.fullName} className="bx-profile-avatar-img" />
+            ) : (
+              <div className="bx-profile-avatar-fallback">{userInitials}</div>
+            )}
+            <button
+              type="button"
+              className="bx-profile-avatar-badge"
+              onClick={() => {
+                setTempImageUrl(profileImage);
+                setIsEditingAvatar(true);
+              }}
+              title="Change Profile Photo"
             >
-              {feedback.type === "success" ? <FiCheckCircle size={18} /> : <FiAlertCircle size={18} />}
-              <span className="small">{feedback.message}</span>
-              <button className="btn-close ms-auto" onClick={() => setFeedback({ type: "", message: "" })} />
-            </motion.div>
-          )}
-        </AnimatePresence>
+              <FiCamera />
+            </button>
+          </div>
 
-        {/* IDENTITY SUMMARY HERO CARD */}
-        <div className="bx-profile-hero-card mb-4">
-          <div className="d-flex align-items-center gap-4 flex-wrap">
-            <div className="bx-profile-avatar-wrapper">
-              {profileImage ? (
-                <img src={profileImage} alt={user?.fullName} className="bx-profile-avatar-img" />
-              ) : (
-                <div className="bx-profile-avatar-fallback">{userInitials}</div>
-              )}
+          <div className="bx-profile-identity-info">
+            <div className="d-flex align-items-center gap-2 mb-1 flex-wrap">
+              <h2 className="h4 font-weight-bold text-dark mb-0">{user?.fullName || "Benedex Member"}</h2>
+              <span className={`bx-profile-role-pill role-${userRole}`}>
+                <FiShield size={12} /> {userRole}
+              </span>
+            </div>
+            <p className="text-muted small mb-0 d-flex align-items-center gap-2">
+              <FiMail /> {user?.email || "user@benedex.org"}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* ROLE STATS SUMMARY CARDS ROW */}
+      <div className="bx-profile-stats-grid mb-4">
+        <div className="student-card p-3 bx-stat-card">
+          <span className="student-card-label">Account Status</span>
+          <div className="d-flex align-items-center gap-2 mt-1">
+            <span className="bx-profile-dot-green" />
+            <strong className="text-success h6 mb-0">Active</strong>
+          </div>
+        </div>
+
+        <div className="student-card p-3 bx-stat-card">
+          <span className="student-card-label">Security Tier</span>
+          <div className="d-flex align-items-center gap-2 mt-1">
+            <FiCheckCircle className="text-success" size={18} />
+            <strong className="text-dark h6 mb-0">Verified</strong>
+          </div>
+        </div>
+
+        {userRole === "student" && (
+          <>
+            <div className="student-card p-3 bx-stat-card">
+              <span className="student-card-label">Enrolled Courses</span>
+              <div className="d-flex align-items-center gap-2 mt-1">
+                <FiBookOpen className="text-primary-theme" size={18} />
+                <strong className="text-dark h6 mb-0">{roleMetrics.coursesCount} Courses</strong>
+              </div>
+            </div>
+
+            <div className="student-card p-3 bx-stat-card">
+              <span className="student-card-label">XP Level Progress</span>
+              <div className="d-flex align-items-center gap-2 mt-1">
+                <FiZap className="text-warning" size={18} />
+                <strong className="text-dark h6 mb-0">{user?.xp || 0} XP</strong>
+              </div>
+            </div>
+          </>
+        )}
+
+        {userRole === "instructor" && (
+          <>
+            <div className="student-card p-3 bx-stat-card">
+              <span className="student-card-label">Authored Courses</span>
+              <div className="d-flex align-items-center gap-2 mt-1">
+                <FiBookOpen className="text-primary-theme" size={18} />
+                <strong className="text-dark h6 mb-0">{roleMetrics.coursesCount} Courses</strong>
+              </div>
+            </div>
+
+            <div className="student-card p-3 bx-stat-card">
+              <span className="student-card-label">Grading Queue</span>
+              <div className="d-flex align-items-center gap-2 mt-1">
+                <FiClipboard className="text-warning" size={18} />
+                <strong className="text-dark h6 mb-0">{roleMetrics.submissionsCount} Pending</strong>
+              </div>
+            </div>
+          </>
+        )}
+
+        {userRole === "admin" && (
+          <>
+            <div className="student-card p-3 bx-stat-card">
+              <span className="student-card-label">User Directory</span>
+              <div className="d-flex align-items-center gap-2 mt-1">
+                <FiUsers className="text-primary-theme" size={18} />
+                <strong className="text-dark h6 mb-0">{roleMetrics.submissionsCount} Users</strong>
+              </div>
+            </div>
+
+            <div className="student-card p-3 bx-stat-card">
+              <span className="student-card-label">Total Courses</span>
+              <div className="d-flex align-items-center gap-2 mt-1">
+                <FiBookOpen className="text-primary-theme" size={18} />
+                <strong className="text-dark h6 mb-0">{roleMetrics.coursesCount} Courses</strong>
+              </div>
+            </div>
+          </>
+        )}
+      </div>
+
+      {/* MAIN TWO-COLUMN WORKSPACE GRID */}
+      <div className="row g-4">
+        {/* LEFT COLUMN: NAVIGATION TABS */}
+        <div className="col-12 col-lg-4 col-xl-3">
+          <div className="student-card p-3">
+            <div className="bx-profile-nav-list">
               <button
                 type="button"
-                className="bx-profile-avatar-edit-badge"
-                onClick={() => {
-                  setTempImageUrl(profileImage);
-                  setIsEditingAvatar(true);
-                }}
-                title="Change Profile Photo"
+                className={`bx-profile-nav-btn ${activeTab === "general" ? "active" : ""}`}
+                onClick={() => setActiveTab("general")}
               >
-                <FiCamera />
+                <FiUser className="nav-btn-icon" />
+                <div className="text-start">
+                  <span className="d-block font-weight-bold small">Personal Information</span>
+                  <span className="extra-small text-muted d-block">Name, email & photo</span>
+                </div>
               </button>
-            </div>
 
-            <div className="bx-profile-hero-meta">
-              <div className="d-flex align-items-center gap-2 mb-1 flex-wrap">
-                <h2 className="h4 mb-0 text-white font-weight-bold">{user?.fullName || "Benedex Member"}</h2>
-                <span className={`bx-profile-role-tag role-${userRole}`}>
-                  <FiShield size={12} /> {userRole}
-                </span>
-              </div>
-              <p className="text-white-50 mb-0 small d-flex align-items-center gap-2">
-                <FiMail /> {user?.email || "user@benedex.org"}
-              </p>
-            </div>
+              <button
+                type="button"
+                className={`bx-profile-nav-btn ${activeTab === "security" ? "active" : ""}`}
+                onClick={() => setActiveTab("security")}
+              >
+                <FiShield className="nav-btn-icon" />
+                <div className="text-start">
+                  <span className="d-block font-weight-bold small">Security & Password</span>
+                  <span className="extra-small text-muted d-block">Credentials & recovery</span>
+                </div>
+              </button>
 
-            {/* ROLE SPECIFIC HERO METRICS */}
-            <div className="ms-auto d-flex align-items-center gap-3 bx-profile-hero-stats">
-              <div className="bx-profile-stat-box">
-                <span className="bx-profile-stat-label">Status</span>
-                <span className="bx-profile-stat-val text-success">
-                  <span className="bx-profile-dot-green" /> Active
-                </span>
-              </div>
-
-              {userRole === "student" && (
-                <>
-                  <div className="bx-profile-stat-box">
-                    <span className="bx-profile-stat-label">Enrolled</span>
-                    <span className="bx-profile-stat-val">
-                      <FiBookOpen /> {roleMetrics.coursesCount} Courses
-                    </span>
-                  </div>
-                  <div className="bx-profile-stat-box">
-                    <span className="bx-profile-stat-label">XP Level</span>
-                    <span className="bx-profile-stat-val text-warning">
-                      <FiZap /> {user?.xp || 0} XP
-                    </span>
-                  </div>
-                </>
-              )}
-
-              {userRole === "instructor" && (
-                <>
-                  <div className="bx-profile-stat-box">
-                    <span className="bx-profile-stat-label">Courses Authored</span>
-                    <span className="bx-profile-stat-val">
-                      <FiBookOpen /> {roleMetrics.coursesCount} Courses
-                    </span>
-                  </div>
-                  <div className="bx-profile-stat-box">
-                    <span className="bx-profile-stat-label">Pending Reviews</span>
-                    <span className="bx-profile-stat-val text-warning">
-                      <FiClipboard /> {roleMetrics.submissionsCount}
-                    </span>
-                  </div>
-                </>
-              )}
-
-              {userRole === "admin" && (
-                <>
-                  <div className="bx-profile-stat-box">
-                    <span className="bx-profile-stat-label">System Directory</span>
-                    <span className="bx-profile-stat-val">
-                      <FiUsers /> {roleMetrics.submissionsCount} Users
-                    </span>
-                  </div>
-                  <div className="bx-profile-stat-box">
-                    <span className="bx-profile-stat-label">Total Courses</span>
-                    <span className="bx-profile-stat-val text-warning">
-                      <FiBookOpen /> {roleMetrics.coursesCount}
-                    </span>
-                  </div>
-                </>
-              )}
+              <button
+                type="button"
+                className={`bx-profile-nav-btn ${activeTab === "activity" ? "active" : ""}`}
+                onClick={() => setActiveTab("activity")}
+              >
+                <FiActivity className="nav-btn-icon" />
+                <div className="text-start">
+                  <span className="d-block font-weight-bold small">Role & Capabilities</span>
+                  <span className="extra-small text-muted d-block">{userRole} permissions</span>
+                </div>
+              </button>
             </div>
           </div>
         </div>
 
-        {/* MAIN TWO-COLUMN WORKSPACE GRID */}
-        <div className="row g-4">
-          {/* LEFT COLUMN: NAVIGATION TABS */}
-          <div className="col-12 col-lg-4 col-xl-3">
-            <div className="bx-profile-card">
-              <div className="bx-profile-nav-list">
-                <button
-                  type="button"
-                  className={`bx-profile-nav-btn ${activeTab === "general" ? "active" : ""}`}
-                  onClick={() => setActiveTab("general")}
-                >
-                  <FiUser className="nav-btn-icon" />
-                  <div className="text-start">
-                    <span className="d-block font-weight-bold small">Personal Info</span>
-                    <span className="extra-small text-muted d-block">Name, email & photo</span>
-                  </div>
-                </button>
+        {/* RIGHT COLUMN: TAB CONTENT PANEL */}
+        <div className="col-12 col-lg-8 col-xl-9">
+          <div className="student-card p-4">
+            {/* TAB 1: PERSONAL INFORMATION */}
+            {activeTab === "general" && (
+              <motion.div
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.15 }}
+              >
+                <div className="border-bottom pb-3 mb-4">
+                  <h2 className="h5 font-weight-bold text-dark mb-1">Personal Information</h2>
+                  <p className="text-muted small mb-0">Update your account display name and profile photo.</p>
+                </div>
 
-                <button
-                  type="button"
-                  className={`bx-profile-nav-btn ${activeTab === "security" ? "active" : ""}`}
-                  onClick={() => setActiveTab("security")}
-                >
-                  <FiShield className="nav-btn-icon" />
-                  <div className="text-start">
-                    <span className="d-block font-weight-bold small">Security & Password</span>
-                    <span className="extra-small text-muted d-block">Credentials & recovery</span>
-                  </div>
-                </button>
-
-                <button
-                  type="button"
-                  className={`bx-profile-nav-btn ${activeTab === "activity" ? "active" : ""}`}
-                  onClick={() => setActiveTab("activity")}
-                >
-                  <FiActivity className="nav-btn-icon" />
-                  <div className="text-start">
-                    <span className="d-block font-weight-bold small">Role & Capabilities</span>
-                    <span className="extra-small text-muted d-block">{userRole} permissions</span>
-                  </div>
-                </button>
-              </div>
-            </div>
-          </div>
-
-          {/* RIGHT COLUMN: TAB CONTENT PANEL */}
-          <div className="col-12 col-lg-8 col-xl-9">
-            <div className="bx-profile-card">
-              {/* TAB 1: PERSONAL INFORMATION */}
-              {activeTab === "general" && (
-                <motion.div
-                  initial={{ opacity: 0, y: 6 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.15 }}
-                >
-                  <div className="bx-profile-card-header mb-4">
-                    <h2 className="h5 mb-1 font-weight-bold text-dark">Personal Information</h2>
-                    <p className="text-muted small mb-0">Update your account display name and profile photo.</p>
+                <form onSubmit={handleUpdateProfile} className="d-flex flex-column gap-3">
+                  <div className="bx-profile-field-group">
+                    <label className="bx-profile-label">Full Name</label>
+                    <div className="bx-profile-input-wrapper">
+                      <FiUser className="bx-profile-field-icon" />
+                      <input
+                        type="text"
+                        value={fullName}
+                        onChange={(e) => setFullName(e.target.value)}
+                        placeholder="Enter your full name"
+                        required
+                      />
+                    </div>
                   </div>
 
-                  <form onSubmit={handleUpdateProfile} className="d-flex flex-column gap-3">
+                  <div className="bx-profile-field-group">
+                    <label className="bx-profile-label">Email Address (Read-Only)</label>
+                    <div className="bx-profile-input-wrapper">
+                      <FiMail className="bx-profile-field-icon" />
+                      <input
+                        type="email"
+                        value={user?.email || ""}
+                        disabled
+                        className="bg-light"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="row g-3 mt-1">
+                    <div className="col-12 col-md-6">
+                      <div className="bx-profile-field-group">
+                        <label className="bx-profile-label">System Role</label>
+                        <div className="bx-profile-read-badge text-capitalize">
+                          <FiShield className="text-primary-theme" /> {userRole} Profile
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="col-12 col-md-6">
+                      <div className="bx-profile-field-group">
+                        <label className="bx-profile-label">Security Tier</label>
+                        <div className="bx-profile-read-badge text-success">
+                          <FiCheckCircle /> Verified & Active
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {user?.googleId && (
+                    <div className="p-3 rounded border bg-light mt-2">
+                      <div className="d-flex align-items-start gap-3">
+                        <span className="badge bg-primary rounded-circle p-2 text-white">
+                          <FiZap size={14} />
+                        </span>
+                        <div>
+                          <strong className="d-block text-dark small">Google Single Sign-On Active</strong>
+                          <span className="text-muted extra-small">
+                            Your authentication credentials are signed and verified directly via Google OAuth.
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  <div className="text-end mt-3 pt-3 border-top bx-profile-form-footer">
+                    <button
+                      type="submit"
+                      className="bx-profile-btn-submit"
+                      disabled={profileLoading}
+                    >
+                      {profileLoading ? (
+                        <span>Saving Changes...</span>
+                      ) : (
+                        <>
+                          <FiSave />
+                          <span>Save Profile Changes</span>
+                        </>
+                      )}
+                    </button>
+                  </div>
+                </form>
+              </motion.div>
+            )}
+
+            {/* TAB 2: SECURITY & PASSWORD */}
+            {activeTab === "security" && (
+              <motion.div
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.15 }}
+              >
+                <div className="border-bottom pb-3 mb-4">
+                  <h2 className="h5 font-weight-bold text-dark mb-1">Security & Password</h2>
+                  <p className="text-muted small mb-0">Update your account access password and security settings.</p>
+                </div>
+
+                {user?.googleId && !user?.password ? (
+                  <div className="p-3 bg-light rounded border">
+                    <h3 className="h6 font-weight-bold text-dark mb-2">Google Single Sign-On Active</h3>
+                    <p className="text-muted small mb-3">
+                      You currently log in using Google Auth. If you want to set up a local password, trigger the password reset verification sequence below.
+                    </p>
+                    <button
+                      type="button"
+                      className="bx-profile-btn-outline"
+                      onClick={handleTriggerResetToken}
+                      disabled={loading}
+                    >
+                      <FiKey /> {loading ? "Sending Email..." : "Set Up Local Password"}
+                    </button>
+                  </div>
+                ) : (
+                  <form onSubmit={handleUpdatePassword} className="d-flex flex-column gap-3">
                     <div className="bx-profile-field-group">
-                      <label className="bx-profile-label">Full Name</label>
+                      <label className="bx-profile-label">Current Password</label>
                       <div className="bx-profile-input-wrapper">
-                        <FiUser className="bx-profile-field-icon" />
+                        <FiLock className="bx-profile-field-icon" />
                         <input
-                          type="text"
-                          value={fullName}
-                          onChange={(e) => setFullName(e.target.value)}
-                          placeholder="Enter your full name"
+                          type={showCurrentPw ? "text" : "password"}
+                          value={passwordData.currentPassword}
+                          onChange={(e) =>
+                            setPasswordData((prev) => ({ ...prev, currentPassword: e.target.value }))
+                          }
+                          placeholder="••••••••"
                           required
                         />
+                        <button
+                          type="button"
+                          className="bx-profile-pw-toggle"
+                          onClick={() => setShowCurrentPw(!showCurrentPw)}
+                        >
+                          {showCurrentPw ? <FiEyeOff /> : <FiEye />}
+                        </button>
                       </div>
                     </div>
 
-                    <div className="bx-profile-field-group">
-                      <label className="bx-profile-label">Email Address (Read-Only)</label>
-                      <div className="bx-profile-input-wrapper">
-                        <FiMail className="bx-profile-field-icon" />
-                        <input
-                          type="email"
-                          value={user?.email || ""}
-                          disabled
-                          className="bg-light"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="row g-3 mt-1">
+                    <div className="row g-3">
                       <div className="col-12 col-md-6">
                         <div className="bx-profile-field-group">
-                          <label className="bx-profile-label">System Role</label>
-                          <div className="bx-profile-read-badge text-capitalize">
-                            <FiShield className="text-primary-theme" /> {userRole} Profile
+                          <label className="bx-profile-label">New Password</label>
+                          <div className="bx-profile-input-wrapper">
+                            <FiKey className="bx-profile-field-icon" />
+                            <input
+                              type={showNewPw ? "text" : "password"}
+                              value={passwordData.newPassword}
+                              onChange={(e) =>
+                                setPasswordData((prev) => ({ ...prev, newPassword: e.target.value }))
+                              }
+                              placeholder="Min. 6 characters"
+                              required
+                            />
+                            <button
+                              type="button"
+                              className="bx-profile-pw-toggle"
+                              onClick={() => setShowNewPw(!showNewPw)}
+                            >
+                              {showNewPw ? <FiEyeOff /> : <FiEye />}
+                            </button>
                           </div>
                         </div>
                       </div>
 
                       <div className="col-12 col-md-6">
                         <div className="bx-profile-field-group">
-                          <label className="bx-profile-label">Security Tier</label>
-                          <div className="bx-profile-read-badge text-success">
-                            <FiCheckCircle /> Verified & Active
+                          <label className="bx-profile-label">Confirm New Password</label>
+                          <div className="bx-profile-input-wrapper">
+                            <FiKey className="bx-profile-field-icon" />
+                            <input
+                              type="password"
+                              value={passwordData.confirmPassword}
+                              onChange={(e) =>
+                                setPasswordData((prev) => ({ ...prev, confirmPassword: e.target.value }))
+                              }
+                              placeholder="Re-enter password"
+                              required
+                            />
                           </div>
                         </div>
                       </div>
                     </div>
 
-                    {user?.googleId && (
-                      <div className="bx-profile-social-notice p-3 rounded mt-2">
-                        <div className="d-flex align-items-start gap-3">
-                          <span className="badge bg-primary rounded-circle p-2 text-white">
-                            <FiZap size={14} />
-                          </span>
-                          <div>
-                            <strong className="d-block text-dark small">Google Single Sign-On Active</strong>
-                            <span className="text-muted extra-small">
-                              Your authentication credentials are signed and verified directly via Google OAuth.
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    )}
-
-                    <div className="text-end mt-3 pt-3 border-top bx-profile-form-footer">
+                    <div className="d-flex align-items-center justify-content-between flex-wrap gap-2 mt-3 pt-3 border-top bx-profile-form-footer">
                       <button
                         type="submit"
                         className="bx-profile-btn-submit"
-                        disabled={profileLoading}
+                        disabled={loading}
                       >
-                        {profileLoading ? (
-                          <span>Saving Changes...</span>
-                        ) : (
-                          <>
-                            <FiSave />
-                            <span>Save Profile Changes</span>
-                          </>
-                        )}
+                        {loading ? "Updating..." : "Update Password"}
                       </button>
-                    </div>
-                  </form>
-                </motion.div>
-              )}
 
-              {/* TAB 2: SECURITY & PASSWORD */}
-              {activeTab === "security" && (
-                <motion.div
-                  initial={{ opacity: 0, y: 6 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.15 }}
-                >
-                  <div className="bx-profile-card-header mb-4">
-                    <h2 className="h5 mb-1 font-weight-bold text-dark">Security & Password</h2>
-                    <p className="text-muted small mb-0">Update your account access password and security settings.</p>
-                  </div>
-
-                  {user?.googleId && !user?.password ? (
-                    <div className="p-3 bg-light rounded border">
-                      <h3 className="h6 font-weight-bold text-dark mb-2">Google Single Sign-On Active</h3>
-                      <p className="text-muted small mb-3">
-                        You currently log in using Google Auth. If you want to set up a local password, trigger the password reset verification sequence below.
-                      </p>
                       <button
                         type="button"
-                        className="bx-profile-btn-outline"
+                        className="btn btn-link text-decoration-none small text-primary p-0"
                         onClick={handleTriggerResetToken}
                         disabled={loading}
                       >
-                        <FiKey /> {loading ? "Sending Email..." : "Set Up Local Password"}
+                        Send password reset email
                       </button>
                     </div>
-                  ) : (
-                    <form onSubmit={handleUpdatePassword} className="d-flex flex-column gap-3">
-                      <div className="bx-profile-field-group">
-                        <label className="bx-profile-label">Current Password</label>
-                        <div className="bx-profile-input-wrapper">
-                          <FiLock className="bx-profile-field-icon" />
-                          <input
-                            type={showCurrentPw ? "text" : "password"}
-                            value={passwordData.currentPassword}
-                            onChange={(e) =>
-                              setPasswordData((prev) => ({ ...prev, currentPassword: e.target.value }))
-                            }
-                            placeholder="••••••••"
-                            required
-                          />
-                          <button
-                            type="button"
-                            className="bx-profile-pw-toggle"
-                            onClick={() => setShowCurrentPw(!showCurrentPw)}
-                          >
-                            {showCurrentPw ? <FiEyeOff /> : <FiEye />}
-                          </button>
-                        </div>
-                      </div>
+                  </form>
+                )}
+              </motion.div>
+            )}
 
-                      <div className="row g-3">
-                        <div className="col-12 col-md-6">
-                          <div className="bx-profile-field-group">
-                            <label className="bx-profile-label">New Password</label>
-                            <div className="bx-profile-input-wrapper">
-                              <FiKey className="bx-profile-field-icon" />
-                              <input
-                                type={showNewPw ? "text" : "password"}
-                                value={passwordData.newPassword}
-                                onChange={(e) =>
-                                  setPasswordData((prev) => ({ ...prev, newPassword: e.target.value }))
-                                }
-                                placeholder="Min. 6 characters"
-                                required
-                              />
-                              <button
-                                type="button"
-                                className="bx-profile-pw-toggle"
-                                onClick={() => setShowNewPw(!showNewPw)}
-                              >
-                                {showNewPw ? <FiEyeOff /> : <FiEye />}
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className="col-12 col-md-6">
-                          <div className="bx-profile-field-group">
-                            <label className="bx-profile-label">Confirm New Password</label>
-                            <div className="bx-profile-input-wrapper">
-                              <FiKey className="bx-profile-field-icon" />
-                              <input
-                                type="password"
-                                value={passwordData.confirmPassword}
-                                onChange={(e) =>
-                                  setPasswordData((prev) => ({ ...prev, confirmPassword: e.target.value }))
-                                }
-                                placeholder="Re-enter password"
-                                required
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="d-flex align-items-center justify-content-between flex-wrap gap-2 mt-3 pt-3 border-top bx-profile-form-footer">
-                        <button
-                          type="submit"
-                          className="bx-profile-btn-submit"
-                          disabled={loading}
-                        >
-                          {loading ? "Updating..." : "Update Password"}
-                        </button>
-
-                        <button
-                          type="button"
-                          className="btn btn-link text-decoration-none small text-primary p-0"
-                          onClick={handleTriggerResetToken}
-                          disabled={loading}
-                        >
-                          Send password reset email
-                        </button>
-                      </div>
-                    </form>
-                  )}
-                </motion.div>
-              )}
-
-              {/* TAB 3: ACCOUNT & ROLE-SPECIFIC CAPABILITIES */}
-              {activeTab === "activity" && (
-                <motion.div
-                  initial={{ opacity: 0, y: 6 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.15 }}
-                >
-                  <div className="bx-profile-card-header mb-4">
-                    <h2 className="h5 mb-1 font-weight-bold text-dark">Role Capabilities ({userRole})</h2>
-                    <p className="text-muted small mb-0">Specific tools, permissions, and shortcuts for your role.</p>
-                  </div>
-
-                  {/* ROLE SPECIFIC PANELS */}
-                  {userRole === "student" && (
-                    <div className="row g-3 mb-4">
-                      <div className="col-12 col-md-6">
-                        <div className="p-3 rounded border bg-light h-100">
-                          <div className="d-flex align-items-center gap-2 mb-2">
-                            <FiBookOpen className="text-primary-theme" size={20} />
-                            <h3 className="h6 mb-0 font-weight-bold">Learning Progress</h3>
-                          </div>
-                          <p className="text-muted extra-small mb-2">
-                            Enrolled Courses: <strong>{roleMetrics.coursesCount} Active Courses</strong>
-                          </p>
-                          <p className="text-muted extra-small mb-0">
-                            Submissions: <strong>{roleMetrics.submissionsCount} Completed</strong>
-                          </p>
-                        </div>
-                      </div>
-
-                      <div className="col-12 col-md-6">
-                        <div className="p-3 rounded border bg-light h-100">
-                          <div className="d-flex align-items-center gap-2 mb-2">
-                            <FiAward className="text-success" size={20} />
-                            <h3 className="h6 mb-0 font-weight-bold">Gamification & XP</h3>
-                          </div>
-                          <p className="text-muted extra-small mb-1">
-                            Experience Points: <strong>{user?.xp || 0} XP</strong>
-                          </p>
-                          <p className="text-muted extra-small mb-0">
-                            Unlocked Badges: <strong>{user?.badges?.length || 0} Badges</strong>
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-
-                  {userRole === "instructor" && (
-                    <div className="row g-3 mb-4">
-                      <div className="col-12 col-md-6">
-                        <div className="p-3 rounded border bg-light h-100">
-                          <div className="d-flex align-items-center gap-2 mb-2">
-                            <FiBookOpen className="text-primary-theme" size={20} />
-                            <h3 className="h6 mb-0 font-weight-bold">Teaching Overview</h3>
-                          </div>
-                          <p className="text-muted extra-small mb-2">
-                            Authored Courses: <strong>{roleMetrics.coursesCount} Courses Created</strong>
-                          </p>
-                          <p className="text-muted extra-small mb-0">
-                            Pending Grading: <strong>{roleMetrics.submissionsCount} Submissions Queue</strong>
-                          </p>
-                        </div>
-                      </div>
-
-                      <div className="col-12 col-md-6">
-                        <div className="p-3 rounded border bg-light h-100">
-                          <div className="d-flex align-items-center gap-2 mb-2">
-                            <FiUsers className="text-primary-theme" size={20} />
-                            <h3 className="h6 mb-0 font-weight-bold">Faculty Tools</h3>
-                          </div>
-                          <p className="text-muted extra-small mb-0">
-                            Full authoring privileges to create courses, post assignments, build quizzes, host live streams, and grade submissions.
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-
-                  {userRole === "admin" && (
-                    <div className="row g-3 mb-4">
-                      <div className="col-12 col-md-6">
-                        <div className="p-3 rounded border bg-light h-100">
-                          <div className="d-flex align-items-center gap-2 mb-2">
-                            <FiShield className="text-primary-theme" size={20} />
-                            <h3 className="h6 mb-0 font-weight-bold">System Privileges</h3>
-                          </div>
-                          <p className="text-muted extra-small mb-2">
-                            Managed Users: <strong>{roleMetrics.submissionsCount} Registered Accounts</strong>
-                          </p>
-                          <p className="text-muted extra-small mb-0">
-                            Platform Courses: <strong>{roleMetrics.coursesCount} Total Courses</strong>
-                          </p>
-                        </div>
-                      </div>
-
-                      <div className="col-12 col-md-6">
-                        <div className="p-3 rounded border bg-light h-100">
-                          <div className="d-flex align-items-center gap-2 mb-2">
-                            <FiSettings className="text-primary-theme" size={20} />
-                            <h3 className="h6 mb-0 font-weight-bold">Master Control</h3>
-                          </div>
-                          <p className="text-muted extra-small mb-0">
-                            Super-admin rights over system settings, AI syllabus generators, security logs, user role assignments, and payment invoices.
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-
-                  {/* SHORTCUTS ROW MATCHING ROLE */}
-                  <div className="p-3 rounded border">
-                    <h3 className="h6 font-weight-bold mb-3 text-dark">Quick Role Shortcuts</h3>
-                    <div className="d-flex gap-2 flex-wrap bx-profile-shortcuts-row">
-                      <button type="button" className="bx-profile-shortcut-btn" onClick={handleBackToDashboard}>
-                        <FiGrid /> Main Dashboard
-                      </button>
-
-                      {userRole === "student" && (
-                        <>
-                          <button type="button" className="bx-profile-shortcut-btn" onClick={() => navigate("/student/courses")}>
-                            <FiBookOpen /> My Enrolled Courses
-                          </button>
-                          <button type="button" className="bx-profile-shortcut-btn" onClick={() => navigate("/student/assignments")}>
-                            <FiClipboard /> Assignments
-                          </button>
-                          <button type="button" className="bx-profile-shortcut-btn" onClick={() => navigate("/student/live-classes")}>
-                            <FiPlayCircle /> Live Classes
-                          </button>
-                        </>
-                      )}
-
-                      {userRole === "instructor" && (
-                        <>
-                          <button type="button" className="bx-profile-shortcut-btn" onClick={() => navigate("/instructor/courses")}>
-                            <FiBookOpen /> Manage Courses
-                          </button>
-                          <button type="button" className="bx-profile-shortcut-btn" onClick={() => navigate("/instructor/create-course")}>
-                            <FiBookOpen /> Create Course
-                          </button>
-                          <button type="button" className="bx-profile-shortcut-btn" onClick={() => navigate("/instructor/grade-submissions")}>
-                            <FiClipboard /> Grade Submissions
-                          </button>
-                          <button type="button" className="bx-profile-shortcut-btn" onClick={() => navigate("/instructor/students")}>
-                            <FiUsers /> Students Directory
-                          </button>
-                        </>
-                      )}
-
-                      {userRole === "admin" && (
-                        <>
-                          <button type="button" className="bx-profile-shortcut-btn" onClick={() => navigate("/admin/users")}>
-                            <FiUsers /> Manage Users
-                          </button>
-                          <button type="button" className="bx-profile-shortcut-btn" onClick={() => navigate("/admin/settings")}>
-                            <FiSettings /> System Settings
-                          </button>
-                          <button type="button" className="bx-profile-shortcut-btn" onClick={() => navigate("/admin/analytics")}>
-                            <FiActivity /> Analytics
-                          </button>
-                          <button type="button" className="bx-profile-shortcut-btn" onClick={() => navigate("/admin/payments")}>
-                            <FiDollarSign /> Payments & Invoices
-                          </button>
-                          <button type="button" className="bx-profile-shortcut-btn" onClick={() => navigate("/admin/syllabus-generator")}>
-                            <FiCpu /> AI Syllabus Generator
-                          </button>
-                        </>
-                      )}
-                    </div>
-                  </div>
-                </motion.div>
-              )}
-            </div>
-          </div>
-        </div>
-
-        {/* AVATAR EDIT MODAL */}
-        <AnimatePresence>
-          {isEditingAvatar && (
-            <motion.div
-              className="bx-profile-modal-backdrop"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setIsEditingAvatar(false)}
-            >
+            {/* TAB 3: ACCOUNT & ROLE-SPECIFIC CAPABILITIES */}
+            {activeTab === "activity" && (
               <motion.div
-                className="bx-profile-modal-card"
-                initial={{ scale: 0.95, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0.95, opacity: 0 }}
-                onClick={(e) => e.stopPropagation()}
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.15 }}
               >
-                <div className="bx-profile-modal-header">
-                  <h3 className="h6 mb-0 font-weight-bold text-dark">Update Profile Photo</h3>
-                  <button type="button" className="btn-close" onClick={() => setIsEditingAvatar(false)} />
+                <div className="border-bottom pb-3 mb-4">
+                  <h2 className="h5 font-weight-bold text-dark mb-1">Role Capabilities ({userRole})</h2>
+                  <p className="text-muted small mb-0">Specific tools, permissions, and shortcuts for your role.</p>
                 </div>
 
-                <div className="bx-profile-modal-body">
-                  <div className="text-center mb-3">
-                    {tempImageUrl ? (
-                      <img src={tempImageUrl} alt="Preview" className="bx-profile-avatar-img mx-auto" />
-                    ) : (
-                      <div className="bx-profile-avatar-fallback mx-auto">{userInitials}</div>
+                {/* ROLE SPECIFIC PANELS */}
+                {userRole === "student" && (
+                  <div className="row g-3 mb-4">
+                    <div className="col-12 col-md-6">
+                      <div className="p-3 rounded border bg-light h-100">
+                        <div className="d-flex align-items-center gap-2 mb-2">
+                          <FiBookOpen className="text-primary-theme" size={20} />
+                          <h3 className="h6 mb-0 font-weight-bold">Learning Progress</h3>
+                        </div>
+                        <p className="text-muted extra-small mb-2">
+                          Enrolled Courses: <strong>{roleMetrics.coursesCount} Active Courses</strong>
+                        </p>
+                        <p className="text-muted extra-small mb-0">
+                          Submissions: <strong>{roleMetrics.submissionsCount} Completed</strong>
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="col-12 col-md-6">
+                      <div className="p-3 rounded border bg-light h-100">
+                        <div className="d-flex align-items-center gap-2 mb-2">
+                          <FiAward className="text-success" size={20} />
+                          <h3 className="h6 mb-0 font-weight-bold">Gamification & XP</h3>
+                        </div>
+                        <p className="text-muted extra-small mb-1">
+                          Experience Points: <strong>{user?.xp || 0} XP</strong>
+                        </p>
+                        <p className="text-muted extra-small mb-0">
+                          Badges: <strong>{user?.badges?.length || 0} Earned</strong>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {userRole === "instructor" && (
+                  <div className="row g-3 mb-4">
+                    <div className="col-12 col-md-6">
+                      <div className="p-3 rounded border bg-light h-100">
+                        <div className="d-flex align-items-center gap-2 mb-2">
+                          <FiBookOpen className="text-primary-theme" size={20} />
+                          <h3 className="h6 mb-0 font-weight-bold">Teaching Overview</h3>
+                        </div>
+                        <p className="text-muted extra-small mb-2">
+                          Authored Courses: <strong>{roleMetrics.coursesCount} Courses Created</strong>
+                        </p>
+                        <p className="text-muted extra-small mb-0">
+                          Pending Grading: <strong>{roleMetrics.submissionsCount} Submissions Queue</strong>
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="col-12 col-md-6">
+                      <div className="p-3 rounded border bg-light h-100">
+                        <div className="d-flex align-items-center gap-2 mb-2">
+                          <FiUsers className="text-primary-theme" size={20} />
+                          <h3 className="h6 mb-0 font-weight-bold">Faculty Tools</h3>
+                        </div>
+                        <p className="text-muted extra-small mb-0">
+                          Full authoring privileges to create courses, post assignments, build quizzes, host live streams, and grade submissions.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {userRole === "admin" && (
+                  <div className="row g-3 mb-4">
+                    <div className="col-12 col-md-6">
+                      <div className="p-3 rounded border bg-light h-100">
+                        <div className="d-flex align-items-center gap-2 mb-2">
+                          <FiShield className="text-primary-theme" size={20} />
+                          <h3 className="h6 mb-0 font-weight-bold">System Privileges</h3>
+                        </div>
+                        <p className="text-muted extra-small mb-2">
+                          Managed Users: <strong>{roleMetrics.submissionsCount} Registered Accounts</strong>
+                        </p>
+                        <p className="text-muted extra-small mb-0">
+                          Platform Courses: <strong>{roleMetrics.coursesCount} Total Courses</strong>
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="col-12 col-md-6">
+                      <div className="p-3 rounded border bg-light h-100">
+                        <div className="d-flex align-items-center gap-2 mb-2">
+                          <FiSettings className="text-primary-theme" size={20} />
+                          <h3 className="h6 mb-0 font-weight-bold">Master Control</h3>
+                        </div>
+                        <p className="text-muted extra-small mb-0">
+                          Super-admin rights over system settings, AI syllabus generators, security logs, user role assignments, and payment invoices.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* SHORTCUTS ROW MATCHING ROLE */}
+                <div className="p-3 rounded border">
+                  <h3 className="h6 font-weight-bold mb-3 text-dark">Quick Role Shortcuts</h3>
+                  <div className="d-flex gap-2 flex-wrap bx-profile-shortcuts-row">
+                    <button type="button" className="bx-profile-shortcut-btn" onClick={handleBackToDashboard}>
+                      <FiGrid /> Main Dashboard
+                    </button>
+
+                    {userRole === "student" && (
+                      <>
+                        <button type="button" className="bx-profile-shortcut-btn" onClick={() => navigate("/student/courses")}>
+                          <FiBookOpen /> My Enrolled Courses
+                        </button>
+                        <button type="button" className="bx-profile-shortcut-btn" onClick={() => navigate("/student/assignments")}>
+                          <FiClipboard /> Assignments
+                        </button>
+                        <button type="button" className="bx-profile-shortcut-btn" onClick={() => navigate("/student/live-classes")}>
+                          <FiPlayCircle /> Live Classes
+                        </button>
+                      </>
+                    )}
+
+                    {userRole === "instructor" && (
+                      <>
+                        <button type="button" className="bx-profile-shortcut-btn" onClick={() => navigate("/instructor/courses")}>
+                          <FiBookOpen /> Manage Courses
+                        </button>
+                        <button type="button" className="bx-profile-shortcut-btn" onClick={() => navigate("/instructor/create-course")}>
+                          <FiBookOpen /> Create Course
+                        </button>
+                        <button type="button" className="bx-profile-shortcut-btn" onClick={() => navigate("/instructor/grade-submissions")}>
+                          <FiClipboard /> Grade Submissions
+                        </button>
+                        <button type="button" className="bx-profile-shortcut-btn" onClick={() => navigate("/instructor/students")}>
+                          <FiUsers /> Students Directory
+                        </button>
+                      </>
+                    )}
+
+                    {userRole === "admin" && (
+                      <>
+                        <button type="button" className="bx-profile-shortcut-btn" onClick={() => navigate("/admin/users")}>
+                          <FiUsers /> Manage Users
+                        </button>
+                        <button type="button" className="bx-profile-shortcut-btn" onClick={() => navigate("/admin/settings")}>
+                          <FiSettings /> System Settings
+                        </button>
+                        <button type="button" className="bx-profile-shortcut-btn" onClick={() => navigate("/admin/analytics")}>
+                          <FiActivity /> Analytics
+                        </button>
+                        <button type="button" className="bx-profile-shortcut-btn" onClick={() => navigate("/admin/payments")}>
+                          <FiDollarSign /> Payments & Invoices
+                        </button>
+                        <button type="button" className="bx-profile-shortcut-btn" onClick={() => navigate("/admin/syllabus-generator")}>
+                          <FiCpu /> AI Syllabus Generator
+                        </button>
+                      </>
                     )}
                   </div>
+                </div>
+              </motion.div>
+            )}
+          </div>
+        </div>
+      </div>
 
-                  <div className="bx-profile-field-group mb-3">
-                    <label className="bx-profile-label">Image URL</label>
-                    <input
-                      type="url"
-                      value={tempImageUrl}
-                      onChange={(e) => setTempImageUrl(e.target.value)}
-                      placeholder="https://example.com/avatar.jpg"
-                      className="form-control form-control-sm"
-                    />
-                  </div>
+      {/* AVATAR EDIT MODAL */}
+      <AnimatePresence>
+        {isEditingAvatar && (
+          <motion.div
+            className="bx-profile-modal-backdrop"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setIsEditingAvatar(false)}
+          >
+            <motion.div
+              className="bx-profile-modal-card"
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="bx-profile-modal-header">
+                <h3 className="h6 mb-0 font-weight-bold text-dark">Update Profile Photo</h3>
+                <button type="button" className="btn-close" onClick={() => setIsEditingAvatar(false)} />
+              </div>
 
-                  <div className="text-center text-muted extra-small mb-2">— OR —</div>
+              <div className="bx-profile-modal-body">
+                <div className="text-center mb-3">
+                  {tempImageUrl ? (
+                    <img src={tempImageUrl} alt="Preview" className="bx-profile-avatar-img mx-auto" />
+                  ) : (
+                    <div className="bx-profile-avatar-fallback mx-auto">{userInitials}</div>
+                  )}
+                </div>
 
-                  <label htmlFor="modal-avatar-file" className="btn btn-outline-secondary btn-sm w-100 d-flex align-items-center justify-content-center gap-2">
-                    <FiCamera /> Choose Image File (Max 2MB)
-                  </label>
+                <div className="bx-profile-field-group mb-3">
+                  <label className="bx-profile-label">Image URL</label>
                   <input
-                    id="modal-avatar-file"
-                    type="file"
-                    accept="image/*"
-                    onChange={handleFileUpload}
-                    style={{ display: "none" }}
+                    type="url"
+                    value={tempImageUrl}
+                    onChange={(e) => setTempImageUrl(e.target.value)}
+                    placeholder="https://example.com/avatar.jpg"
+                    className="form-control form-control-sm"
                   />
                 </div>
 
-                <div className="bx-profile-modal-footer">
-                  <button
-                    type="button"
-                    className="btn btn-light btn-sm font-weight-bold"
-                    onClick={() => setIsEditingAvatar(false)}
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="button"
-                    className="bx-profile-btn-submit btn-sm"
-                    onClick={handleSaveAvatar}
-                    disabled={profileLoading}
-                  >
-                    {profileLoading ? "Saving..." : "Save Picture"}
-                  </button>
-                </div>
-              </motion.div>
+                <div className="text-center text-muted extra-small mb-2">— OR —</div>
+
+                <label htmlFor="modal-avatar-file" className="btn btn-outline-secondary btn-sm w-100 d-flex align-items-center justify-content-center gap-2">
+                  <FiCamera /> Choose Image File (Max 2MB)
+                </label>
+                <input
+                  id="modal-avatar-file"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFileUpload}
+                  style={{ display: "none" }}
+                />
+              </div>
+
+              <div className="bx-profile-modal-footer">
+                <button
+                  type="button"
+                  className="btn btn-light btn-sm font-weight-bold"
+                  onClick={() => setIsEditingAvatar(false)}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  className="bx-profile-btn-submit btn-sm"
+                  onClick={handleSaveAvatar}
+                  disabled={profileLoading}
+                >
+                  {profileLoading ? "Saving..." : "Save Picture"}
+                </button>
+              </div>
             </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
   );
 }
 
