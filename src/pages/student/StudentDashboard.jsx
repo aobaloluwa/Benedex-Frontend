@@ -1148,7 +1148,7 @@ function StudentDashboard() {
                         style={{
                           display: "inline-flex",
                           alignItems: "center",
-                          justify-content: "center",
+                          justifyContent: "center",
                           textDecoration: "none",
                         }}
                       >
