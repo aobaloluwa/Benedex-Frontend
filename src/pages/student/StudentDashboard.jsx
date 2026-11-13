@@ -26,12 +26,13 @@ import {
 import API from "../../services/api";
 
 const badgeCatalog = [
-  { label: "Fast Learner", icon: <FiAward />, description: "Completed registration or first course module.", xpRequired: 50 },
-  { label: "Code Master", icon: <FiBriefcase />, description: "Submitted technical coursework assignments.", xpRequired: 200 },
-  { label: "Bug Hunter", icon: <FiTarget />, description: "Completed lessons & exercises with precision.", xpRequired: 400 },
-  { label: "Team Lead", icon: <FiUsers />, description: "Participated in live interactive classes and forums.", xpRequired: 500 },
-  { label: "UI Architect", icon: <FiLayers />, description: "Mastered advanced UI and frontend modules.", xpRequired: 750 },
-  { label: "Data Wizard", icon: <FiLock />, description: "Achieved top scores in quizzes & assessments.", xpRequired: 900 },
+  { label: "Fast Learner", icon: <FiZap />, description: "Completed onboarding and started your first program.", xpRequired: 50 },
+  { label: "Knowledge Seeker", icon: <FiBookOpen />, description: "Enrolled in learning programs across disciplines.", xpRequired: 100 },
+  { label: "Consistent Scholar", icon: <FiTarget />, description: "Maintained an active learning streak on the platform.", xpRequired: 200 },
+  { label: "Curriculum Master", icon: <FiAward />, description: "Successfully completed all modules and lessons in a course.", xpRequired: 350 },
+  { label: "Top Evaluator", icon: <FiStar />, description: "Submitted coursework assignments with top evaluation grades.", xpRequired: 500 },
+  { label: "Interactive Peer", icon: <FiUsers />, description: "Participated in live streams, workshops, and mentorship rooms.", xpRequired: 750 },
+  { label: "Academic Scholar", icon: <FiLayers />, description: "Earned 1,000+ XP and unlocked verified certificates.", xpRequired: 1000 },
 ];
 
 const monthNames = [
