@@ -225,6 +225,7 @@ const formatTimeAgo = (value) => {
 function StudentDashboard() {
   const [dashboard, setDashboard] = useState(null);
   const [liveClasses, setLiveClasses] = useState([]);
+  const [availableCourses, setAvailableCourses] = useState([]);
   const [loading, setLoading] = useState(true);
 
   // ============================================================
@@ -251,9 +252,11 @@ function StudentDashboard() {
         const [
           dashboardRes,
           liveClassesRes,
+          coursesRes,
         ] = await Promise.all([
           API.get("/dashboard/student"),
           API.get("/live-classes/student"),
+          API.get("/courses"),
         ]);
 
         if (!isMounted) return;
@@ -262,6 +265,7 @@ function StudentDashboard() {
           dashboardRes.data || {};
 
         setDashboard(dashboardData);
+        setAvailableCourses(Array.isArray(coursesRes.data) ? coursesRes.data : []);
 
         const extractedClasses =
           Array.isArray(liveClassesRes.data)
@@ -517,6 +521,22 @@ function StudentDashboard() {
       )
       .slice(0, 2);
 
+    // ==========================================================
+    // DYNAMIC RECOMMENDED COURSES TO REGISTER
+    // ==========================================================
+
+    const enrolledIds = new Set(
+      Array.isArray(dashboard?.enrolledCourses)
+        ? dashboard.enrolledCourses.map((c) =>
+            String(c._id || c.courseId?._id || c.courseId || c.id || "")
+          )
+        : []
+    );
+
+    const recommendedCourses = (availableCourses || [])
+      .filter((course) => !enrolledIds.has(String(course._id)))
+      .slice(0, 4);
+
     return {
       firstName,
       level,
@@ -528,6 +548,7 @@ function StudentDashboard() {
       badgeNames,
       consistencyGraph,
       courses,
+      recommendedCourses,
 
       recentLiveSessions: [
         ...liveClasses,
@@ -542,7 +563,7 @@ function StudentDashboard() {
       recentActivities:
         dashboard?.recentActivities || [],
     };
-  }, [dashboard, liveClasses]);
+  }, [dashboard, liveClasses, availableCourses]);
 
   const previewActivities =
     viewModel.recentActivities.slice(
@@ -1055,6 +1076,91 @@ function StudentDashboard() {
               )}
             </div>
           </section>
+
+          {/* ================================================== */}
+          {/* EXPLORE & REGISTER COURSES RECOMMENDATION */}
+          {/* ================================================== */}
+          {viewModel.recommendedCourses.length > 0 && (
+            <section className="student-section" style={{ marginTop: "16px" }}>
+              <div className="student-section-head student-section-head-inline">
+                <div>
+                  <h3 style={{ margin: 0 }}>Explore & Register Programs</h3>
+                  <p style={{ margin: "2px 0 0 0", fontSize: "0.8rem", color: "rgba(15, 23, 42, 0.62)" }}>
+                    Recommended courses available for immediate enrollment
+                  </p>
+                </div>
+
+                <Link to="/student/courses" className="student-see-more-link">
+                  See all <FiArrowRight />
+                </Link>
+              </div>
+
+              <div className="student-course-grid">
+                {viewModel.recommendedCourses.map((course, index) => (
+                  <motion.article
+                    key={course._id || index}
+                    className="student-course-card"
+                    initial={{ opacity: 0, y: 18 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: index * 0.05 }}
+                  >
+                    <div
+                      className="student-course-preview"
+                      style={{
+                        backgroundImage: course.image || course.coverImage || course.thumbnail
+                          ? `url("${course.image || course.coverImage || course.thumbnail}")`
+                          : "none",
+                        backgroundSize: "cover",
+                        backgroundPosition: "center",
+                        backgroundRepeat: "no-repeat",
+                      }}
+                    >
+                      <span>{course.price ? `₦${Number(course.price).toLocaleString()}` : "Free"}</span>
+                      <FiBookOpen />
+                    </div>
+
+                    <div className="student-course-body">
+                      <h4>{course.title}</h4>
+
+                      <p
+                        style={{
+                          display: "-webkit-box",
+                          WebkitBoxOrient: "vertical",
+                          WebkitLineClamp: 3,
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          lineHeight: "1.5",
+                          minHeight: "4.5em",
+                        }}
+                        title={course.description}
+                      >
+                        {course.description || "Comprehensive academic program designed for skills mastery."}
+                      </p>
+
+                      <div className="student-course-meta">
+                        <span>Faculty: {course.instructor?.fullName || "Faculty"}</span>
+                        <span>{course.students?.length || 0} Enrolled</span>
+                      </div>
+
+                      <Link
+                        to={`/student/courses/${course._id}`}
+                        className="student-course-button"
+                        style={{
+                          display: "inline-flex",
+                          alignItems: "center",
+                          justify-content: "center",
+                          textDecoration: "none",
+                        }}
+                      >
+                        Explore & Register
+                        <FiArrowRight style={{ marginLeft: "8px" }} />
+                      </Link>
+                    </div>
+                  </motion.article>
+                ))}
+              </div>
+            </section>
+          )}
         </div>
 
         {/* ==================================================== */}
