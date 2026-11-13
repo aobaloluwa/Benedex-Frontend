@@ -150,10 +150,14 @@ const buildConsistencyGraph = (learningSummary) => {
     cells.length / 7
   );
 
-  const monthMarkers = monthList.map((month) => ({
-    label: month.name.slice(0, 3),
-    monthIndex: month.monthIndex ?? 0,
-  }));
+  const monthMarkers = monthList.map((month) => {
+    const firstCell = cells.find((c) => c.monthIndex === month.monthIndex);
+    return {
+      label: month.name.slice(0, 3),
+      monthIndex: month.monthIndex ?? 0,
+      weekIndex: firstCell ? firstCell.weekIndex : 0,
+    };
+  });
 
   return {
     year,
@@ -762,6 +766,7 @@ function StudentDashboard() {
                     (month) => (
                       <span
                         key={`${month.label}-${month.monthIndex}`}
+                        style={{ gridColumnStart: month.weekIndex + 1 }}
                       >
                         {month.label}
                       </span>
@@ -774,9 +779,9 @@ function StudentDashboard() {
                     className="student-consistency-weekdays"
                     aria-hidden="true"
                   >
-                    <span>Mon</span>
-                    <span>Wed</span>
-                    <span>Fri</span>
+                    <span style={{ gridRowStart: 2 }}>Mon</span>
+                    <span style={{ gridRowStart: 4 }}>Wed</span>
+                    <span style={{ gridRowStart: 6 }}>Fri</span>
                   </div>
 
                   <div
