@@ -859,26 +859,33 @@ input {
 }
 
 .student-user-chip {
-  height: 44px;
-  padding: 15px 12px !important;
-  border-radius: 16px;
+  height: 40px;
+  padding: 0 10px !important;
+  border-radius: 14px;
   border: 1px solid rgba(15, 23, 42, 0.08);
   background: #ffffff;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 10px;
+  box-sizing: border-box;
 }
 
 .student-user-avatar {
   width: 30px !important;
   height: 30px !important;
+  min-width: 30px !important;
+  min-height: 30px !important;
   border-radius: 50%;
   background: #08345a;
   color: #ffffff;
-  display: grid;
-  place-items: center;
-  font-size: 0.78rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.76rem;
   font-weight: 700;
+  flex-shrink: 0;
+  line-height: 1;
 }
 
 .student-user-copy {
