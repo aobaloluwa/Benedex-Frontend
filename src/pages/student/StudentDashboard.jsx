@@ -33,6 +33,41 @@ const badgeCatalog = [
   { label: "Data Wizard", icon: <FiLock /> },
 ];
 
+const defaultFeaturedCourses = [
+  {
+    _id: "featured-1",
+    title: "Full-Stack Web Engineering",
+    description: "Master modern web application architecture, React, Node.js, and cloud deployment.",
+    price: 45000,
+    instructor: { fullName: "Benedex Academic Faculty" },
+    students: [1, 2, 3, 4, 5]
+  },
+  {
+    _id: "featured-2",
+    title: "AI & Machine Learning Systems",
+    description: "Build, train, and deploy generative AI, neural networks, and machine learning models.",
+    price: 60000,
+    instructor: { fullName: "AI Subsystems Team" },
+    students: [1, 2, 3]
+  },
+  {
+    _id: "featured-3",
+    title: "UI/UX Product Design Masterclass",
+    description: "Learn user research, wireframing, high-fidelity Figma prototyping, and design systems.",
+    price: 35000,
+    instructor: { fullName: "Design Studio Faculty" },
+    students: [1, 2, 3, 4]
+  },
+  {
+    _id: "featured-4",
+    title: "Cloud Infrastructure & DevOps",
+    description: "Docker, Kubernetes, CI/CD pipelines, AWS deployment, and infrastructure as code.",
+    price: 50000,
+    instructor: { fullName: "DevOps Engineering Lead" },
+    students: [1, 2]
+  }
+];
+
 const monthNames = [
   "January",
   "February",
@@ -249,43 +284,47 @@ function StudentDashboard() {
 
     const fetchDashboardData = async () => {
       try {
-        const [
-          dashboardRes,
-          liveClassesRes,
-          coursesRes,
-        ] = await Promise.all([
-          API.get("/dashboard/student"),
-          API.get("/live-classes/student"),
-          API.get("/courses"),
-        ]);
+        setLoading(true);
 
-        if (!isMounted) return;
+        // 1. Fetch Student Dashboard User Data
+        try {
+          const dashboardRes = await API.get("/dashboard/student");
+          if (isMounted && dashboardRes.data) {
+            setDashboard(dashboardRes.data);
+          }
+        } catch (err) {
+          console.warn("Dashboard student fetch warning:", err);
+        }
 
-        const dashboardData =
-          dashboardRes.data || {};
+        // 2. Fetch Live Streaming Classes
+        try {
+          const liveClassesRes = await API.get("/live-classes/student");
+          if (isMounted) {
+            const extractedClasses =
+              Array.isArray(liveClassesRes.data)
+                ? liveClassesRes.data
+                : Array.isArray(liveClassesRes.data?.classes)
+                ? liveClassesRes.data.classes
+                : Array.isArray(liveClassesRes.data?.data)
+                ? liveClassesRes.data.data
+                : [];
+            setLiveClasses(extractedClasses);
+          }
+        } catch (err) {
+          console.warn("Live classes fetch warning:", err);
+        }
 
-        setDashboard(dashboardData);
-        setAvailableCourses(Array.isArray(coursesRes.data) ? coursesRes.data : []);
-
-        const extractedClasses =
-          Array.isArray(liveClassesRes.data)
-            ? liveClassesRes.data
-            : Array.isArray(
-                liveClassesRes.data?.classes
-              )
-            ? liveClassesRes.data.classes
-            : Array.isArray(
-                liveClassesRes.data?.data
-              )
-            ? liveClassesRes.data.data
-            : [];
-
-        setLiveClasses(extractedClasses);
+        // 3. Fetch Platform Courses Catalog
+        try {
+          const coursesRes = await API.get("/courses");
+          if (isMounted && coursesRes.data) {
+            setAvailableCourses(Array.isArray(coursesRes.data) ? coursesRes.data : []);
+          }
+        } catch (err) {
+          console.warn("Courses catalog fetch warning:", err);
+        }
       } catch (error) {
-        console.error(
-          "Dashboard database synchronization failure:",
-          error
-        );
+        console.error("Dashboard data sync error:", error);
       } finally {
         if (isMounted) {
           setLoading(false);
@@ -537,8 +576,12 @@ function StudentDashboard() {
       (course) => !enrolledIds.has(String(course._id || course.id || ""))
     );
 
+    if (unregistered.length === 0 && (availableCourses || []).length > 0) {
+      unregistered = availableCourses;
+    }
+
     if (unregistered.length === 0) {
-      unregistered = availableCourses || [];
+      unregistered = defaultFeaturedCourses;
     }
 
     const recommendedCourses = unregistered.slice(0, 4);
