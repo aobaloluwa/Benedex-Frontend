@@ -11,7 +11,9 @@ import {
 
 import ProtectedRoute from "./routes/ProtectedRoute";
 
+import BenedexLanding from "./pages/landingPage/BenedexLanding";
 import LandingPage from "./pages/landingPage/Landing";
+import VitaltronLanding from "./pages/landingPage/VitaltronLanding";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 import ForgotPassword from "./pages/auth/ForgotPassword";
@@ -113,7 +115,17 @@ function App() {
 
         <Route
           path="/"
+          element={<BenedexLanding />}
+        />
+
+        <Route
+          path="/elearning"
           element={<LandingPage />}
+        />
+
+        <Route
+          path="/vitaltron"
+          element={<VitaltronLanding />}
         />
 
         <Route

@@ -1,0 +1,227 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
+
+/* --- VITALTRON BENEDEX BRAND STYLING --- */
+.vt-wrapper {
+  background-color: #ffffff;
+  font-family: 'Poppins', sans-serif;
+  color: #194066;
+  min-height: 100vh;
+}
+
+/* COMING SOON HERO SECTION */
+.vt-coming-soon-section {
+  position: relative;
+  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+  padding: 8.5rem 1.5rem 6rem 1.5rem;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.vt-coming-soon-container {
+  max-width: 900px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+.green-badge {
+  background-color: #e8f5e9 !important;
+  color: #1e844f !important;
+  border: 1px solid rgba(30, 132, 79, 0.2) !important;
+}
+
+.green-accent {
+  color: #1e844f !important;
+}
+
+.vt-coming-soon-title {
+  font-size: 3.25rem;
+  font-weight: 800;
+  color: #194066;
+  line-height: 1.15;
+  letter-spacing: -1.5px;
+  margin-bottom: 1.25rem;
+}
+
+.vt-coming-soon-desc {
+  font-size: 1.05rem;
+  color: #475569;
+  line-height: 1.65;
+  max-width: 720px;
+  margin-bottom: 3rem;
+}
+
+/* ILLUSTRATION BOX WITH ANIMATED ORBITS */
+.vt-illustration-box {
+  width: 100%;
+  max-width: 480px;
+  margin-bottom: 3.5rem;
+}
+
+.vt-illustration-card {
+  background-color: #ffffff;
+  border: 1px solid #edf4f9;
+  border-radius: 28px;
+  padding: 3.5rem 2rem 2.5rem 2rem;
+  position: relative;
+  box-shadow: 0 20px 45px rgba(30, 132, 79, 0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.vt-pulse-ring-outer {
+  position: absolute;
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  border: 1.5px dashed rgba(30, 132, 79, 0.25);
+  animation: spinSlow 25s infinite linear;
+}
+
+.vt-pulse-ring-inner {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background-color: #e8f5e9;
+}
+
+@keyframes spinSlow {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.vt-center-pulse-icon {
+  position: relative;
+  z-index: 3;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  border: 1px solid rgba(30, 132, 79, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 25px rgba(30, 132, 79, 0.15);
+}
+
+.vt-pulse-heart-green {
+  color: #1e844f;
+  animation: heartPulse 1.4s infinite ease-in-out;
+}
+
+@keyframes heartPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+}
+
+/* ORBITING HARDWARE NODES */
+.vt-orbit-node {
+  position: absolute;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  border: 1px solid #cbd5e1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 16px rgba(25, 64, 102, 0.08);
+  z-index: 4;
+}
+
+.node-heart { top: 20px; left: 30px; color: #ef4444; }
+.node-watch { top: 20px; right: 30px; color: #1e844f; }
+.node-shield { bottom: 45px; left: 40px; color: #194066; }
+.node-phone { bottom: 45px; right: 40px; color: #0284c7; }
+
+.vt-ecg-banner {
+  width: 100%;
+  height: 40px;
+  margin-top: 2rem;
+  overflow: hidden;
+}
+
+.vt-ecg-svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* WAITLIST FORM */
+.vt-waitlist-box {
+  width: 100%;
+  max-width: 520px;
+  margin-bottom: 3.5rem;
+}
+
+.vt-waitlist-form {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 30px;
+  padding: 6px;
+  box-shadow: 0 8px 24px rgba(25, 64, 102, 0.06);
+}
+
+.vt-email-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: 0.75rem 1.25rem;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.9rem;
+  color: #1e293b;
+  outline: none;
+}
+
+.vt-email-input::placeholder {
+  color: #94a3b8;
+}
+
+.vt-notify-btn {
+  height: 42px !important;
+  padding: 0 1.5rem !important;
+  font-size: 0.85rem !important;
+  border-radius: 24px !important;
+  flex-shrink: 0;
+}
+
+.vt-submitted-msg {
+  background-color: #e8f5e9;
+  border: 1px solid rgba(30, 132, 79, 0.25);
+  border-radius: 20px;
+  padding: 1rem 1.5rem;
+  color: #1e844f;
+  font-size: 0.9rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* BACK ACTION ROW */
+.vt-back-action-row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .vt-coming-soon-title { font-size: 2.25rem; }
+  .vt-coming-soon-section { padding-top: 7rem; }
+  .vt-waitlist-form { flex-direction: column; padding: 12px; border-radius: 20px; }
+  .vt-email-input { width: 100%; text-align: center; }
+  .vt-notify-btn { width: 100% !important; justify-content: center !important; }
+}

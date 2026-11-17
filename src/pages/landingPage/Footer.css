@@ -1,95 +1,124 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
 
-/* --- MAIN FOOTER WRAPPER GRID DESIGN --- */
+/* --- MAIN FOOTER SECTION --- */
 .bx-footer-section {
-  background-color: #fafdff; /* Faint blueprint contrast profile background from screenshot */
-  border-top: 1px solid #edf4f9;
-  padding: 6rem 2rem 3rem 2rem;
+  background-color: #f8fafc;
+  border-top: 1px solid #e2e8f0;
+  padding: 5rem 1.5rem 2.5rem 1.5rem;
   font-family: 'Poppins', sans-serif;
-  display: flex;
-  justify-content: center;
-  box-sizing: border-box;
-}
-
-.bx-footer-section *,
-.bx-footer-section *::before,
-.bx-footer-section *::after {
   box-sizing: border-box;
 }
 
 .bx-footer-container {
-  max-width: 1200px;
+  max-width: 1240px;
   width: 100%;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
 }
 
-/* --- UPPER TWO-PANEL SPLIT ARRANGEMENT --- */
 .bx-footer-top-grid {
   display: grid;
-  grid-template-columns: 0.8fr 1.2fr; /* Symmetrical weighting layout columns */
+  grid-template-columns: 1fr 2fr;
   gap: 4rem;
-  padding-bottom: 5rem;
+  padding-bottom: 4rem;
+  border-bottom: 1px solid #e2e8f0;
 }
 
-/* --- BRAND PANEL LOGO COLUMNS --- */
+/* BRAND COLUMN */
 .bx-footer-brand-col {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  text-align: left;
 }
 
-.bx-footer-brand-col .bx-nav-brand-group {
+.bx-footer-brand-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
   margin-bottom: 1.25rem;
 }
 
-.bx-footer-logo-link {
-  text-decoration: none;
+.bx-footer-logo-img {
+  height: 38px;
+  width: auto;
+  object-fit: contain;
 }
 
-/* Matches Navbar Brand Typography exactly */
-.bx-footer-brand-logo {
-  font-size: 1.5rem;
+.bx-footer-brand-titles {
+  display: flex;
+  flex-direction: column;
+}
+
+.bx-footer-brand-name {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #194066;
+  line-height: 1;
+  letter-spacing: 0.5px;
+}
+
+.bx-footer-brand-sub {
+  font-size: 0.62rem;
   font-weight: 700;
-  color: #194066; /* Signature deep brand blue */
-  margin: 0 0 1.5rem 0;
-  letter-spacing: -0.5px;
+  color: #1e844f;
+  letter-spacing: 1.5px;
+  margin-top: 2px;
 }
 
 .bx-footer-brand-desc {
-  font-size: 0.925rem;
-  font-weight: 400;
+  font-size: 0.88rem;
   color: #475569;
-  line-height: 1.65;
+  line-height: 1.6;
   max-width: 320px;
-  margin: 0 0 2rem 0;
+  margin-bottom: 1.5rem;
 }
 
-/* --- UTILITY CIRCULAR EMBEDS --- */
-.bx-footer-social-row {
-  display: flex;
-  gap: 12px;
-}
-
-.bx-footer-social-circle {
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  background-color: #eff4fa;
-  color: #194066;
+.bx-footer-product-pills {
   display: flex;
   align-items: center;
-  justify-content: center;
-  text-decoration: none;
-  transition: background-color 0.2s, color 0.2s;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
-/* --- LINK GRID MODULE DECK ASSEMBLY --- */
+.bx-ft-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.bx-ft-pill.pill-blue {
+  background-color: #e3edf7;
+  color: #194066;
+}
+.bx-ft-pill.pill-blue:hover {
+  background-color: #194066;
+  color: #ffffff;
+}
+
+.bx-ft-pill.pill-green {
+  background-color: #e8f5e9;
+  color: #1e844f;
+}
+.bx-ft-pill.pill-green:hover {
+  background-color: #1e844f;
+  color: #ffffff;
+}
+
+/* 4-COLUMN LINK ARRAY */
 .bx-footer-links-wrapper {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 2rem;
+  text-align: left;
 }
 
 .bx-footer-link-col {
@@ -98,12 +127,12 @@
 }
 
 .bx-footer-col-heading {
-  font-size: 0.825rem;
-  font-weight: 600;
+  font-size: 0.85rem;
+  font-weight: 700;
   text-transform: uppercase;
   color: #194066;
   letter-spacing: 0.8px;
-  margin: 0 0 1.75rem 0;
+  margin-bottom: 1.25rem;
 }
 
 .bx-footer-list {
@@ -112,74 +141,62 @@
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 1.1rem;
+  gap: 0.85rem;
 }
 
 .bx-footer-link-item {
-  font-size: 0.925rem;
-  font-weight: 400;
+  font-size: 0.875rem;
   color: #475569;
   text-decoration: none;
   transition: color 0.2s ease, transform 0.2s ease;
   display: inline-block;
 }
 
-/* Clean structural mouse-over animations */
 .bx-footer-link-item:hover {
-  color: #194066; /* Shifts focus target color back to primary bold tone */
+  color: #194066;
+  transform: translateX(2px);
 }
 
-/* --- COMPLIANCE BOTTOM SUB-FOOTER BAR --- */
+/* BOTTOM BAR */
 .bx-footer-bottom-bar {
-  border-top: 1px solid #edf4f9;
-  padding-top: 2.5rem;
+  padding-top: 2rem;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 
 .bx-footer-bottom-bar p {
   font-size: 0.825rem;
   color: #64748b;
   margin: 0;
-  text-align: center;
-  font-weight: 400;
-  letter-spacing: -0.1px;
 }
 
-/* --- RESPONSIVE MEDIA BREAKPOINTS --- */
+.bx-footer-subline span {
+  font-size: 0.775rem;
+  font-weight: 600;
+  color: #94a3b8;
+}
+
+/* RESPONSIVE */
 @media (max-width: 991px) {
   .bx-footer-top-grid {
-    grid-template-columns: 1fr; /* Flattens main outer structure array safely on tablets */
-    gap: 3.5rem;
-    padding-bottom: 4rem;
+    grid-template-columns: 1fr;
+    gap: 3rem;
   }
-
-  .bx-footer-brand-col {
-    max-width: 500px;
+  .bx-footer-links-wrapper {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
-@media (max-width: 600px) {
-  .bx-footer-section {
-    padding: 4.5rem 1.5rem 2.5rem 1.5rem;
-  }
-
-  /* Compresses link columns into stacked blocks on mobile devices */
+@media (max-width: 575px) {
   .bx-footer-links-wrapper {
     grid-template-columns: 1fr;
-    gap: 2.5rem;
+    gap: 2rem;
   }
-
-  .bx-footer-col-heading {
-    margin-bottom: 1.25rem;
-  }
-
-  .bx-footer-list {
-    gap: 0.95rem;
-  }
-
   .bx-footer-bottom-bar {
-    padding-top: 2rem;
+    flex-direction: column;
+    text-align: center;
   }
 }

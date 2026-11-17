@@ -25,10 +25,10 @@ function Navbar() {
 
         {/* DESKTOP CENTER LINKS */}
         <div className="bx-nav-desktop-center">
+          <Link to="/" className="bx-nav-link">Benedex Corporate</Link>
+          <Link to="/vitaltron" className="bx-nav-link text-emerald-400">Vitaltron Health</Link>
           <Link to="/courses" className="bx-nav-link">Courses</Link>
-          <Link to="/analytics" className="bx-nav-link">Analytics</Link>
           <Link to="/ai-subsystems" className="bx-nav-link">AI Subsystems</Link>
-          <Link to="/support" className="bx-nav-link">Support Workspace</Link>
         </div>
 
         {/* DESKTOP ACTION CTA BUTTONS */}
@@ -59,10 +59,10 @@ function Navbar() {
 
           <div className="bx-nav-drawer-body">
             <div className="bx-nav-drawer-links">
+              <Link to="/" className="bx-nav-drawer-link" onClick={toggleMenu}>Benedex Corporate</Link>
+              <Link to="/vitaltron" className="bx-nav-drawer-link" onClick={toggleMenu}>Vitaltron Health</Link>
               <Link to="/courses" className="bx-nav-drawer-link" onClick={toggleMenu}>Courses</Link>
-              <Link to="/analytics" className="bx-nav-drawer-link" onClick={toggleMenu}>Analytics</Link>
               <Link to="/ai-subsystems" className="bx-nav-drawer-link" onClick={toggleMenu}>AI Subsystems</Link>
-              <Link to="/support" className="bx-nav-drawer-link" onClick={toggleMenu}>Support Workspace</Link>
             </div>
 
             <div className="bx-nav-drawer-actions">

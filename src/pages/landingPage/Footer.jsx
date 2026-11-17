@@ -1,104 +1,98 @@
+import React from "react";
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { FiGlobe, FiUsers } from "react-icons/fi";
-import { Link } from 'react-router-dom';
+import { FiGlobe, FiSmartphone, FiBookOpen, FiActivity, FiShield } from "react-icons/fi";
 import "./Footer.css";
 import Logo from "../../assets/20260623_190852.png";
-import Logo2 from "../../assets/20260623_191023.png"
 
 function Footer() {
   const currentYear = new Date().getFullYear();
-
-  const footerLinks = [
-    {
-      title: "Portal",
-      links: [
-        { name: "Dashboard Overview", url: "/dashboard" },
-        { name: "Course Management", url: "/courses" },
-        { name: "Student Insights", url: "/insights" },
-        { name: "Security Certs", url: "/security" }
-      ]
-    },
-    {
-      title: "AI Features",
-      links: [
-        { name: "Neural Search", url: "/search" },
-        { name: "Auto-Grading Hub", url: "/grading" },
-        { name: "LMS Integration", url: "/lms" },
-        { name: "API Reference", url: "/api" }
-      ]
-    },
-    {
-      title: "Support",
-      links: [
-        { name: "Help Center", url: "/help" },
-        { name: "Documentation", url: "/docs" },
-        { name: "Contact Sales", url: "/sales" },
-        { name: "Privacy Policy", url: "/privacy" }
-      ]
-    }
-  ];
 
   return (
     <footer className="bx-footer-section">
       <div className="bx-footer-container">
 
-        {/* TOP CONTENT GRID GRID MATRIX */}
+        {/* TOP CONTENT GRID */}
         <div className="bx-footer-top-grid">
 
-          {/* BRAND COLUMN / MATCHES NAVBAR IDENTITY STYLE */}
+          {/* BRAND COLUMN */}
           <div className="bx-footer-brand-col">
-            <Link to="/" className="bx-nav-brand-group">
-              <img src={Logo} alt="Benedex" className="bx-nav-logo d-lg-flex d-none" />
-              <img src={Logo} alt="Benedex" className="bx-nav-logo d-lg-none d-flex" />
+            <Link to="/" className="bx-footer-brand-header">
+              <img src={Logo} alt="Benedex Innovations" className="bx-footer-logo-img" />
             </Link>
+
             <p className="bx-footer-brand-desc">
-              The intelligence layer for modern educational institutions. Professional, secure, and infinitely scalable.
+              Architecting high-performance digital ecosystems in Education & Healthcare. Pushing the boundaries of human potential through AI and secure cloud infrastructure.
             </p>
 
-            {/* CIRCULAR UTILITY SOCIAL HOUSING */}
-            <div className="bx-footer-social-row">
-              <motion.a
-                href="#network"
-                className="bx-footer-social-circle"
-                whileHover={{ y: -3, backgroundColor: "#e3edf7", color: "#194066" }}
-                transition={{ duration: 0.2 }}
-              >
-                <FiGlobe size={18} />
-              </motion.a>
-              <motion.a
-                href="#community"
-                className="bx-footer-social-circle"
-                whileHover={{ y: -3, backgroundColor: "#e3edf7", color: "#194066" }}
-                transition={{ duration: 0.2 }}
-              >
-                <FiUsers size={18} />
-              </motion.a>
+            {/* PRODUCT QUICK BADGES */}
+            <div className="bx-footer-product-pills">
+              <Link to="/elearning" className="bx-ft-pill pill-blue">
+                <FiBookOpen size={13} /> Benedex E-Learning
+              </Link>
+              <Link to="/vitaltron" className="bx-ft-pill pill-green">
+                <FiActivity size={13} /> Vitaltron Health
+              </Link>
             </div>
           </div>
 
-          {/* DYNAMIC LIST COLUMNS LINK ARRAY */}
+          {/* 4-COLUMN LINK ARRAY */}
           <div className="bx-footer-links-wrapper">
-            {footerLinks.map((group, groupIdx) => (
-              <div key={groupIdx} className="bx-footer-link-col">
-                <h4 className="bx-footer-col-heading">{group.title}</h4>
-                <ul className="bx-footer-list">
-                  {group.links.map((link, linkIdx) => (
-                    <li key={linkIdx}>
-                      <a href={link.url} className="bx-footer-link-item">
-                        {link.name}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
+
+            {/* COL 1: PARENT COMPANY */}
+            <div className="bx-footer-link-col">
+              <h4 className="bx-footer-col-heading">Benedex Firm</h4>
+              <ul className="bx-footer-list">
+                <li><Link to="/" className="bx-footer-link-item">About Us</Link></li>
+                <li><a href="#products" className="bx-footer-link-item">Product Ecosystem</a></li>
+                <li><a href="#impact" className="bx-footer-link-item">Global Impact</a></li>
+                <li><Link to="/how-it-works" className="bx-footer-link-item">Architecture</Link></li>
+              </ul>
+            </div>
+
+            {/* COL 2: E-LEARNING */}
+            <div className="bx-footer-link-col">
+              <h4 className="bx-footer-col-heading">E-Learning</h4>
+              <ul className="bx-footer-list">
+                <li><Link to="/elearning" className="bx-footer-link-item">E-Learning Portal</Link></li>
+                <li><Link to="/courses" className="bx-footer-link-item">Interactive Modules</Link></li>
+                <li><Link to="/verify/demo" className="bx-footer-link-item">Certificate Verification</Link></li>
+                <li><Link to="/login" className="bx-footer-link-item">Account Sign In</Link></li>
+              </ul>
+            </div>
+
+            {/* COL 3: VITALTRON HEALTH */}
+            <div className="bx-footer-link-col">
+              <h4 className="bx-footer-col-heading">Vitaltron Health</h4>
+              <ul className="bx-footer-list">
+                <li><Link to="/vitaltron" className="bx-footer-link-item">Health App Overview</Link></li>
+                <li><Link to="/vitaltron#telemetry" className="bx-footer-link-item">Vitals Telemetry Engine</Link></li>
+                <li><Link to="/vitaltron#ai-sentinel" className="bx-footer-link-item">AI Health Sentinel</Link></li>
+                <li><Link to="/vitaltron#download" className="bx-footer-link-item">Download App</Link></li>
+              </ul>
+            </div>
+
+            {/* COL 4: LEGAL & SECURITY */}
+            <div className="bx-footer-link-col">
+              <h4 className="bx-footer-col-heading">Security & Legal</h4>
+              <ul className="bx-footer-list">
+                <li><a href="#privacy" className="bx-footer-link-item">Privacy Policy</a></li>
+                <li><a href="#terms" className="bx-footer-link-item">Terms of Service</a></li>
+                <li><a href="#hipaa" className="bx-footer-link-item">HIPAA & Security</a></li>
+                <li><a href="#compliance" className="bx-footer-link-item">Data Compliance</a></li>
+              </ul>
+            </div>
+
           </div>
 
         </div>
 
-        {/* BOTTOM COMPLIANCE BASELINE FOOTNOTE */}
+        {/* BOTTOM BAR */}
         <div className="bx-footer-bottom-bar">
-          <p>© {currentYear} Benedex Portal. All rights reserved. Precision academic engineering since 2021.</p>
+          <p>© {currentYear} Benedex Innovations Inc. All rights reserved.</p>
+          <div className="bx-footer-subline">
+            <span>Benedex E-Learning Platform &bull; Vitaltron Health Mobile</span>
+          </div>
         </div>
 
       </div>
