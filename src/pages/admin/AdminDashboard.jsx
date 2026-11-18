@@ -97,6 +97,16 @@ function AdminDashboard() {
   const studentRatio = totalProfiles > 0 ? Math.round((overview.totalStudents / totalProfiles) * 100) : 0;
   const instructorRatio = totalProfiles > 0 ? Math.round((overview.totalInstructors / totalProfiles) * 100) : 0;
 
+  const curriculumRate =
+    overview.completedCurriculumRate !== undefined
+      ? overview.completedCurriculumRate
+      : (overview.totalCourses > 0 ? 100 : 0);
+
+  const publishedCoursesCount =
+    overview.publishedCourses !== undefined
+      ? overview.publishedCourses
+      : (overview.totalCourses || 0);
+
   // Real-time Revenue Trajectory Chart Calculations
   const defaultMonthlyData = [
     { month: "Jan", revenue: 0 },
@@ -345,14 +355,16 @@ function AdminDashboard() {
 
               <div className="bx-ad-bar-item">
                 <div className="bx-ad-bar-row-meta">
-                  <span className="text-muted">Completed Curriculum Scopes</span>
-                  <span className="text-dark font-weight-bold">84% Capacity</span>
+                  <span className="text-muted">Published Curriculum Ratio</span>
+                  <span className="text-dark font-weight-bold">
+                    {curriculumRate}% ({publishedCoursesCount}/{overview.totalCourses || 0} Courses)
+                  </span>
                 </div>
                 <div className="bx-ad-bar-track">
                   <motion.div 
                     className="bx-ad-bar-fill is-courses" 
                     initial={{ width: 0 }}
-                    animate={{ width: "84%" }}
+                    animate={{ width: `${curriculumRate}%` }}
                     transition={{ duration: 0.8, ease: "easeOut" }}
                   />
                 </div>
