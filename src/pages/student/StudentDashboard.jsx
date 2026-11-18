@@ -1727,7 +1727,6 @@ function StudentDashboard() {
           </motion.div>
         )}
       </AnimatePresence>
-      </AnimatePresence>
     </motion.div>
   );
 }
