@@ -294,6 +294,10 @@ function AdminUsers() {
                 label: "All Nodes",
               },
               {
+                id: "superadmin",
+                label: "Super Admins",
+              },
+              {
                 id: "admin",
                 label: "Administrators",
               },
@@ -584,6 +588,7 @@ function AdminUsers() {
                       "student",
                       "instructor",
                       "admin",
+                      "superadmin",
                     ].map((r) => (
                       <button
                         key={r}

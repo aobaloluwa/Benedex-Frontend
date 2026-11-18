@@ -1,16 +1,14 @@
 import { Outlet } from "react-router-dom";
 import { useMemo, useState } from "react";
+import { useAuth } from "../context/AuthContext";
 import {
   FiBell,
   FiBookOpen,
   FiGrid,
-  FiMessageSquare,
-  FiPlayCircle,
-  FiClipboard,
   FiUsers,
   FiAlertCircle,
   FiActivity,
-  FiCpu, // Added for the AI Syllabus Generator navigation link
+  FiCpu,
 } from "react-icons/fi";
 
 import Sidebar from "../components/layout/Sidebar";
@@ -20,71 +18,75 @@ import { GrAnalytics } from "react-icons/gr";
 import { CiSettings } from "react-icons/ci";
 
 function AdminLayout() {
+  const { user } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const links = useMemo(
-    () => [
+
+  const links = useMemo(() => {
+    const allLinks = [
       {
         label: "Dashboard",
         path: "/admin",
-        icon: <FiGrid />
+        icon: <FiGrid />,
+        roles: ["admin", "superadmin"]
       },
-
       {
         label: "Users",
         path: "/admin/users",
-        icon: <FiUsers />
+        icon: <FiUsers />,
+        roles: ["superadmin"]
       },
-
       {
         label: "Courses",
         path: "/admin/courses",
-        icon: <FiBookOpen />
+        icon: <FiBookOpen />,
+        roles: ["admin", "superadmin"]
       },
-
       {
         label: "AI Course Generator",
         path: "/admin/syllabus-generator",
-        icon: <FiCpu />
+        icon: <FiCpu />,
+        roles: ["admin", "superadmin"]
       },
-
       {
         label: "Payments",
         path: "/admin/payments",
-        icon: <MdPayments />
+        icon: <MdPayments />,
+        roles: ["superadmin"]
       },
-
       {
         label: "Analytics",
         path: "/admin/analytics",
-        icon: <GrAnalytics />
+        icon: <GrAnalytics />,
+        roles: ["superadmin"]
       },
-
       {
         label: "Support Tickets",
         path: "/admin/tickets",
-        icon: <FiAlertCircle />
+        icon: <FiAlertCircle />,
+        roles: ["admin", "superadmin"]
       },
-
       {
         label: "Notifications",
         path: "/admin/notifications",
-        icon: <FiBell />
+        icon: <FiBell />,
+        roles: ["admin", "superadmin"]
       },
-
       {
         label: "Activity",
         path: "/admin/activity-logs",
-        icon: <FiActivity />
+        icon: <FiActivity />,
+        roles: ["superadmin"]
       },
-
       {
         label: "Settings",
         path: "/admin/settings",
-        icon: <CiSettings />
+        icon: <CiSettings />,
+        roles: ["superadmin"]
       }
-    ],
-    []
-  );
+    ];
+
+    return allLinks.filter((link) => link.roles.includes(user?.role));
+  }, [user?.role]);
 
   return (
     <div className="student-shell">

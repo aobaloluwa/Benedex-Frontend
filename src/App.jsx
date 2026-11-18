@@ -84,7 +84,7 @@ function HomeRedirect() {
     return <Navigate to="/instructor" replace />;
   }
 
-  if (user.role === "admin") {
+  if (user.role === "admin" || user.role === "superadmin") {
     return <Navigate to="/admin" replace />;
   }
 
@@ -98,7 +98,7 @@ function ProfileLayoutShell() {
     return <Navigate to="/login" replace />;
   }
 
-  if (user.role === "admin") {
+  if (user.role === "admin" || user.role === "superadmin") {
     return <AdminLayout />;
   }
 
@@ -178,7 +178,7 @@ function App() {
         <Route
           path="/profile"
           element={
-            <ProtectedRoute roles={["student", "instructor", "admin"]}>
+            <ProtectedRoute roles={["student", "instructor", "admin", "superadmin"]}>
               <ProfileLayoutShell />
             </ProtectedRoute>
           }
@@ -361,69 +361,117 @@ function App() {
         <Route
           path="/admin"
           element={
-            <ProtectedRoute roles={["admin"]}>
+            <ProtectedRoute roles={["admin", "superadmin"]}>
               <AdminLayout />
             </ProtectedRoute>
           }
         >
           <Route
             index
-            element={<AdminDashboard />}
+            element={
+              <ProtectedRoute roles={["admin", "superadmin"]}>
+                <AdminDashboard />
+              </ProtectedRoute>
+            }
           />
 
           <Route
             path="analytics"
-            element={<AdminAnalytics />}
+            element={
+              <ProtectedRoute roles={["superadmin"]}>
+                <AdminAnalytics />
+              </ProtectedRoute>
+            }
           />
 
           <Route
             path="users"
-            element={<AdminUsers />}
+            element={
+              <ProtectedRoute roles={["superadmin"]}>
+                <AdminUsers />
+              </ProtectedRoute>
+            }
           />
 
           <Route
             path="payments"
-            element={<AdminPayments />}
+            element={
+              <ProtectedRoute roles={["superadmin"]}>
+                <AdminPayments />
+              </ProtectedRoute>
+            }
           />
 
           <Route
             path="settings"
-            element={<AdminSettings />}
+            element={
+              <ProtectedRoute roles={["superadmin"]}>
+                <AdminSettings />
+              </ProtectedRoute>
+            }
           />
 
           <Route
             path="courses"
-            element={<AdminCourses />}
+            element={
+              <ProtectedRoute roles={["admin", "superadmin"]}>
+                <AdminCourses />
+              </ProtectedRoute>
+            }
           />
 
           <Route
             path="tickets"
-            element={<AdminAiTickets />}
+            element={
+              <ProtectedRoute roles={["admin", "superadmin"]}>
+                <AdminAiTickets />
+              </ProtectedRoute>
+            }
           />
 
           <Route
             path="notifications"
-            element={<AdminNotifications />}
+            element={
+              <ProtectedRoute roles={["admin", "superadmin"]}>
+                <AdminNotifications />
+              </ProtectedRoute>
+            }
           />
 
           <Route
             path="activity-logs"
-            element={<AdminActivityLog />}
+            element={
+              <ProtectedRoute roles={["superadmin"]}>
+                <AdminActivityLog />
+              </ProtectedRoute>
+            }
           />
 
           <Route
             path="syllabus-generator"
-            element={<AdminSyllabusGenerator />}
+            element={
+              <ProtectedRoute roles={["admin", "superadmin"]}>
+                <AdminSyllabusGenerator />
+              </ProtectedRoute>
+            }
           />
 
           <Route
             path="courses/:courseId/review"
-            element={<AdminCourseReview />}
+            element={
+              <ProtectedRoute roles={["admin", "superadmin"]}>
+                <AdminCourseReview />
+              </ProtectedRoute>
+            }
           />
 
           <Route
             path="profile"
-            element={<Profile />}
+            element={
+              <ProtectedRoute roles={["admin", "superadmin"]}>
+                <Profile />
+              </ProtectedRoute>
+            }
           />
         </Route>
 
