@@ -174,7 +174,7 @@ function AdminDashboard() {
           </div>
           <button onClick={fetchAdminTelemetry} className="bx-ad-refresh-action-btn">
             <FiRefreshCw />
-            <span>Sync Matrix</span>
+            <span>Reload</span>
           </button>
         </div>
       </header>

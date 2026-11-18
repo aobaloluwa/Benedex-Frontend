@@ -1153,7 +1153,7 @@ function StudentDashboard() {
                         </p>
 
                         <div className="student-course-meta">
-                          <span>Faculty: {course.instructor?.fullName || "Faculty"}</span>
+                          <span>Instructor: {course.instructor?.fullName || "Faculty"}</span>
                           <span>{course.students?.length || 0} Enrolled</span>
                         </div>
 
@@ -1561,21 +1561,21 @@ function StudentDashboard() {
       <AnimatePresence>
         {isBadgeModalOpen && (
           <motion.div
-            className="bx-profile-modal-backdrop"
+            className="student-modal-backdrop"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setIsBadgeModalOpen(false)}
           >
             <motion.div
-              className="bx-profile-modal-card"
+              className="student-modal-card"
               style={{ maxWidth: "560px", padding: 0 }}
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="bx-profile-modal-header d-flex align-items-center justify-content-between p-3 border-bottom bg-light">
+              <div className="student-modal-header d-flex align-items-center justify-content-between p-3 border-bottom bg-light">
                 <div className="d-flex align-items-center gap-2">
                   <FiAward className="text-primary-theme" size={20} />
                   <h3 className="h6 mb-0 font-weight-bold text-dark">Platform Badges & Achievements</h3>
