@@ -20,7 +20,8 @@ import "./AdminDashboard.css"; // Clean file system linkage
 function AdminDashboard() {
   const [loading, setLoading] = useState(true);
   const [errorState, setErrorState] = useState(null);
-  
+  const [hoveredPoint, setHoveredPoint] = useState(null);
+
   // Real State Architecture corresponding completely to adminController.js keys
   const [analytics, setAnalytics] = useState({
     overview: {
@@ -95,6 +96,50 @@ function AdminDashboard() {
   const totalProfiles = (overview.totalStudents || 0) + (overview.totalInstructors || 0);
   const studentRatio = totalProfiles > 0 ? Math.round((overview.totalStudents / totalProfiles) * 100) : 0;
   const instructorRatio = totalProfiles > 0 ? Math.round((overview.totalInstructors / totalProfiles) * 100) : 0;
+
+  // Real-time Revenue Trajectory Chart Calculations
+  const defaultMonthlyData = [
+    { month: "Jan", revenue: 0 },
+    { month: "Feb", revenue: 0 },
+    { month: "Mar", revenue: 0 },
+    { month: "Apr", revenue: 0 },
+    { month: "May", revenue: 0 },
+    { month: "Jun", revenue: 0 },
+  ];
+
+  const monthlyRevenueData =
+    analytics.monthlyRevenue && analytics.monthlyRevenue.length === 6
+      ? analytics.monthlyRevenue
+      : defaultMonthlyData;
+
+  const maxRevenueVal = Math.max(
+    ...monthlyRevenueData.map((d) => d.revenue || 0),
+    1
+  );
+
+  const xCoordinates = [50, 154, 258, 362, 466, 570];
+
+  const chartPoints = monthlyRevenueData.map((d, i) => {
+    const x = xCoordinates[i];
+    const ratio = maxRevenueVal > 0 ? (d.revenue || 0) / maxRevenueVal : 0;
+    const y = 170 - ratio * 140;
+    return { x, y, month: d.month, revenue: d.revenue || 0 };
+  });
+
+  const buildPathString = (pts) => {
+    if (pts.length === 0) return "";
+    let path = `M ${pts[0].x},${pts[0].y}`;
+    for (let i = 0; i < pts.length - 1; i++) {
+      const p0 = pts[i];
+      const p1 = pts[i + 1];
+      const controlX = (p0.x + p1.x) / 2;
+      path += ` C ${controlX},${p0.y} ${controlX},${p1.y} ${p1.x},${p1.y}`;
+    }
+    return path;
+  };
+
+  const linePathD = buildPathString(chartPoints);
+  const areaPathD = `${linePathD} L 570,170 L 50,170 Z`;
 
   return (
     <div className="bx-ad-workspace container-fluid py-4">
@@ -174,46 +219,80 @@ function AdminDashboard() {
               <svg className="bx-ad-svg-chart" viewBox="0 0 600 220" preserveAspectRatio="none">
                 <defs>
                   <linearGradient id="area-gradient-blue" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#07335c" stopOpacity="0.18" />
+                    <stop offset="0%" stopColor="#07335c" stopOpacity="0.22" />
                     <stop offset="100%" stopColor="#07335c" stopOpacity="0.00" />
                   </linearGradient>
                 </defs>
                 
                 <g className="bx-ad-chart-grid">
-                  <line x1="40" y1="20" x2="580" y2="20" />
-                  <line x1="40" y1="70" x2="580" y2="70" />
-                  <line x1="40" y1="120" x2="580" y2="120" />
-                  <line x1="40" y1="170" x2="580" y2="170" />
+                  <line x1="50" y1="30" x2="570" y2="30" />
+                  <line x1="50" y1="65" x2="570" y2="65" />
+                  <line x1="50" y1="100" x2="570" y2="100" />
+                  <line x1="50" y1="135" x2="570" y2="135" />
+                  <line x1="50" y1="170" x2="570" y2="170" />
                 </g>
 
-                <path 
-                  className="bx-ad-chart-area" 
-                  d="M40,170 C120,150 180,90 260,105 C340,120 420,50 500,45 C550,43 580,30 580,30 L580,170 Z" 
-                />
+                <path className="bx-ad-chart-area" d={areaPathD} />
+                <path className="bx-ad-chart-line" d={linePathD} />
 
-                <path 
-                  className="bx-ad-chart-line" 
-                  d="M40,170 C120,150 180,90 260,105 C340,120 420,50 500,45 C550,43 580,30 580,30" 
-                />
-
-                {[
-                  {cx: 40, cy: 170}, {cx: 150, cy: 130}, {cx: 260, cy: 105},
-                  {cx: 370, cy: 115}, {cx: 480, cy: 50}, {cx: 580, cy: 30}
-                ].map((pt, pIdx) => (
-                  <circle key={pIdx} className="bx-ad-chart-dot" cx={pt.cx} cy={pt.cy} r="5" />
+                {chartPoints.map((pt, pIdx) => (
+                  <circle
+                    key={pIdx}
+                    className="bx-ad-chart-dot"
+                    cx={pt.x}
+                    cy={pt.y}
+                    r="5"
+                    onMouseEnter={() => setHoveredPoint(pt)}
+                    onMouseLeave={() => setHoveredPoint(null)}
+                  />
                 ))}
 
-                <text x="15" y="25" className="bx-ad-axis-text">100%</text>
-                <text x="15" y="75" className="bx-ad-axis-text">75%</text>
-                <text x="15" y="125" className="bx-ad-axis-text">50%</text>
-                <text x="15" y="175" className="bx-ad-axis-text">25%</text>
+                {/* Y-Axis Percentage Scale Ticks */}
+                <text x="10" y="34" className="bx-ad-axis-text">100%</text>
+                <text x="10" y="69" className="bx-ad-axis-text">75%</text>
+                <text x="10" y="104" className="bx-ad-axis-text">50%</text>
+                <text x="10" y="139" className="bx-ad-axis-text">25%</text>
+                <text x="10" y="174" className="bx-ad-axis-text">0%</text>
 
-                <text x="40" y="195" className="bx-ad-axis-text" textAnchor="middle">Jan</text>
-                <text x="150" y="195" className="bx-ad-axis-text" textAnchor="middle">Feb</text>
-                <text x="260" y="195" className="bx-ad-axis-text" textAnchor="middle">Mar</text>
-                <text x="370" y="195" className="bx-ad-axis-text" textAnchor="middle">Apr</text>
-                <text x="480" y="195" className="bx-ad-axis-text" textAnchor="middle">May</text>
-                <text x="580" y="195" className="bx-ad-axis-text" textAnchor="middle">Jun</text>
+                {/* X-Axis Month Labels */}
+                {chartPoints.map((pt, pIdx) => (
+                  <text
+                    key={pIdx}
+                    x={pt.x}
+                    y="195"
+                    className="bx-ad-axis-text"
+                    textAnchor="middle"
+                    style={{ fontWeight: 600 }}
+                  >
+                    {pt.month}
+                  </text>
+                ))}
+
+                {/* Interactive Tooltip Overlay */}
+                {hoveredPoint && (
+                  <g>
+                    <rect
+                      x={Math.max(10, Math.min(480, hoveredPoint.x - 55))}
+                      y={Math.max(5, hoveredPoint.y - 34)}
+                      width="110"
+                      height="26"
+                      rx="6"
+                      fill="#07335c"
+                      stroke="#ffffff"
+                      strokeWidth="1"
+                    />
+                    <text
+                      x={Math.max(10, Math.min(480, hoveredPoint.x - 55)) + 55}
+                      y={Math.max(5, hoveredPoint.y - 34) + 17}
+                      fill="#ffffff"
+                      fontSize="11"
+                      fontWeight="700"
+                      textAnchor="middle"
+                    >
+                      {hoveredPoint.month}: ₦{hoveredPoint.revenue.toLocaleString()}
+                    </text>
+                  </g>
+                )}
               </svg>
             </div>
           </motion.div>
