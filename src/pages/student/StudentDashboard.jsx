@@ -824,9 +824,8 @@ function StudentDashboard() {
             <div className="student-badge-grid">
               {badgeCatalog.map((badge) => {
                 const active =
-                  viewModel.badgeNames.includes(
-                    badge.label
-                  );
+                  viewModel.badgeNames.includes(badge.label) ||
+                  ((viewModel.xp || 0) >= badge.xpRequired);
 
                 return (
                   <motion.article
@@ -1599,85 +1598,87 @@ function StudentDashboard() {
               </div>
 
               {/* PROGRESS BAR STRIP */}
-              <div className="sbm-progress-banner">
-                <div className="sbm-progress-meta">
-                  <span className="sbm-progress-title">
-                    Catalog Unlock Progress
-                  </span>
+              {(() => {
+                const userXp = viewModel.xp || 0;
+                const isBadgeEarned = (b) =>
+                  viewModel.badgeNames.includes(b.label) || userXp >= b.xpRequired;
 
-                  <span className="sbm-progress-badge">
-                    {viewModel.badgeNames.length} of {badgeCatalog.length} Unlocked
-                  </span>
-                </div>
+                const unlockedCount = badgeCatalog.filter(isBadgeEarned).length;
+                const unlockPercentage = Math.round(
+                  (unlockedCount / badgeCatalog.length) * 100
+                );
 
-                <div className="sbm-progress-track">
-                  <div
-                    className="sbm-progress-fill"
-                    style={{
-                      width: `${Math.round(
-                        (viewModel.badgeNames.length / badgeCatalog.length) * 100
-                      )}%`,
-                    }}
-                  />
-                </div>
-              </div>
+                return (
+                  <>
+                    <div className="sbm-progress-banner">
+                      <div className="sbm-progress-meta">
+                        <span className="sbm-progress-title">
+                          Catalog Unlock Progress
+                        </span>
 
-              {/* FILTER TABS */}
-              <div className="sbm-tabs-row">
-                {[
-                  { id: "all", label: `All Badges (${badgeCatalog.length})` },
-                  {
-                    id: "unlocked",
-                    label: `Unlocked (${viewModel.badgeNames.length})`,
-                  },
-                  {
-                    id: "locked",
-                    label: `Locked (${
-                      badgeCatalog.length - viewModel.badgeNames.length
-                    })`,
-                  },
-                ].map((tab) => (
-                  <button
-                    key={tab.id}
-                    type="button"
-                    className={`sbm-tab-btn ${
-                      badgeFilterTab === tab.id ? "active" : ""
-                    }`}
-                    onClick={() => setBadgeFilterTab(tab.id)}
-                  >
-                    {tab.label}
-                  </button>
-                ))}
-              </div>
+                        <span className="sbm-progress-badge">
+                          {unlockedCount} of {badgeCatalog.length} Unlocked
+                        </span>
+                      </div>
 
-              {/* BADGES GRID */}
-              <div className="sbm-body">
-                <div className="row g-3">
-                  {badgeCatalog
-                    .filter((badge) => {
-                      const isEarned = viewModel.badgeNames.includes(
-                        badge.label
-                      );
-                      if (badgeFilterTab === "unlocked") return isEarned;
-                      if (badgeFilterTab === "locked") return !isEarned;
-                      return true;
-                    })
-                    .map((badge) => {
-                      const isEarned = viewModel.badgeNames.includes(
-                        badge.label
-                      );
+                      <div className="sbm-progress-track">
+                        <div
+                          className="sbm-progress-fill"
+                          style={{ width: `${unlockPercentage}%` }}
+                        />
+                      </div>
+                    </div>
 
-                      return (
-                        <div key={badge.label} className="col-12 col-sm-6">
-                          <div
-                            className={`sbm-card ${
-                              isEarned ? "is-unlocked" : "is-locked"
-                            }`}
-                          >
-                            <div className="sbm-card-icon">{badge.icon}</div>
+                    {/* FILTER TABS */}
+                    <div className="sbm-tabs-row">
+                      {[
+                        { id: "all", label: `All Badges (${badgeCatalog.length})` },
+                        {
+                          id: "unlocked",
+                          label: `Unlocked (${unlockedCount})`,
+                        },
+                        {
+                          id: "locked",
+                          label: `Locked (${badgeCatalog.length - unlockedCount})`,
+                        },
+                      ].map((tab) => (
+                        <button
+                          key={tab.id}
+                          type="button"
+                          className={`sbm-tab-btn ${
+                            badgeFilterTab === tab.id ? "active" : ""
+                          }`}
+                          onClick={() => setBadgeFilterTab(tab.id)}
+                        >
+                          {tab.label}
+                        </button>
+                      ))}
+                    </div>
 
-                            <div className="sbm-card-info">
-                              <div className="sbm-card-header-row">
+                    {/* BADGES GRID */}
+                    <div className="sbm-body">
+                      <div className="row g-3">
+                        {badgeCatalog
+                          .filter((badge) => {
+                            const isEarned = isBadgeEarned(badge);
+                            if (badgeFilterTab === "unlocked") return isEarned;
+                            if (badgeFilterTab === "locked") return !isEarned;
+                            return true;
+                          })
+                          .map((badge) => {
+                            const isEarned = isBadgeEarned(badge);
+
+                            return (
+                              <div key={badge.label} className="col-12 col-sm-6">
+                                <div
+                                  className={`sbm-card ${
+                                    isEarned ? "is-unlocked" : "is-locked"
+                                  }`}
+                                >
+                                  <div className="sbm-card-icon">{badge.icon}</div>
+
+                                  <div className="sbm-card-info">
+                                    <div className="sbm-card-header-row">
                                 <h4 className="sbm-card-title">
                                   {badge.label}
                                 </h4>
