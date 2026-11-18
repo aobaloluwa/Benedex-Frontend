@@ -1559,170 +1559,169 @@ function StudentDashboard() {
       {/* BADGES CATALOG MODAL REDESIGN */}
       {/* ================================================== */}
       <AnimatePresence>
-        {isBadgeModalOpen && (
-          <motion.div
-            className="sbm-modal-backdrop"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setIsBadgeModalOpen(false)}
-          >
+        {isBadgeModalOpen && (() => {
+          const userXp = viewModel.xp || 0;
+          const isBadgeEarned = (b) =>
+            viewModel.badgeNames.includes(b.label) || userXp >= b.xpRequired;
+
+          const unlockedCount = badgeCatalog.filter(isBadgeEarned).length;
+          const unlockPercentage = Math.round(
+            (unlockedCount / badgeCatalog.length) * 100
+          );
+
+          return (
             <motion.div
-              className="sbm-modal-card"
-              initial={{ scale: 0.95, opacity: 0, y: 10 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.95, opacity: 0, y: 10 }}
-              onClick={(e) => e.stopPropagation()}
+              className="sbm-modal-backdrop"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsBadgeModalOpen(false)}
             >
-              {/* HEADER */}
-              <div className="sbm-header">
-                <div className="sbm-header-main">
-                  <div className="sbm-header-icon">
-                    <FiAward />
+              <motion.div
+                className="sbm-modal-card"
+                initial={{ scale: 0.95, opacity: 0, y: 10 }}
+                animate={{ scale: 1, opacity: 1, y: 0 }}
+                exit={{ scale: 0.95, opacity: 0, y: 10 }}
+                onClick={(e) => e.stopPropagation()}
+              >
+                {/* HEADER */}
+                <div className="sbm-header">
+                  <div className="sbm-header-main">
+                    <div className="sbm-header-icon">
+                      <FiAward />
+                    </div>
+
+                    <div>
+                      <span className="sbm-eyebrow">Gamification & Milestones</span>
+                      <h3>Platform Badges Catalog</h3>
+                    </div>
                   </div>
 
-                  <div>
-                    <span className="sbm-eyebrow">Gamification & Milestones</span>
-                    <h3>Platform Badges Catalog</h3>
+                  <button
+                    type="button"
+                    className="sbm-close-btn"
+                    onClick={() => setIsBadgeModalOpen(false)}
+                    title="Close Catalog"
+                  >
+                    <FiX />
+                  </button>
+                </div>
+
+                {/* PROGRESS BAR STRIP */}
+                <div className="sbm-progress-banner">
+                  <div className="sbm-progress-meta">
+                    <span className="sbm-progress-title">
+                      Catalog Unlock Progress
+                    </span>
+
+                    <span className="sbm-progress-badge">
+                      {unlockedCount} of {badgeCatalog.length} Unlocked
+                    </span>
+                  </div>
+
+                  <div className="sbm-progress-track">
+                    <div
+                      className="sbm-progress-fill"
+                      style={{ width: `${unlockPercentage}%` }}
+                    />
                   </div>
                 </div>
 
-                <button
-                  type="button"
-                  className="sbm-close-btn"
-                  onClick={() => setIsBadgeModalOpen(false)}
-                  title="Close Catalog"
-                >
-                  <FiX />
-                </button>
-              </div>
+                {/* FILTER TABS */}
+                <div className="sbm-tabs-row">
+                  {[
+                    { id: "all", label: `All Badges (${badgeCatalog.length})` },
+                    {
+                      id: "unlocked",
+                      label: `Unlocked (${unlockedCount})`,
+                    },
+                    {
+                      id: "locked",
+                      label: `Locked (${badgeCatalog.length - unlockedCount})`,
+                    },
+                  ].map((tab) => (
+                    <button
+                      key={tab.id}
+                      type="button"
+                      className={`sbm-tab-btn ${
+                        badgeFilterTab === tab.id ? "active" : ""
+                      }`}
+                      onClick={() => setBadgeFilterTab(tab.id)}
+                    >
+                      {tab.label}
+                    </button>
+                  ))}
+                </div>
 
-              {/* PROGRESS BAR STRIP */}
-              {(() => {
-                const userXp = viewModel.xp || 0;
-                const isBadgeEarned = (b) =>
-                  viewModel.badgeNames.includes(b.label) || userXp >= b.xpRequired;
+                {/* BADGES GRID */}
+                <div className="sbm-body">
+                  <div className="row g-3">
+                    {badgeCatalog
+                      .filter((badge) => {
+                        const isEarned = isBadgeEarned(badge);
+                        if (badgeFilterTab === "unlocked") return isEarned;
+                        if (badgeFilterTab === "locked") return !isEarned;
+                        return true;
+                      })
+                      .map((badge) => {
+                        const isEarned = isBadgeEarned(badge);
 
-                const unlockedCount = badgeCatalog.filter(isBadgeEarned).length;
-                const unlockPercentage = Math.round(
-                  (unlockedCount / badgeCatalog.length) * 100
-                );
+                        return (
+                          <div key={badge.label} className="col-12 col-sm-6">
+                            <div
+                              className={`sbm-card ${
+                                isEarned ? "is-unlocked" : "is-locked"
+                              }`}
+                            >
+                              <div className="sbm-card-icon">{badge.icon}</div>
 
-                return (
-                  <>
-                    <div className="sbm-progress-banner">
-                      <div className="sbm-progress-meta">
-                        <span className="sbm-progress-title">
-                          Catalog Unlock Progress
-                        </span>
+                              <div className="sbm-card-info">
+                                <div className="sbm-card-header-row">
+                                  <h4 className="sbm-card-title">
+                                    {badge.label}
+                                  </h4>
 
-                        <span className="sbm-progress-badge">
-                          {unlockedCount} of {badgeCatalog.length} Unlocked
-                        </span>
-                      </div>
+                                  {isEarned ? (
+                                    <span className="sbm-status-pill sbm-pill-unlocked">
+                                      <FiCheck size={12} /> Unlocked
+                                    </span>
+                                  ) : (
+                                    <span className="sbm-status-pill sbm-pill-locked">
+                                      <FiLock size={10} /> {badge.xpRequired} XP
+                                    </span>
+                                  )}
+                                </div>
 
-                      <div className="sbm-progress-track">
-                        <div
-                          className="sbm-progress-fill"
-                          style={{ width: `${unlockPercentage}%` }}
-                        />
-                      </div>
-                    </div>
-
-                    {/* FILTER TABS */}
-                    <div className="sbm-tabs-row">
-                      {[
-                        { id: "all", label: `All Badges (${badgeCatalog.length})` },
-                        {
-                          id: "unlocked",
-                          label: `Unlocked (${unlockedCount})`,
-                        },
-                        {
-                          id: "locked",
-                          label: `Locked (${badgeCatalog.length - unlockedCount})`,
-                        },
-                      ].map((tab) => (
-                        <button
-                          key={tab.id}
-                          type="button"
-                          className={`sbm-tab-btn ${
-                            badgeFilterTab === tab.id ? "active" : ""
-                          }`}
-                          onClick={() => setBadgeFilterTab(tab.id)}
-                        >
-                          {tab.label}
-                        </button>
-                      ))}
-                    </div>
-
-                    {/* BADGES GRID */}
-                    <div className="sbm-body">
-                      <div className="row g-3">
-                        {badgeCatalog
-                          .filter((badge) => {
-                            const isEarned = isBadgeEarned(badge);
-                            if (badgeFilterTab === "unlocked") return isEarned;
-                            if (badgeFilterTab === "locked") return !isEarned;
-                            return true;
-                          })
-                          .map((badge) => {
-                            const isEarned = isBadgeEarned(badge);
-
-                            return (
-                              <div key={badge.label} className="col-12 col-sm-6">
-                                <div
-                                  className={`sbm-card ${
-                                    isEarned ? "is-unlocked" : "is-locked"
-                                  }`}
-                                >
-                                  <div className="sbm-card-icon">{badge.icon}</div>
-
-                                  <div className="sbm-card-info">
-                                    <div className="sbm-card-header-row">
-                                <h4 className="sbm-card-title">
-                                  {badge.label}
-                                </h4>
-
-                                {isEarned ? (
-                                  <span className="sbm-status-pill sbm-pill-unlocked">
-                                    <FiCheck size={12} /> Unlocked
-                                  </span>
-                                ) : (
-                                  <span className="sbm-status-pill sbm-pill-locked">
-                                    <FiLock size={10} /> {badge.xpRequired} XP
-                                  </span>
-                                )}
+                                <p className="sbm-card-desc">
+                                  {badge.description}
+                                </p>
                               </div>
-
-                              <p className="sbm-card-desc">
-                                {badge.description}
-                              </p>
                             </div>
                           </div>
-                        </div>
-                      );
-                    })}
-                </div>
-              </div>
-
-              {/* FOOTER */}
-              <div className="sbm-footer">
-                <div className="sbm-footer-note">
-                  <FiCheckCircle style={{ color: "#15803d" }} size={16} />
-                  <span>Earn XP by completing quizzes and video modules.</span>
+                        );
+                      })}
+                  </div>
                 </div>
 
-                <button
-                  type="button"
-                  className="sbm-close-action-btn"
-                  onClick={() => setIsBadgeModalOpen(false)}
-                >
-                  Close Catalog
-                </button>
-              </div>
+                {/* FOOTER */}
+                <div className="sbm-footer">
+                  <div className="sbm-footer-note">
+                    <FiCheckCircle style={{ color: "#15803d" }} size={16} />
+                    <span>Earn XP by completing quizzes and video modules.</span>
+                  </div>
+
+                  <button
+                    type="button"
+                    className="sbm-close-action-btn"
+                    onClick={() => setIsBadgeModalOpen(false)}
+                  >
+                    Close Catalog
+                  </button>
+                </div>
+              </motion.div>
             </motion.div>
-          </motion.div>
-        )}
+          );
+        })()}
       </AnimatePresence>
     </motion.div>
   );
