@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { FiFileText, FiScale, FiArrowLeft, FiCheckCircle } from "react-icons/fi";
+import { FiFileText, FiShield, FiArrowLeft, FiCheckCircle } from "react-icons/fi";
 import Navbar from "../landingPage/Navbar";
 import Footer from "../landingPage/Footer";
 import "./LegalPages.css";
@@ -26,7 +26,7 @@ function TermsOfService() {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
           >
-            <FiScale size={14} className="text-blue-icon" />
+            <FiShield size={14} className="text-blue-icon" />
             <span>BINDING LEGAL AGREEMENT • JURISDICTION OF NIGERIA</span>
           </motion.div>
 

@@ -1,0 +1,254 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
+
+/* --- 404 NOT FOUND PAGE STYLING --- */
+.bx-404-wrapper {
+  background-color: #ffffff;
+  font-family: 'Poppins', sans-serif;
+  color: #194066;
+  min-height: 100vh;
+}
+
+.bx-404-section {
+  position: relative;
+  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+  padding: 8.5rem 1.5rem 6rem 1.5rem;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.bx-404-container {
+  max-width: 900px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+/* EXPLICIT BUTTON OVERRIDES TO PREVENT BOOTSTRAP UNSTYLING */
+.bx-404-wrapper button,
+.bx-404-wrapper button span {
+  white-space: nowrap !important;
+  word-break: keep-all !important;
+}
+
+.bx-404-wrapper button.bx-hero-btn-primary,
+.bx-404-wrapper .bx-hero-btn-primary {
+  height: 48px !important;
+  padding: 0 2rem !important;
+  background-color: #194066 !important;
+  color: #ffffff !important;
+  border-radius: 24px !important;
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 0.875rem !important;
+  font-weight: 600 !important;
+  border: none !important;
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  box-shadow: 0 4px 14px rgba(25, 64, 102, 0.25) !important;
+  text-decoration: none !important;
+  transition: transform 0.2s ease, background-color 0.15s, box-shadow 0.2s ease !important;
+  line-height: 1 !important;
+  outline: none !important;
+}
+
+.bx-404-wrapper button.bx-hero-btn-primary:hover,
+.bx-404-wrapper .bx-hero-btn-primary:hover {
+  background-color: #12304d !important;
+  color: #ffffff !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 20px rgba(25, 64, 102, 0.35) !important;
+}
+
+.bx-404-wrapper button.bx-hero-btn-green,
+.bx-404-wrapper .bx-hero-btn-green {
+  height: 48px !important;
+  padding: 0 2rem !important;
+  background-color: #1e844f !important;
+  color: #ffffff !important;
+  border-radius: 24px !important;
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 0.875rem !important;
+  font-weight: 600 !important;
+  border: none !important;
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  box-shadow: 0 4px 14px rgba(30, 132, 79, 0.25) !important;
+  text-decoration: none !important;
+  transition: transform 0.2s ease, background-color 0.15s, box-shadow 0.2s ease !important;
+  line-height: 1 !important;
+  outline: none !important;
+}
+
+.bx-404-wrapper button.bx-hero-btn-green:hover,
+.bx-404-wrapper .bx-hero-btn-green:hover {
+  background-color: #176c40 !important;
+  color: #ffffff !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 20px rgba(30, 132, 79, 0.35) !important;
+}
+
+.red-badge {
+  background-color: #fef2f2 !important;
+  color: #ef4444 !important;
+  border: 1px solid rgba(239, 68, 68, 0.2) !important;
+}
+
+.text-red-icon {
+  color: #ef4444 !important;
+}
+
+.bx-404-title {
+  font-size: 3.25rem;
+  font-weight: 800;
+  color: #194066;
+  line-height: 1.15;
+  letter-spacing: -1.5px;
+  margin-bottom: 1.25rem;
+}
+
+.bx-404-desc {
+  font-size: 1.05rem;
+  color: #475569;
+  line-height: 1.65;
+  max-width: 680px;
+  margin-bottom: 3rem;
+}
+
+/* 404 ILLUSTRATION CARD */
+.bx-404-illustration-box {
+  width: 100%;
+  max-width: 480px;
+  margin-bottom: 3.5rem;
+}
+
+.bx-404-illustration-card {
+  background-color: #ffffff;
+  border: 1px solid #edf4f9;
+  border-radius: 28px;
+  padding: 3.5rem 2rem;
+  position: relative;
+  box-shadow: 0 20px 45px rgba(25, 64, 102, 0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.bx-404-radial-glow {
+  position: absolute;
+  width: 300px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(239, 68, 68, 0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.bx-404-number-stack {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  position: relative;
+  z-index: 2;
+}
+
+.bx-404-digit {
+  font-size: 6rem;
+  font-weight: 800;
+  color: #194066;
+  line-height: 1;
+  letter-spacing: -2px;
+}
+
+.bx-404-center-icon-ring {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: #e3edf7;
+  border: 2px solid #194066;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 25px rgba(25, 64, 102, 0.15);
+}
+
+.bx-compass-spin {
+  color: #194066;
+  animation: spinCompass 20s infinite linear;
+}
+
+@keyframes spinCompass {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* FLOATING BADGES */
+.bx-404-float-badge {
+  position: absolute;
+  background-color: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #334155;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 8px 20px rgba(25, 64, 102, 0.08);
+  z-index: 3;
+}
+
+.float-left-badge {
+  top: 20px;
+  left: 20px;
+}
+
+.float-right-badge {
+  bottom: 20px;
+  right: 20px;
+}
+
+/* ACTIONS ROW */
+.bx-404-actions-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .bx-404-title { font-size: 2.25rem; }
+  .bx-404-section { padding-top: 7rem; }
+  .bx-404-digit { font-size: 4.5rem; }
+  .bx-404-center-icon-ring { width: 64px; height: 64px; }
+  .bx-404-actions-row {
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 0.75rem !important;
+    width: 100% !important;
+  }
+  .bx-404-wrapper button.bx-hero-btn-primary,
+  .bx-404-wrapper button.bx-hero-btn-green,
+  .bx-404-wrapper .bx-hero-btn-primary,
+  .bx-404-wrapper .bx-hero-btn-green {
+    width: 100% !important;
+    max-width: 320px !important;
+    justify-content: center !important;
+  }
+  .bx-404-float-badge { display: none; }
+}

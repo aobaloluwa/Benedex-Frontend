@@ -25,6 +25,7 @@ import CertificateVerification from "./pages/public/CertificateVerification";
 import PrivacyPolicy from "./pages/public/PrivacyPolicy";
 import TermsOfService from "./pages/public/TermsOfService";
 import DataSecurity from "./pages/public/DataSecurity";
+import NotFound from "./pages/public/NotFound";
 
 import StudentLayout from "./layouts/StudentLayout";
 import InstructorLayout from "./layouts/InstructorLayout";
@@ -428,7 +429,7 @@ function App() {
 
         <Route
           path="*"
-          element={<Navigate to="/" replace />}
+          element={<NotFound />}
         />
 
       </Routes>
