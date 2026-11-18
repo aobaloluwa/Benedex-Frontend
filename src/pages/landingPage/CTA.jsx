@@ -1,11 +1,13 @@
 import { motion } from "framer-motion";
-import  { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./CTA.css";
 
 function CTA() {
+  const navigate = useNavigate();
+
   return (
     <section className="bx-cta-outer-wrapper">
-      {/* TRICKY GRID SYSTEM COMPONENT (Faint grid overlay matching the hero) */}
+      {/* FAINT GRID OVERLAY */}
       <div className="bx-cta-grid-bg">
         <div className="bx-cta-grid-lines" />
       </div>
@@ -27,14 +29,14 @@ function CTA() {
             <motion.span 
               className="bx-cta-subtitle"
               initial={{ opacity: 0, y: -10 }}
-              whileInView={{ opacity: 1, y: -0 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.2, duration: 0.4 }}
             >
-              Ready to bring AI to your study?
+              Ready to elevate your learning experience?
             </motion.span>
 
-            {/* MAIN PARAGRAPH DESCRIPTIVE CODES */}
+            {/* MAIN PARAGRAPH DESCRIPTIVE TEXT */}
             <motion.h2 
               className="bx-cta-main-text"
               initial={{ opacity: 0, y: 15 }}
@@ -42,10 +44,10 @@ function CTA() {
               viewport={{ once: true }}
               transition={{ delay: 0.3, duration: 0.5 }}
             >
-              Join 400+ institutions currently leveraging Benedex Portal to optimize learning outcomes and streamline administration.
+              Join thousands of students and instructors leveraging Benedex E-Learning to master new skills and streamline classroom management.
             </motion.h2>
 
-            {/* CALL TO ACTION ACCENT INTERACTION BUTTONS */}
+            {/* CALL TO ACTION BUTTON CLUSTER */}
             <motion.div 
               className="bx-cta-button-cluster"
               initial={{ opacity: 0, y: 15 }}
@@ -53,24 +55,21 @@ function CTA() {
               viewport={{ once: true }}
               transition={{ delay: 0.4, duration: 0.5 }}
             >
-              {/* BRAND SOLID GREEN CTA BUTTON */}
+              {/* PRIMARY SOLID CTA BUTTON */}
               <Link 
-                to="/login"
+                to="/register"
                 className="bx-btn-primary-green"
-                whileHover={{ scale: 1.03, backgroundColor: "#176c40" }}
-                whileTap={{ scale: 0.98 }}
               >
-                Start Your Free Trial
-              </Link >
+                <span>Get Started Free</span>
+              </Link>
 
-              {/* GHOST OUTLINE CO-BUTTON */}
-              <motion.button 
+              {/* SECONDARY OUTLINE BUTTON */}
+              <button
+                onClick={() => navigate('/courses')}
                 className="bx-btn-secondary-outline"
-                whileHover={{ scale: 1.03, backgroundColor: "rgba(255, 255, 255, 0.06)" }}
-                whileTap={{ scale: 0.98 }}
               >
-                Schedule a Consultation
-              </motion.button>
+                <span>Explore Courses</span>
+              </button>
             </motion.div>
           </div>
         </motion.div>

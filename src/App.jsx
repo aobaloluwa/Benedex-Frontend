@@ -22,6 +22,9 @@ import ForgotPassword from "./pages/auth/ForgotPassword";
 import Profile from "./pages/Profile";
 import Maintenance from "./pages/Maintainance";
 import CertificateVerification from "./pages/public/CertificateVerification";
+import PrivacyPolicy from "./pages/public/PrivacyPolicy";
+import TermsOfService from "./pages/public/TermsOfService";
+import DataSecurity from "./pages/public/DataSecurity";
 
 import StudentLayout from "./layouts/StudentLayout";
 import InstructorLayout from "./layouts/InstructorLayout";
@@ -139,6 +142,21 @@ function App() {
         <Route
           path="/vitaltron"
           element={<VitaltronLanding />}
+        />
+
+        <Route
+          path="/privacy"
+          element={<PrivacyPolicy />}
+        />
+
+        <Route
+          path="/terms"
+          element={<TermsOfService />}
+        />
+
+        <Route
+          path="/security"
+          element={<DataSecurity />}
         />
 
         <Route

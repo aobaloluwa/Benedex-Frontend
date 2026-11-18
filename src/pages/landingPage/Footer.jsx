@@ -76,10 +76,10 @@ function Footer() {
             <div className="bx-footer-link-col">
               <h4 className="bx-footer-col-heading">Security & Legal</h4>
               <ul className="bx-footer-list">
-                <li><a href="#privacy" className="bx-footer-link-item">Privacy Policy</a></li>
-                <li><a href="#terms" className="bx-footer-link-item">Terms of Service</a></li>
-                <li><a href="#hipaa" className="bx-footer-link-item">HIPAA & Security</a></li>
-                <li><a href="#compliance" className="bx-footer-link-item">Data Compliance</a></li>
+                <li><Link to="/privacy" className="bx-footer-link-item">Privacy Policy</Link></li>
+                <li><Link to="/terms" className="bx-footer-link-item">Terms of Service</Link></li>
+                <li><Link to="/security" className="bx-footer-link-item">Data & Security</Link></li>
+                <li><Link to="/security#ndpr" className="bx-footer-link-item">NDPR Compliance</Link></li>
               </ul>
             </div>
 
