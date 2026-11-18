@@ -1186,7 +1186,7 @@ function Profile() {
                         fontWeight: 700,
                         display: "flex",
                         alignItems: "center",
-                        justify-content: "center",
+                        justifyContent: "center",
                         margin: "0 auto",
                       }}
                     >
