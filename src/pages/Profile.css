@@ -82,11 +82,7 @@
   justify-content: center;
 
   color: #ffffff;
-  background: linear-gradient(
-    135deg,
-    var(--prf-primary),
-    var(--prf-accent)
-  );
+  background: var(--prf-primary);
 
   border-radius: 15px;
   box-shadow: 0 8px 20px rgba(7, 51, 92, 0.16);
