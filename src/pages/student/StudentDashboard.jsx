@@ -9,6 +9,7 @@ import {
   FiBookOpen,
   FiBriefcase,
   FiCalendar,
+  FiCheck,
   FiCheckCircle,
   FiClock,
   FiLogIn,
