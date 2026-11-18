@@ -107,7 +107,7 @@ function Profile() {
               unreadNotifications: res.data.unreadActivityCount || 0
             });
           }
-        } else if (currentRole === "admin") {
+        } else if (currentRole === "admin" || currentRole === "superadmin") {
           const res = await API.get("/admin/analytics");
           if (isMounted && res.data?.overview) {
             setRoleMetrics({
@@ -136,7 +136,7 @@ function Profile() {
 
   const handleBackToDashboard = () => {
     const targetRole = user?.role || "student";
-    if (targetRole === "admin") navigate("/admin");
+    if (targetRole === "admin" || targetRole === "superadmin") navigate("/admin");
     else if (targetRole === "instructor") navigate("/instructor");
     else navigate("/student");
   };
@@ -406,7 +406,7 @@ function Profile() {
           </>
         )}
 
-        {userRole === "admin" && (
+        {(userRole === "admin" || userRole === "superadmin") && (
           <>
             <div className="student-card p-3 bx-stat-card">
               <span className="student-card-label">User Directory</span>
@@ -769,7 +769,7 @@ function Profile() {
                   </div>
                 )}
 
-                {userRole === "admin" && (
+                {(userRole === "admin" || userRole === "superadmin") && (
                   <div className="row g-3 mb-4">
                     <div className="col-12 col-md-6">
                       <div className="p-3 rounded border bg-light h-100">
@@ -839,7 +839,7 @@ function Profile() {
                       </>
                     )}
 
-                    {userRole === "admin" && (
+                    {(userRole === "admin" || userRole === "superadmin") && (
                       <>
                         <button type="button" className="bx-profile-shortcut-btn" onClick={() => navigate("/admin/users")}>
                           <FiUsers /> Manage Users

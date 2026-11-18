@@ -31,7 +31,7 @@ const Landing = () => {
           navigate('/student', { replace: true });
         } else if (formattedRole === 'instructor') {
           navigate('/instructor', { replace: true });
-        } else if (formattedRole === 'admin') {
+        } else if (formattedRole === 'admin' || formattedRole === 'superadmin') {
           navigate('/admin', { replace: true });
         }
       }

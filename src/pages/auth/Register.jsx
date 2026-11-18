@@ -96,7 +96,7 @@ function Register() {
         navigate("/student");
       } else if (targetRole === "instructor") {
         navigate("/instructor");
-      } else if (targetRole === "admin") {
+      } else if (targetRole === "admin" || targetRole === "superadmin") {
         navigate("/admin");
       } else {
         navigate("/");

@@ -96,7 +96,9 @@ function Topbar({ onMenuClick = () => {} }) {
       return;
     }
 
-    const allowedPages = ALL_DASHBOARD_PAGES.filter(page => page.role === currentRole);
+    const allowedPages = ALL_DASHBOARD_PAGES.filter(
+      page => page.role === currentRole || ((currentRole === "superadmin" || currentRole === "admin") && page.role === "admin")
+    );
     const filteredPages = allowedPages
       .filter(page => page.label.toLowerCase().includes(query.toLowerCase()))
       .map(page => ({

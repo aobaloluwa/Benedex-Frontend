@@ -84,7 +84,7 @@ function Login() {
       navigate("/student");
     } else if (targetRole === "instructor") {
       navigate("/instructor");
-    } else if (targetRole === "admin") {
+    } else if (targetRole === "admin" || targetRole === "superadmin") {
       navigate("/admin");
     } else {
       console.warn(
@@ -113,7 +113,7 @@ function Login() {
         navigate("/student");
       } else if (targetRole === "instructor") {
         navigate("/instructor");
-      } else if (targetRole === "admin") {
+      } else if (targetRole === "admin" || targetRole === "superadmin") {
         navigate("/admin");
       } else {
         console.warn(
