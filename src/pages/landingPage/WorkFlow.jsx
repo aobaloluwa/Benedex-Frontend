@@ -6,22 +6,22 @@ function Workflow() {
     {
       num: "1",
       title: "Sign In",
-      description: "Connect your institutional email and domain for verification."
+      description: "Create an account or sign in with your student email to access your workspace."
     },
     {
       num: "2",
-      title: "Verify",
-      description: "Our systems automatically map your current LMS and data structure."
+      title: "Explore Courses",
+      description: "Browse interactive learning paths, course modules, and syllabus structures."
     },
     {
       num: "3",
-      title: "Initialize",
-      description: "The AI neural layer begins processing and indexing your materials."
+      title: "Learn & Engage",
+      description: "Join live virtual classrooms, complete assignments, and take interactive quizzes."
     },
     {
       num: "4",
-      title: "Go Live",
-      description: "Deploy the portal to students and staff with pre-set permissions."
+      title: "Earn Credentials",
+      description: "Complete course evaluations and receive instant public-verified certificates."
     }
   ];
 
@@ -53,7 +53,7 @@ function Workflow() {
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.5 }}
         >
-          Up and running in minutes
+          Student Portal Onboarding
         </motion.span>
 
         {/* PRIMARY SUB-HEADLINE DESCRIPTION */}
@@ -64,7 +64,7 @@ function Workflow() {
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.6, delay: 0.1 }}
         >
-          Deploying AI intelligence across your entire institution shouldn't be a multi-month project. We've simplified it into four steps.
+          Getting started on the Benedex Student Portal is quick and effortless. Launch your learning journey in four simple steps.
         </motion.p>
 
         {/* STEPPER GRID FLOW HOUSING */}

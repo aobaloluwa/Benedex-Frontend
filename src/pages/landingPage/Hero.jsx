@@ -1,15 +1,15 @@
 import { motion } from "framer-motion";
-import { FiCheckCircle, FiCpu, FiGrid, FiBarChart2, FiLayers, FiSmartphone } from "react-icons/fi";
+import { FiCheckCircle, FiBarChart2, FiLayers, FiSmartphone, FiAward, FiBookOpen } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import "./Hero.css";
 
 function Hero() {
   const panels = [
-    { id: 1, icon: <FiBarChart2 size={24} />, title: "Analytics Engine" },
-    { id: 2, icon: <FiCpu size={24} />, title: "Neural Subsystems" },
-    { id: 3, icon: <FiLayers size={28} />, title: "Central Console", isCenter: true },
-    { id: 4, icon: <FiGrid size={24} />, title: "Syllabus Matrix" },
-    { id: 5, icon: <FiSmartphone size={24} />, title: "Mobile Node" }
+    { id: 1, icon: <FiBarChart2 size={24} />, title: "Student Analytics", tag: "PROGRESS ENGINE" },
+    { id: 2, icon: <FiBookOpen size={24} />, title: "Interactive Modules", tag: "COURSE CONTENT" },
+    { id: 3, icon: <FiLayers size={28} />, title: "Learning Workspace", tag: "ACTIVE LEARNER", isCenter: true },
+    { id: 4, icon: <FiAward size={24} />, title: "Verified Certificates", tag: "CREDENTIAL HUB" },
+    { id: 5, icon: <FiSmartphone size={24} />, title: "PWA Mobile App", tag: "OFFLINE SYNC" }
   ];
 
   return (
@@ -27,7 +27,7 @@ function Hero() {
           transition={{ duration: 0.5 }}
         >
           <span className="bx-hero-badge-icon">⚡</span>
-          <span>Next-Gen LMS Architecture</span>
+          <span>Benedex E-Learning Platform • LMS Architecture</span>
         </motion.div>
 
         {/* MAIN TYPOGRAPHY HEADER STACK */}
@@ -48,8 +48,8 @@ function Hero() {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5, delay: 0.2 }}
         >
-          <Link to="/login" className="bx-hero-btn-primary">Sign In to Portal</Link >
-          <button className="bx-hero-btn-secondary">Request Demo</button>
+          <Link to="/login" className="bx-hero-btn-primary">Sign In to Portal</Link>
+          <Link to="/courses" className="bx-hero-btn-secondary">Explore Courses</Link>
         </motion.div>
 
         {/* INLINE SUB-FEATURE INDEX STRIP */}
@@ -61,15 +61,15 @@ function Hero() {
         >
           <div className="bx-hero-tag-item">
             <FiCheckCircle className="bx-hero-tag-icon" />
-            <span>Secure Login</span>
+            <span>Multi-Role Dashboards</span>
           </div>
           <div className="bx-hero-tag-item">
             <FiCheckCircle className="bx-hero-tag-icon" />
-            <span>All Tools Included</span>
+            <span>Live Classrooms & Quizzes</span>
           </div>
           <div className="bx-hero-tag-item">
             <FiCheckCircle className="bx-hero-tag-icon" />
-            <span>Works on Any Device</span>
+            <span>PWA Home Screen Access</span>
           </div>
         </motion.div>
 
@@ -103,7 +103,7 @@ function Hero() {
                       <div className="bx-hero-card-window-dots">
                         <span /><span /><span />
                       </div>
-                      <span className="bx-hero-card-tag-text">SYSTEM ACTIVE</span>
+                      <span className="bx-hero-card-tag-text">{panel.tag}</span>
                     </div>
 
                     <div className="bx-hero-card-body-telemetry">
@@ -125,7 +125,7 @@ function Hero() {
 
           {/* VISUAL SWIPE PROMPT HUD FOR SMARTPHONES */}
           <div className="bx-hero-mobile-swipe-indicator">
-            <span>Swipe to explore systems</span>
+            <span>Swipe to explore platform modules</span>
             <div className="bx-indicator-line">
               <div className="bx-indicator-progress" />
             </div>

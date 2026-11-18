@@ -32,12 +32,12 @@ function SplitCTA() {
         >
           {/* BRAND BADGE TAG */}
           <motion.div className="bx-split-tag" variants={itemVariants}>
-            ENTERPRISE SECURITY
+            ACADEMIC SECURITY & PRIVACY
           </motion.div>
 
           {/* MAIN CARD HEADLINE */}
           <motion.h2 className="bx-split-title" variants={itemVariants}>
-            Unified Intelligence for Enterprise Portals
+            Enterprise-Grade Security for Institutions & Students
           </motion.h2>
 
           {/* FEATURE ITEMS STACK */}
@@ -48,8 +48,8 @@ function SplitCTA() {
                 <FiShield size={20} />
               </div>
               <div className="bx-split-item-content">
-                <h3>SSO & Encrypted Layers</h3>
-                <p>Military-grade encryption for all institutional and student data, compliant with global standards.</p>
+                <h3>Encrypted Student Data & SSO</h3>
+                <p>256-bit encryption for student records, assignment submissions, and instructor data compliant with global privacy standards.</p>
               </div>
             </motion.div>
 
@@ -58,8 +58,8 @@ function SplitCTA() {
                 <FiSliders size={20} />
               </div>
               <div className="bx-split-item-content">
-                <h3>Centralized Control</h3>
-                <p>Administrators can toggle AI permissions and resource allocation from a single master dashboard.</p>
+                <h3>Multi-Role Dashboard Control</h3>
+                <p>Administrators can manage course permissions, instructor roles, and student enrollments from a centralized control panel.</p>
               </div>
             </motion.div>
 
@@ -68,8 +68,8 @@ function SplitCTA() {
                 <FiFileText size={20} />
               </div>
               <div className="bx-split-item-content">
-                <h3>Automated Reporting</h3>
-                <p>Generate comprehensive accreditation reports and usage statistics with one click using LLM synthesis.</p>
+                <h3>Automated Academic Analytics</h3>
+                <p>Generate course engagement insights, student progression reports, and system usage statistics with a single click.</p>
               </div>
             </motion.div>
 
@@ -92,7 +92,7 @@ function SplitCTA() {
                 <span className="dot-yellow" />
                 <span className="dot-green" />
               </div>
-              <div className="bx-split-window-address">benedex.portal/security/console</div>
+              <div className="bx-split-window-address">elearning.benedex.org/admin/security</div>
             </div>
 
             {/* TELEMETRY GRAPHICS CONTAINER */}

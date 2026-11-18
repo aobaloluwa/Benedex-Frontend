@@ -1,7 +1,9 @@
+import { useEffect } from "react";
 import {
   Routes,
   Route,
   Navigate,
+  useLocation,
 } from "react-router-dom";
 
 import {
@@ -103,9 +105,20 @@ function ProfileLayoutShell() {
   return <StudentLayout />;
 }
 
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+}
+
 function App() {
   return (
     <AuthProvider>
+      <ScrollToTop />
       <Routes>
 
         <Route
