@@ -783,7 +783,7 @@
 
 @media (max-width: 768px) {
   .bx-hero-centered-title {
-    font-size: 2.25rem !important;
+    font-size: 2.5rem !important;
   }
 
   .bx-hero-badge-chip {
@@ -900,13 +900,13 @@
 
 @media (max-width: 575px) {
   .bx-hero-centered-title {
-    font-size: 1.85rem !important;
+    font-size: 2.2rem !important;
   }
 }
 
 @media (max-width: 480px) {
   .bx-hero-centered-title {
-    font-size: 1.65rem !important;
+    font-size: 2.0rem !important;
   }
 
   .bx-hero-badge-chip {
