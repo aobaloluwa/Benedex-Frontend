@@ -327,9 +327,7 @@ function Profile() {
       })
     : "January 1, 2026";
 
-  const publicVerifyUrl = typeof window !== "undefined"
-    ? `${window.location.origin}/verify-identity/${user?._id || "892014"}`
-    : `https://benedex-frontend.onrender.com/verify-identity/${user?._id || "892014"}`;
+  const publicVerifyUrl = `https://benedex.org/verify-identity/${user?._id || "892014"}`;
 
   const realQrCodeImg = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(publicVerifyUrl)}`;
 
