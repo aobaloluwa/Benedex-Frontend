@@ -282,6 +282,16 @@ function Register() {
               onSubmit={handleSubmit}
               className="login-form"
             >
+              {/* BOT PROTECTION HONEYPOT TRAP (HIDDEN FROM HUMANS) */}
+              <input
+                type="text"
+                name="website"
+                value={formData.website || ""}
+                onChange={handleChange}
+                style={{ display: "none", position: "absolute", left: "-9999px" }}
+                tabIndex={-1}
+                autoComplete="off"
+              />
               <label className="login-field">
                 <span>Full Name</span>
 
