@@ -894,6 +894,12 @@
   }
 }
 
+@media (max-width: 575px) {
+  .bx-hero-centered-title {
+    font-size: 1.85rem !important;
+  }
+}
+
 @media (max-width: 480px) {
   .bx-hero-badge-chip {
     font-size: 0.65rem !important;
