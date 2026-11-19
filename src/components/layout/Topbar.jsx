@@ -60,8 +60,8 @@ function Topbar({ onMenuClick = () => {} }) {
           const res = await API.get("/notifications");
           const broadcasts = res.data || [];
           count = broadcasts.filter((item) => !item.isRead).length;
-        } else if (currentRole === "admin") {
-          // Fetch admin pending tasks overview counter
+        } else if (currentRole === "admin" || currentRole === "superadmin") {
+          // Fetch admin / superadmin pending tasks overview counter
           const res = await API.get("/admin/analytics");
           count = res.data?.overview?.pendingSubmissions || 0;
         } else {
