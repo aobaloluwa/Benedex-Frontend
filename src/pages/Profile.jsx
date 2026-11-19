@@ -29,16 +29,22 @@ import {
   FiCpu,
   FiClock,
   FiUploadCloud,
+  FiPrinter,
+  FiCreditCard,
+  FiDownload,
+  FiRefreshCw,
 } from "react-icons/fi";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import Logo from "../assets/20260623_190852.png";
 import "./Profile.css";
 
 function Profile() {
   const navigate = useNavigate();
   const { user, logout, updateUser } = useAuth();
 
-  const [activeTab, setActiveTab] = useState("general"); // 'general' | 'security' | 'activity'
+  const [activeTab, setActiveTab] = useState("general"); // 'general' | 'security' | 'activity' | 'idCard'
+  const [isCardFlipped, setIsCardFlipped] = useState(false);
   const [loading, setLoading] = useState(false);
   const [profileLoading, setProfileLoading] = useState(false);
   const [feedback, setFeedback] = useState({ type: "", message: "" });
@@ -966,17 +972,179 @@ function Profile() {
                         <div className="col-12 col-md-6">
                           <div className="p-3 rounded border" style={{ background: "#f8fafc", borderColor: "#e5e9ef" }}>
                             <div className="d-flex align-items-center gap-2 mb-2">
-                              <FiSettings style={{ color: "#2e7fc1" }} size={18} />
-                              <strong style={{ fontSize: 13, color: "#07335c" }}>Master Controls</strong>
+                      </div>
+                    )}
+                  </motion.div>
+                )}
+
+                {/* TAB 4: OFFICIAL CORPORATE ID CARD */}
+                {activeTab === "idCard" && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.15 }}
+                  >
+                    <div className="prf-id-wrapper">
+                      {/* ID CARD 3D STAGE */}
+                      <div className="prf-id-card-stage">
+                        <div className={`prf-id-card-3d ${isCardFlipped ? "flipped" : ""}`}>
+                          {/* FRONT FACE */}
+                          <div className="prf-id-card-face prf-id-card-front">
+                            {/* LANYARD HOLE PUNCH */}
+                            <div className="prf-id-clip-area">
+                              <div className="prf-id-hole" />
                             </div>
 
-                            <p style={{ fontSize: 11, color: "#5f6b7a", margin: 0 }}>
-                              Full rights over AI course generators, user role assignments, ticket resolutions, system settings, and activity logs.
-                            </p>
+                            {/* GEOMETRIC CHECKERED STRIP (RIGHT EDGE) */}
+                            <div className="prf-id-geometric-strip">
+                              <div className="prf-id-pattern-grid">
+                                {Array.from({ length: 44 }).map((_, pIdx) => {
+                                  const colors = [
+                                    "cell-dark",
+                                    "cell-mid",
+                                    "cell-light",
+                                    "cell-soft",
+                                    "cell-white",
+                                  ];
+                                  return (
+                                    <div
+                                      key={pIdx}
+                                      className={`prf-id-pattern-cell ${
+                                        colors[pIdx % colors.length]
+                                      }`}
+                                    />
+                                  );
+                                })}
+                              </div>
+                            </div>
+
+                            {/* AVATAR PHOTO */}
+                            <div className="prf-id-avatar-box">
+                              <img
+                                src={getAvatarUrl(profileImage || user?.profileImage)}
+                                alt={user?.fullName || "Member"}
+                                className="prf-id-avatar-img"
+                                onError={(e) => {
+                                  e.target.onerror = null;
+                                  e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(
+                                    user?.fullName || "Member"
+                                  )}&background=07335c&color=fff&size=128&bold=true`;
+                                }}
+                              />
+                            </div>
+
+                            {/* USER NAME & TITLE */}
+                            <div className="prf-id-details">
+                              <h2 className="prf-id-name">{user?.fullName || "Babatunde Moyosore"}</h2>
+                              <p className="prf-id-title">
+                                {userRole === "superadmin"
+                                  ? "Super Administrator"
+                                  : "System Administrator"}{" "}
+                                • Benedex
+                              </p>
+
+                              <div className="prf-id-meta-block">
+                                <div className="prf-id-meta-row">
+                                  <span>Official ID:</span>
+                                  <strong>
+                                    BX-{String(user?._id || "892014").slice(-6).toUpperCase()}-{userRole === "superadmin" ? "SADM" : "ADM"}
+                                  </strong>
+                                </div>
+                                <div className="prf-id-meta-row">
+                                  <span>Email:</span>
+                                  <strong>{user?.email || "admin@benedex.org"}</strong>
+                                </div>
+                                <div className="prf-id-meta-row">
+                                  <span>Issue Date:</span>
+                                  <strong>January 2026</strong>
+                                </div>
+                                <div className="prf-id-meta-row">
+                                  <span>Clearance Tier:</span>
+                                  <strong style={{ color: "#15803d" }}>
+                                    <FiCheckCircle size={10} /> VERIFIED OFFICIAL
+                                  </strong>
+                                </div>
+                              </div>
+                            </div>
+
+                            {/* BRAND LOGO FOOTER */}
+                            <div className="prf-id-logo-footer">
+                              <img src={Logo} alt="Benedex" className="prf-id-logo-img" />
+                              <span className="prf-id-brand-text">Benedex Innovations Inc.</span>
+                            </div>
+                          </div>
+
+                          {/* BACK FACE */}
+                          <div className="prf-id-card-face prf-id-card-back">
+                            {/* LANYARD HOLE PUNCH */}
+                            <div className="prf-id-clip-area">
+                              <div className="prf-id-hole" />
+                            </div>
+
+                            <div className="prf-id-back-content">
+                              <div className="d-flex align-items-center gap-2 mb-2">
+                                <img src={Logo} alt="Benedex" style={{ height: 20 }} />
+                                <strong style={{ fontSize: 12, color: "#07335c" }}>Official Security Credential</strong>
+                              </div>
+
+                              <div className="prf-id-qr-box my-2">
+                                <svg viewBox="0 0 100 100" style={{ width: 90, height: 90 }}>
+                                  <rect width="100" height="100" fill="#ffffff" />
+                                  <rect x="10" y="10" width="30" height="30" fill="#07335c" />
+                                  <rect x="15" y="15" width="20" height="20" fill="#ffffff" />
+                                  <rect x="20" y="20" width="10" height="10" fill="#07335c" />
+
+                                  <rect x="60" y="10" width="30" height="30" fill="#07335c" />
+                                  <rect x="65" y="15" width="20" height="20" fill="#ffffff" />
+                                  <rect x="70" y="20" width="10" height="10" fill="#07335c" />
+
+                                  <rect x="10" y="60" width="30" height="30" fill="#07335c" />
+                                  <rect x="15" y="65" width="20" height="20" fill="#ffffff" />
+                                  <rect x="20" y="70" width="10" height="10" fill="#07335c" />
+
+                                  <rect x="50" y="50" width="15" height="15" fill="#07335c" />
+                                  <rect x="70" y="50" width="15" height="15" fill="#2e7fc1" />
+                                  <rect x="50" y="70" width="15" height="15" fill="#2e7fc1" />
+                                  <rect x="70" y="70" width="20" height="20" fill="#07335c" />
+                                </svg>
+                                <div className="prf-id-barcode">
+                                  *BX-{String(user?._id || "892014").slice(-6).toUpperCase()}*
+                                </div>
+                              </div>
+
+                              <p className="prf-id-disclaimer">
+                                Property of <strong>Benedex Innovations Inc.</strong> This credential grants official access to system terminals and platform consoles.
+                              </p>
+
+                              <div style={{ fontSize: 10, color: "#07335c", fontWeight: 600 }}>
+                                Security Support: security@benedex.org
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    )}
+
+                      {/* CONTROLS ROW */}
+                      <div className="prf-id-actions-row mt-2">
+                        <button
+                          type="button"
+                          className="prf-id-btn-flip"
+                          onClick={() => setIsCardFlipped(!isCardFlipped)}
+                        >
+                          <FiRefreshCw />
+                          <span>{isCardFlipped ? "View Front Side" : "View Back Side"}</span>
+                        </button>
+
+                        <button
+                          type="button"
+                          className="prf-id-btn-print"
+                          onClick={() => window.print()}
+                        >
+                          <FiPrinter />
+                          <span>Print ID Badge</span>
+                        </button>
+                      </div>
+                    </div>
                   </motion.div>
                 )}
               </div>
@@ -1043,6 +1211,23 @@ function Profile() {
                     <span>{userRole.toUpperCase()} level shortcuts</span>
                   </div>
                 </button>
+
+                {(userRole === "admin" || userRole === "superadmin") && (
+                  <button
+                    type="button"
+                    className={`prf-nav-btn ${activeTab === "idCard" ? "active" : ""}`}
+                    onClick={() => setActiveTab("idCard")}
+                  >
+                    <div className="prf-nav-btn-icon">
+                      <FiCreditCard />
+                    </div>
+
+                    <div className="prf-nav-btn-content">
+                      <strong>Corporate ID Card</strong>
+                      <span>View, print & download badge</span>
+                    </div>
+                  </button>
+                )}
               </div>
             </div>
 
