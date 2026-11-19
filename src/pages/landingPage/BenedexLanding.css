@@ -782,6 +782,10 @@
 }
 
 @media (max-width: 768px) {
+  .bx-hero-centered-title {
+    font-size: 2.25rem !important;
+  }
+
   .bx-hero-badge-chip {
     font-size: 0.7rem !important;
     padding: 4px 12px !important;
@@ -901,6 +905,10 @@
 }
 
 @media (max-width: 480px) {
+  .bx-hero-centered-title {
+    font-size: 1.65rem !important;
+  }
+
   .bx-hero-badge-chip {
     font-size: 0.65rem !important;
     padding: 3px 10px !important;
