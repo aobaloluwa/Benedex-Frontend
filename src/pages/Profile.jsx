@@ -1006,127 +1006,131 @@ function Profile() {
                     transition={{ duration: 0.15 }}
                   >
                     <div className="prf-id-wrapper">
-                      {/* ID CARD 3D STAGE */}
+                      {/* ID CARD STAGE */}
                       <div className="prf-id-card-stage">
                         <div className={`prf-id-card-3d ${isCardFlipped ? "flipped" : ""}`}>
-                          {/* FRONT FACE */}
-                          <div className={`prf-id-card-face prf-id-card-front ${isCardFlipped ? "is-hidden" : ""}`}>
-                            {/* GEOMETRIC CHECKERED STRIP (RIGHT EDGE) */}
-                            <div className="prf-id-geometric-strip">
-                              <div className="prf-id-pattern-grid">
-                                {Array.from({ length: 44 }).map((_, pIdx) => {
-                                  const colors = [
-                                    "cell-dark",
-                                    "cell-mid",
-                                    "cell-light",
-                                    "cell-soft",
-                                    "cell-white",
-                                  ];
-                                  return (
-                                    <div
-                                      key={pIdx}
-                                      className={`prf-id-pattern-cell ${
-                                        colors[pIdx % colors.length]
-                                      }`}
-                                    />
-                                  );
-                                })}
-                              </div>
-                            </div>
-
-                            {/* AVATAR PHOTO */}
-                            <div className="prf-id-avatar-box">
-                              <img
-                                src={getAvatarUrl(profileImage || user?.profileImage)}
-                                alt={user?.fullName || "Member"}
-                                className="prf-id-avatar-img"
-                                onError={(e) => {
-                                  e.target.onerror = null;
-                                  e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(
-                                    user?.fullName || "Member"
-                                  )}&background=07335c&color=fff&size=128&bold=true`;
-                                }}
-                              />
-                            </div>
-
-                            {/* USER NAME & TITLE */}
-                            <div className="prf-id-details">
-                              <h2 className="prf-id-name">{user?.fullName || "Babatunde Moyosore"}</h2>
-                              <p className="prf-id-title">
-                                {userRole === "superadmin"
-                                  ? "Super Administrator"
-                                  : "System Administrator"}{" "}
-                                • Benedex
-                              </p>
-
-                              <div className="prf-id-meta-block">
-                                <div className="prf-id-meta-row">
-                                  <span>Official ID:</span>
-                                  <strong>
-                                    BX-{String(user?._id || "892014").slice(-6).toUpperCase()}-{userRole === "superadmin" ? "SADM" : "ADM"}
-                                  </strong>
-                                </div>
-                                <div className="prf-id-meta-row">
-                                  <span>Email:</span>
-                                  <strong title={user?.email || "admin@benedex.org"}>
-                                    {user?.email || "admin@benedex.org"}
-                                  </strong>
-                                </div>
-                                <div className="prf-id-meta-row">
-                                  <span>Issue Date:</span>
-                                  <strong>{issueDateFormatted}</strong>
-                                </div>
-                                <div className="prf-id-meta-row">
-                                  <span>Clearance Tier:</span>
-                                  <strong style={{ color: "#15803d" }}>
-                                    <FiCheckCircle size={10} /> VERIFIED OFFICIAL
-                                  </strong>
+                          {/* FRONT FACE - DISPLAYED ONLY WHEN NOT FLIPPED */}
+                          {!isCardFlipped && (
+                            <div className="prf-id-card-face prf-id-card-front">
+                              {/* GEOMETRIC CHECKERED STRIP (RIGHT EDGE) */}
+                              <div className="prf-id-geometric-strip">
+                                <div className="prf-id-pattern-grid">
+                                  {Array.from({ length: 44 }).map((_, pIdx) => {
+                                    const colors = [
+                                      "cell-dark",
+                                      "cell-mid",
+                                      "cell-light",
+                                      "cell-soft",
+                                      "cell-white",
+                                    ];
+                                    return (
+                                      <div
+                                        key={pIdx}
+                                        className={`prf-id-pattern-cell ${
+                                          colors[pIdx % colors.length]
+                                        }`}
+                                      />
+                                    );
+                                  })}
                                 </div>
                               </div>
-                            </div>
 
-                            {/* BRAND LOGO FOOTER */}
-                            <div className="prf-id-logo-footer">
-                              <img src={Logo} alt="Benedex" className="prf-id-logo-img" />
-                            </div>
-                          </div>
-
-                          {/* BACK FACE */}
-                          <div className={`prf-id-card-face prf-id-card-back ${!isCardFlipped ? "is-hidden" : ""}`}>
-                            <div className="prf-id-back-content">
-                              {/* CENTERED LOGO AND TEXT UNDER IT */}
-                              <div className="prf-id-back-header">
-                                <img src={Logo} alt="Benedex" className="prf-id-back-logo" />
-                                <span className="prf-id-back-label">Official Security Credential</span>
-                              </div>
-
-                              {/* REAL SCANNABLE QR CODE */}
-                              <div className="prf-id-qr-box my-2">
+                              {/* AVATAR PHOTO */}
+                              <div className="prf-id-avatar-box">
                                 <img
-                                  src={realQrCodeImg}
-                                  alt="Scannable Security QR Code"
-                                  style={{
-                                    width: 105,
-                                    height: 105,
-                                    objectFit: "contain",
-                                    display: "block",
-                                    margin: "0 auto",
+                                  src={getAvatarUrl(profileImage || user?.profileImage)}
+                                  alt={user?.fullName || "Member"}
+                                  className="prf-id-avatar-img"
+                                  onError={(e) => {
+                                    e.target.onerror = null;
+                                    e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(
+                                      user?.fullName || "Member"
+                                    )}&background=07335c&color=fff&size=128&bold=true`;
                                   }}
                                 />
-                                <div className="prf-id-barcode">
-                                  *BX-{String(user?._id || "892014").slice(-6).toUpperCase()}*
+                              </div>
+
+                              {/* USER NAME & TITLE */}
+                              <div className="prf-id-details">
+                                <h2 className="prf-id-name">{user?.fullName || "Babatunde Moyosore"}</h2>
+                                <p className="prf-id-title">
+                                  {userRole === "superadmin"
+                                    ? "Super Administrator"
+                                    : "System Administrator"}{" "}
+                                  • Benedex
+                                </p>
+
+                                <div className="prf-id-meta-block">
+                                  <div className="prf-id-meta-row">
+                                    <span>Official ID:</span>
+                                    <strong>
+                                      BX-{String(user?._id || "892014").slice(-6).toUpperCase()}-{userRole === "superadmin" ? "SADM" : "ADM"}
+                                    </strong>
+                                  </div>
+                                  <div className="prf-id-meta-row">
+                                    <span>Email:</span>
+                                    <strong title={user?.email || "admin@benedex.org"}>
+                                      {user?.email || "admin@benedex.org"}
+                                    </strong>
+                                  </div>
+                                  <div className="prf-id-meta-row">
+                                    <span>Issue Date:</span>
+                                    <strong>{issueDateFormatted}</strong>
+                                  </div>
+                                  <div className="prf-id-meta-row">
+                                    <span>Clearance Tier:</span>
+                                    <strong style={{ color: "#15803d" }}>
+                                      <FiCheckCircle size={10} /> VERIFIED OFFICIAL
+                                    </strong>
+                                  </div>
                                 </div>
                               </div>
 
-                              <p className="prf-id-disclaimer">
-                                Property of <strong>Benedex Innovations Inc.</strong> Scan QR code to verify authentic platform clearance.
-                              </p>
-
-                              <div style={{ fontSize: 10, color: "#07335c", fontWeight: 500 }}>
-                                Security Support: security@benedex.org
+                              {/* BRAND LOGO FOOTER */}
+                              <div className="prf-id-logo-footer">
+                                <img src={Logo} alt="Benedex" className="prf-id-logo-img" />
                               </div>
                             </div>
-                          </div>
+                          )}
+
+                          {/* BACK FACE - DISPLAYED ONLY WHEN FLIPPED */}
+                          {isCardFlipped && (
+                            <div className="prf-id-card-face prf-id-card-back">
+                              <div className="prf-id-back-content">
+                                {/* CENTERED LOGO AND TEXT UNDER IT */}
+                                <div className="prf-id-back-header">
+                                  <img src={Logo} alt="Benedex" className="prf-id-back-logo" />
+                                  <span className="prf-id-back-label">Official Security Credential</span>
+                                </div>
+
+                                {/* REAL SCANNABLE QR CODE */}
+                                <div className="prf-id-qr-box my-2">
+                                  <img
+                                    src={realQrCodeImg}
+                                    alt="Scannable Security QR Code"
+                                    style={{
+                                      width: 100,
+                                      height: 100,
+                                      objectFit: "contain",
+                                      display: "block",
+                                      margin: "0 auto",
+                                    }}
+                                  />
+                                  <div className="prf-id-barcode">
+                                    *BX-{String(user?._id || "892014").slice(-6).toUpperCase()}*
+                                  </div>
+                                </div>
+
+                                <p className="prf-id-disclaimer">
+                                  Property of <strong>Benedex Innovations Inc.</strong> Scan QR code to verify authentic platform clearance.
+                                </p>
+
+                                <div style={{ fontSize: 10, color: "#07335c", fontWeight: 500 }}>
+                                  Security Support: security@benedex.org
+                                </div>
+                              </div>
+                            </div>
+                          )}
                         </div>
                       </div>
 

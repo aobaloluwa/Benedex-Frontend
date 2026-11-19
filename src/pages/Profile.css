@@ -1221,6 +1221,65 @@
   transform: translateY(-1px);
 }
 
+/* RESPONSIVE MOBILE ADJUSTMENTS FOR IPHONE / SMALL DISPLAYS */
+@media (max-width: 575px) {
+  .prf-id-wrapper {
+    padding: 0;
+    width: 100%;
+  }
+
+  .prf-id-card-stage {
+    width: 100%;
+    max-width: 290px;
+    height: 480px;
+  }
+
+  .prf-id-card-face {
+    padding: 18px 14px 14px 14px;
+    border-radius: 20px;
+  }
+
+  .prf-id-avatar-img {
+    width: 88px;
+    height: 88px;
+  }
+
+  .prf-id-name {
+    font-size: 17px;
+  }
+
+  .prf-id-title {
+    font-size: 10px;
+  }
+
+  .prf-id-meta-block {
+    width: 100%;
+    max-width: 220px;
+    padding: 8px 10px;
+  }
+
+  .prf-id-meta-row {
+    font-size: 9.5px;
+  }
+
+  .prf-id-meta-row strong {
+    max-width: 110px;
+  }
+
+  .prf-id-logo-img {
+    height: 26px;
+  }
+
+  .prf-id-back-logo {
+    height: 28px;
+  }
+
+  .prf-id-qr-box img {
+    width: 85px !important;
+    height: 85px !important;
+  }
+}
+
 /* =========================================
    STRICT PRINT MEDIA CSS ISOLATION
 ========================================= */
