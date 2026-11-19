@@ -12,6 +12,7 @@ import {
   FiActivity,
   FiFilter,
   FiRefreshCw,
+  FiCheck,
 } from "react-icons/fi";
 import "./AdminUsers.css";
 
@@ -145,6 +146,7 @@ function AdminUsers() {
       isOpen: true,
       type,
       user,
+      selectedRole: user?.role || "student",
       processing: false,
     });
   };
@@ -154,6 +156,7 @@ function AdminUsers() {
       isOpen: false,
       type: null,
       user: null,
+      selectedRole: "student",
       processing: false,
     });
   };
@@ -162,8 +165,9 @@ function AdminUsers() {
   // USER ACTIONS
   // =========================
 
-  const handleAction = async (payload) => {
-    const { type, user } = modal;
+  const handleAction = async (overridePayload) => {
+    const { type, user, selectedRole } = modal;
+    const targetRole = overridePayload || selectedRole;
 
     setModal((prev) => ({
       ...prev,
@@ -181,13 +185,13 @@ function AdminUsers() {
 
       if (type === "role") {
         await API.put(`/users/role/${user._id}`, {
-          role: payload,
+          role: targetRole,
         });
 
         setUsers((prev) =>
           prev.map((u) =>
             u._id === user._id
-              ? { ...u, role: payload }
+              ? { ...u, role: targetRole }
               : u
           )
         );
@@ -525,120 +529,158 @@ function AdminUsers() {
 
       </div>
 
-      {/* WARNING MODAL SYSTEM */}
+      {/* ACTION MODAL SYSTEM REDESIGN */}
       <AnimatePresence>
         {modal.isOpen && (
           <div className="bx-ur-modal-overlay">
-
             <motion.div
               className="bx-ur-modal-card"
-              initial={{
-                scale: 0.9,
-                opacity: 0,
-              }}
-              animate={{
-                scale: 1,
-                opacity: 1,
-              }}
-              exit={{
-                scale: 0.9,
-                opacity: 0,
-              }}
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
             >
-
+              {/* MODAL HEADER */}
               <div className="bx-ur-modal-header">
+                <div className="d-flex align-items-center gap-3">
+                  <div className={`bx-ur-modal-badge is-${modal.type}`}>
+                    {modal.type === "delete" && <FiTrash2 size={20} />}
+                    {modal.type === "status" && <FiAlertCircle size={20} />}
+                    {modal.type === "role" && <FiShield size={20} />}
+                  </div>
 
-                <FiAlertCircle
-                  className={`bx-ur-warning-icon is-${modal.type}`}
-                />
+                  <div>
+                    <span className="bx-ur-modal-eyebrow">
+                      {modal.type === "delete" && "DANGER ZONE"}
+                      {modal.type === "status" && "ACCOUNT ACCESS"}
+                      {modal.type === "role" && "ROLE CLEARANCE"}
+                    </span>
+
+                    <h3 className="bx-ur-modal-title mb-0">
+                      {modal.type === "delete" && "Delete User Account"}
+                      {modal.type === "status" &&
+                        (modal.user?.status === "suspended"
+                          ? "Reactivate Account Access"
+                          : "Suspend Account Access")}
+                      {modal.type === "role" && "Change User Role"}
+                    </h3>
+                  </div>
+                </div>
 
                 <button
+                  type="button"
                   className="bx-ur-close-modal"
                   onClick={closeModal}
+                  title="Cancel"
                 >
                   <FiX />
                 </button>
-
               </div>
 
-              <div className="bx-ur-modal-body text-center">
+              {/* MODAL BODY */}
+              <div className="bx-ur-modal-body">
+                <p className="bx-ur-modal-desc mb-0">
+                  {modal.type === "delete" && (
+                    <>
+                      Are you sure you want to permanently delete{" "}
+                      <strong>{modal.user?.fullName}</strong>? This action will purge all associated user records and cannot be undone.
+                    </>
+                  )}
 
-                <h3 className="h5 font-weight-bold mb-2">
-                  Confirm System Action
-                </h3>
+                  {modal.type === "status" && (
+                    <>
+                      Are you sure you want to{" "}
+                      <strong>
+                        {modal.user?.status === "suspended"
+                          ? "reactivate account access for"
+                          : "suspend access for"}
+                      </strong>{" "}
+                      <strong>{modal.user?.fullName}</strong>?
+                    </>
+                  )}
 
-                <p className="text-muted small px-3">
-
-                  {modal.type === "delete" &&
-                    `You are about to permanently purge ${modal.user?.fullName} from the platform core registries.`}
-
-                  {modal.type === "role" &&
-                    `Redefining access architecture clearances for ${modal.user?.fullName}.`}
-
-                  {modal.type === "status" &&
-                    `Are you sure you want to toggle the restriction status on ${modal.user?.fullName}?`}
-
+                  {modal.type === "role" && (
+                    <>
+                      Select a new access clearance role for{" "}
+                      <strong>{modal.user?.fullName}</strong>.
+                    </>
+                  )}
                 </p>
 
-                {/* ROLE SELECTOR */}
+                {/* ROLE SELECTOR GRID */}
                 {modal.type === "role" && (
-                  <div className="bx-ur-role-selector mt-4">
-
-                    {[
-                      "student",
-                      "instructor",
-                      "admin",
-                      "superadmin",
-                    ].map((r) => (
-                      <button
-                        key={r}
-                        className={`bx-ur-role-opt ${
-                          modal.user.role === r
-                            ? "current"
-                            : ""
-                        }`}
-                        onClick={() =>
-                          handleAction(r)
-                        }
-                        disabled={modal.processing}
-                      >
-                        {r}
-                      </button>
-                    ))}
-
+                  <div className="bx-ur-role-grid mt-3">
+                    {["student", "instructor", "admin", "superadmin"].map((r) => {
+                      const isSelected = modal.selectedRole === r;
+                      return (
+                        <button
+                          key={r}
+                          type="button"
+                          className={`bx-ur-role-card ${isSelected ? "active" : ""}`}
+                          onClick={() =>
+                            setModal((prev) => ({ ...prev, selectedRole: r }))
+                          }
+                          disabled={modal.processing}
+                        >
+                          <span className="text-capitalize">{r}</span>
+                          {isSelected && <FiCheck size={14} className="ms-auto text-success" />}
+                        </button>
+                      );
+                    })}
                   </div>
                 )}
-
               </div>
 
+              {/* MODAL FOOTER WITH CLEAR CTAS */}
               <div className="bx-ur-modal-footer">
-
                 <button
-                  className="bx-ur-cancel-btn"
+                  type="button"
+                  className="bx-ur-btn-cancel"
                   onClick={closeModal}
                   disabled={modal.processing}
                 >
-                  Abort
+                  Cancel
                 </button>
 
-                {modal.type !== "role" && (
+                {modal.type === "delete" && (
                   <button
-                    className={`bx-ur-confirm-btn is-${modal.type}`}
-                    onClick={() =>
-                      handleAction()
-                    }
+                    type="button"
+                    className="bx-ur-btn-danger"
+                    onClick={() => handleAction()}
                     disabled={modal.processing}
                   >
-                    {modal.processing
-                      ? "Syncing..."
-                      : "Verify Action"}
+                    {modal.processing ? "Deleting..." : "Delete User"}
                   </button>
                 )}
 
+                {modal.type === "status" && (
+                  <button
+                    type="button"
+                    className={`bx-ur-btn-action ${
+                      modal.user?.status === "suspended" ? "is-activate" : "is-suspend"
+                    }`}
+                    onClick={() => handleAction()}
+                    disabled={modal.processing}
+                  >
+                    {modal.processing
+                      ? "Updating..."
+                      : modal.user?.status === "suspended"
+                      ? "Reactivate Account"
+                      : "Suspend Account"}
+                  </button>
+                )}
+
+                {modal.type === "role" && (
+                  <button
+                    type="button"
+                    className="bx-ur-btn-primary"
+                    onClick={() => handleAction(modal.selectedRole)}
+                    disabled={modal.processing}
+                  >
+                    {modal.processing ? "Updating..." : "Save Role"}
+                  </button>
+                )}
               </div>
-
             </motion.div>
-
           </div>
         )}
       </AnimatePresence>
