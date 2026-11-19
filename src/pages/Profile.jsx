@@ -972,6 +972,15 @@ function Profile() {
                         <div className="col-12 col-md-6">
                           <div className="p-3 rounded border" style={{ background: "#f8fafc", borderColor: "#e5e9ef" }}>
                             <div className="d-flex align-items-center gap-2 mb-2">
+                              <FiSettings style={{ color: "#2e7fc1" }} size={18} />
+                              <strong style={{ fontSize: 13, color: "#07335c" }}>Master Controls</strong>
+                            </div>
+
+                            <p style={{ fontSize: 11, color: "#5f6b7a", margin: 0 }}>
+                              Full rights over AI course generators, user role assignments, ticket resolutions, system settings, and activity logs.
+                            </p>
+                          </div>
+                        </div>
                       </div>
                     )}
                   </motion.div>
