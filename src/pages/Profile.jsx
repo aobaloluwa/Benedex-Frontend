@@ -313,6 +313,17 @@ function Profile() {
 
   const userRole = user?.role || "student";
 
+  const getAvatarUrl = (img) => {
+    if (img && typeof img === "string" && img.trim() !== "") {
+      return img.trim();
+    }
+    if (user?.profileImage && typeof user.profileImage === "string" && user.profileImage.trim() !== "") {
+      return user.profileImage.trim();
+    }
+    const name = encodeURIComponent(user?.fullName || "Member");
+    return `https://ui-avatars.com/api/?name=${name}&background=07335c&color=fff&size=128&bold=true`;
+  };
+
   const userInitials = (user?.fullName || "B")
     .split(" ")
     .map((n) => n[0])
@@ -541,23 +552,23 @@ function Profile() {
                     {/* AVATAR IDENTITY BANNER */}
                     <div className="prf-avatar-banner">
                       <div className="prf-avatar-wrapper">
-                        {profileImage ? (
-                          <img
-                            src={profileImage}
-                            alt={user?.fullName}
-                            className="prf-avatar-img"
-                          />
-                        ) : (
-                          <div className="prf-avatar-fallback">
-                            {userInitials}
-                          </div>
-                        )}
+                        <img
+                          src={getAvatarUrl(profileImage || user?.profileImage)}
+                          alt={user?.fullName || "Profile"}
+                          className="prf-avatar-img"
+                          onError={(e) => {
+                            e.target.onerror = null;
+                            e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(
+                              user?.fullName || "Member"
+                            )}&background=07335c&color=fff&size=128&bold=true`;
+                          }}
+                        />
 
                         <button
                           type="button"
                           className="prf-avatar-edit-btn"
                           onClick={() => {
-                            setTempImageUrl(profileImage);
+                            setTempImageUrl(profileImage || user?.profileImage || "");
                             setIsEditingAvatar(true);
                           }}
                           title="Change Profile Photo"
@@ -1162,37 +1173,23 @@ function Profile() {
 
               <div className="prf-modal-body">
                 <div className="text-center mb-4">
-                  {tempImageUrl ? (
-                    <img
-                      src={tempImageUrl}
-                      alt="Preview"
-                      style={{
-                        width: 90,
-                        height: 90,
-                        borderRadius: "50%",
-                        objectFit: "cover",
-                        border: "2px solid #07335c",
-                      }}
-                    />
-                  ) : (
-                    <div
-                      style={{
-                        width: 90,
-                        height: 90,
-                        borderRadius: "50%",
-                        background: "#eaf3fb",
-                        color: "#07335c",
-                        fontSize: 32,
-                        fontWeight: 700,
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        margin: "0 auto",
-                      }}
-                    >
-                      {userInitials}
-                    </div>
-                  )}
+                  <img
+                    src={getAvatarUrl(tempImageUrl || profileImage || user?.profileImage)}
+                    alt="Preview"
+                    style={{
+                      width: 90,
+                      height: 90,
+                      borderRadius: "50%",
+                      objectFit: "cover",
+                      border: "2px solid #07335c",
+                    }}
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(
+                        user?.fullName || "Member"
+                      )}&background=07335c&color=fff&size=128&bold=true`;
+                    }}
+                  />
                 </div>
 
                 <div className="prf-form-group">
