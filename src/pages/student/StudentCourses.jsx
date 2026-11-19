@@ -145,9 +145,9 @@ function StudentCourses() {
 
   if (loading) {
     return (
-      <div className="st-maint-loader-frame">
-        <div className="st-maint-spinner" />
-        <p className="fw-normal">Preparing your course catalog...</p>
+      <div className={styles.loadingPane}>
+        <div className={styles.spinner} />
+        <p>Loading Course Catalog & Enrollment Data...</p>
       </div>
     );
   }
