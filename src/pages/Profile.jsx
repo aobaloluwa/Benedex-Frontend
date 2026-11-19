@@ -319,6 +319,20 @@ function Profile() {
 
   const userRole = user?.role || "student";
 
+  const issueDateFormatted = (user?.updatedAt || user?.createdAt)
+    ? new Date(user.updatedAt || user.createdAt).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      })
+    : "January 1, 2026";
+
+  const publicVerifyUrl = typeof window !== "undefined"
+    ? `${window.location.origin}/verify-identity/${user?._id || "892014"}`
+    : `https://benedex-frontend.onrender.com/verify-identity/${user?._id || "892014"}`;
+
+  const realQrCodeImg = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(publicVerifyUrl)}`;
+
   const getAvatarUrl = (img) => {
     if (img && typeof img === "string" && img.trim() !== "") {
       return img.trim();
@@ -999,11 +1013,6 @@ function Profile() {
                         <div className={`prf-id-card-3d ${isCardFlipped ? "flipped" : ""}`}>
                           {/* FRONT FACE */}
                           <div className="prf-id-card-face prf-id-card-front">
-                            {/* LANYARD HOLE PUNCH */}
-                            <div className="prf-id-clip-area">
-                              <div className="prf-id-hole" />
-                            </div>
-
                             {/* GEOMETRIC CHECKERED STRIP (RIGHT EDGE) */}
                             <div className="prf-id-geometric-strip">
                               <div className="prf-id-pattern-grid">
@@ -1065,7 +1074,7 @@ function Profile() {
                                 </div>
                                 <div className="prf-id-meta-row">
                                   <span>Issue Date:</span>
-                                  <strong>January 2026</strong>
+                                  <strong>{issueDateFormatted}</strong>
                                 </div>
                                 <div className="prf-id-meta-row">
                                   <span>Clearance Tier:</span>
@@ -1079,53 +1088,41 @@ function Profile() {
                             {/* BRAND LOGO FOOTER */}
                             <div className="prf-id-logo-footer">
                               <img src={Logo} alt="Benedex" className="prf-id-logo-img" />
-                              <span className="prf-id-brand-text">Benedex Innovations Inc.</span>
                             </div>
                           </div>
 
                           {/* BACK FACE */}
                           <div className="prf-id-card-face prf-id-card-back">
-                            {/* LANYARD HOLE PUNCH */}
-                            <div className="prf-id-clip-area">
-                              <div className="prf-id-hole" />
-                            </div>
-
                             <div className="prf-id-back-content">
-                              <div className="d-flex align-items-center gap-2 mb-2">
-                                <img src={Logo} alt="Benedex" style={{ height: 20 }} />
-                                <strong style={{ fontSize: 12, color: "#07335c" }}>Official Security Credential</strong>
+                              {/* CENTERED LOGO AND TEXT UNDER IT */}
+                              <div className="prf-id-back-header">
+                                <img src={Logo} alt="Benedex" className="prf-id-back-logo" />
+                                <span className="prf-id-back-label">Official Security Credential</span>
                               </div>
 
+                              {/* REAL SCANNABLE QR CODE */}
                               <div className="prf-id-qr-box my-2">
-                                <svg viewBox="0 0 100 100" style={{ width: 90, height: 90 }}>
-                                  <rect width="100" height="100" fill="#ffffff" />
-                                  <rect x="10" y="10" width="30" height="30" fill="#07335c" />
-                                  <rect x="15" y="15" width="20" height="20" fill="#ffffff" />
-                                  <rect x="20" y="20" width="10" height="10" fill="#07335c" />
-
-                                  <rect x="60" y="10" width="30" height="30" fill="#07335c" />
-                                  <rect x="65" y="15" width="20" height="20" fill="#ffffff" />
-                                  <rect x="70" y="20" width="10" height="10" fill="#07335c" />
-
-                                  <rect x="10" y="60" width="30" height="30" fill="#07335c" />
-                                  <rect x="15" y="65" width="20" height="20" fill="#ffffff" />
-                                  <rect x="20" y="70" width="10" height="10" fill="#07335c" />
-
-                                  <rect x="50" y="50" width="15" height="15" fill="#07335c" />
-                                  <rect x="70" y="50" width="15" height="15" fill="#2e7fc1" />
-                                  <rect x="50" y="70" width="15" height="15" fill="#2e7fc1" />
-                                  <rect x="70" y="70" width="20" height="20" fill="#07335c" />
-                                </svg>
+                                <img
+                                  src={realQrCodeImg}
+                                  alt="Scannable Security QR Code"
+                                  style={{
+                                    width: 105,
+                                    height: 105,
+                                    objectFit: "contain",
+                                    display: "block",
+                                    margin: "0 auto",
+                                  }}
+                                />
                                 <div className="prf-id-barcode">
                                   *BX-{String(user?._id || "892014").slice(-6).toUpperCase()}*
                                 </div>
                               </div>
 
                               <p className="prf-id-disclaimer">
-                                Property of <strong>Benedex Innovations Inc.</strong> This credential grants official access to system terminals and platform consoles.
+                                Property of <strong>Benedex Innovations Inc.</strong> Scan QR code to verify authentic platform clearance.
                               </p>
 
-                              <div style={{ fontSize: 10, color: "#07335c", fontWeight: 600 }}>
+                              <div style={{ fontSize: 10, color: "#07335c", fontWeight: 500 }}>
                                 Security Support: security@benedex.org
                               </div>
                             </div>

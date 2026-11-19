@@ -22,6 +22,7 @@ import ForgotPassword from "./pages/auth/ForgotPassword";
 import Profile from "./pages/Profile";
 import Maintenance from "./pages/Maintainance";
 import CertificateVerification from "./pages/public/CertificateVerification";
+import IdentityVerification from "./pages/public/IdentityVerification";
 import PrivacyPolicy from "./pages/public/PrivacyPolicy";
 import TermsOfService from "./pages/public/TermsOfService";
 import DataSecurity from "./pages/public/DataSecurity";
@@ -199,6 +200,11 @@ function App() {
         <Route
           path="/verify/:certificateId"
           element={<CertificateVerification />}
+        />
+
+        <Route
+          path="/verify-identity/:userId"
+          element={<IdentityVerification />}
         />
 
         <Route
