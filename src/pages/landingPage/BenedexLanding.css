@@ -773,7 +773,7 @@
 
 /* RESPONSIVE */
 @media (max-width: 991px) {
-  .bx-hero-centered-title { font-size: 2.5rem !important; }
+  .bx-hero-centered-title { font-size: 3.0rem !important; }
   .bx-hero-dual-cards-wrapper { grid-template-columns: 1fr; }
   .bx-hero-stats-banner { flex-wrap: wrap; gap: 1.5rem; }
   .bx-hero-stat-sep { display: none; }
@@ -783,7 +783,7 @@
 
 @media (max-width: 768px) {
   .bx-hero-centered-title {
-    font-size: 2.5rem !important;
+    font-size: 2.85rem !important;
   }
 
   .bx-hero-badge-chip {
@@ -900,13 +900,13 @@
 
 @media (max-width: 575px) {
   .bx-hero-centered-title {
-    font-size: 2.2rem !important;
+    font-size: 2.6rem !important;
   }
 }
 
 @media (max-width: 480px) {
   .bx-hero-centered-title {
-    font-size: 2.0rem !important;
+    font-size: 2.4rem !important;
   }
 
   .bx-hero-badge-chip {

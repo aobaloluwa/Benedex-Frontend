@@ -385,13 +385,13 @@
 
 @media (max-width: 768px) {
   .bx-hero-main-title {
-    font-size: 2.5rem !important;
+    font-size: 2.85rem !important;
   }
 }
 
 @media (max-width: 575px) {
   .bx-hero-main-title {
-    font-size: 2.2rem !important;
+    font-size: 2.6rem !important;
   }
 
   .bx-hero-feature-tags {
@@ -414,7 +414,7 @@
 
 @media (max-width: 480px) {
   .bx-hero-main-title {
-    font-size: 2.0rem !important;
+    font-size: 2.4rem !important;
   }
 }
 
