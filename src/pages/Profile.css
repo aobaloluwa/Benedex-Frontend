@@ -22,7 +22,7 @@
   --prf-border: #e5e9ef;
   --prf-border-dark: #d7dde5;
 
-  --prf-bg: #f6f8fb;
+  --prf-bg: #ffffff;
   --prf-white: #ffffff;
 
   --prf-radius-sm: 8px;
@@ -41,7 +41,7 @@
 
 .prf-workspace {
   min-height: 100vh;
-  background: var(--prf-bg);
+  background: #ffffff;
   font-family: "Poppins", sans-serif;
   color: var(--prf-text);
   padding: 28px 24px 60px;

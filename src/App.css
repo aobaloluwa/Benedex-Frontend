@@ -933,7 +933,7 @@ input {
 .student-content {
   min-width: 0;
   padding: 24px 20px 28px;
-  background: #ffffff;
+  background: #ffffff !important;
 }
 
 /* Global Top Spacer Classes for non-details dashboard layout wrappers */
@@ -941,6 +941,16 @@ input {
 .admin-dashboard-wrapper,
 .student-dashboard-wrapper {
   padding-top: 80px;
+}
+
+/* UNIFORM PURE WHITE BACKGROUND ACROSS ALL PORTALS (STUDENT, INSTRUCTOR, ADMIN, SUPERADMIN) */
+.student-shell,
+.student-main,
+.student-content,
+[class*="-workspace"],
+[class*="-shell"],
+.catalogPage {
+  background-color: #ffffff !important;
 }
 
 @media (max-width: 768px) {
