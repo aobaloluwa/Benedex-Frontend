@@ -61,7 +61,7 @@
 /* Core card block frame built directly from image_2a1c5f.png design specs */
 .bx-cta-card-shell {
   width: 100%;
-  background-color: #194066;
+  background-color: #194066 !important;
   /* Deep signature blue brand color canvas */
   border-radius: 28px;
   /* Sleek curved geometry layout */

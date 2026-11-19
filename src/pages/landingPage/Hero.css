@@ -194,7 +194,7 @@
 
 /* INDIVIDUAL SYSTEM CONSOLE CARD SPECIFICATION */
 .bx-hero-wave-card-node {
-  background: linear-gradient(145deg, #1e425e, #142e42);
+  background: linear-gradient(145deg, #1e425e, #142e42) !important;
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 14px;
   box-shadow: 0 20px 40px rgba(15, 23, 42, 0.15);
@@ -288,7 +288,7 @@
 
 .card-position-3 {
   height: 300px;
-  background: linear-gradient(145deg, #194066, #0e2740);
+  background: linear-gradient(145deg, #194066, #0e2740) !important;
   border-color: rgba(255, 255, 255, 0.15);
   transform: translateZ(10px);
 }

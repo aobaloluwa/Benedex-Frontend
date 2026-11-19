@@ -943,14 +943,15 @@ input {
   padding-top: 80px;
 }
 
-/* UNIFORM PURE WHITE BACKGROUND ACROSS ALL PORTALS (STUDENT, INSTRUCTOR, ADMIN, SUPERADMIN) */
+/* UNIFORM PURE WHITE BACKGROUND ACROSS PORTALS (STUDENT, INSTRUCTOR, ADMIN, SUPERADMIN) */
 .student-shell,
 .student-main,
 .student-content,
-[class*="-workspace"],
-[class*="-shell"],
+.dashboard-content-wrapper,
+.admin-dashboard-wrapper,
+.student-dashboard-wrapper,
 .catalogPage {
-  background-color: #ffffff !important;
+  background-color: #ffffff;
 }
 
 @media (max-width: 768px) {
