@@ -185,7 +185,7 @@ function CreateCourse() {
                   {isSubmitting ? (
                     <>
                       <div className="bx-cc-spinner-sm me-2" />
-                      <span>Provisioning Node Structure...</span>
+                      <span>Creating Course Structure...</span>
                     </>
                   ) : (
                     <span>Publish Course Pathway</span>

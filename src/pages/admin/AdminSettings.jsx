@@ -126,7 +126,7 @@ function AdminSettings() {
       setTimeout(() => setUserSuccessMessage(""), 5000);
     } catch (error) {
       console.error("User provisioning matrix breakdown exception:", error);
-      setUserErrorMessage(error.response?.data?.message || "Internal environment nodes creation fault.");
+      setUserErrorMessage(error.response?.data?.message || "User account creation failed. Please try again.");
       setTimeout(() => setUserErrorMessage(""), 6000);
     } finally {
       setCreatingUser(false);
@@ -254,7 +254,7 @@ function AdminSettings() {
                 >
                   <FiAlertTriangle className="text-warning flex-shrink-0 mt-1" size={18} />
                   <span className="small text-warning-muted">
-                    <strong>Caution:</strong> Activating this node broadcasts 503 Service Unavailable parameters to frontend users. Instructors and Students will drop active connections.
+                    <strong>Caution:</strong> Activating maintenance mode temporarily restricts platform access for Students and Instructors.
                   </span>
                 </motion.div>
               )}
@@ -377,9 +377,9 @@ function AdminSettings() {
                       onChange={handleUserInputChange}
                       className="bx-st-dropdown"
                     >
-                      <option value="student">Student Account Node</option>
-                      <option value="instructor">Instructor Account Node</option>
-                      <option value="admin">System Administrator Node</option>
+                      <option value="student">Student Account</option>
+                      <option value="instructor">Instructor Account</option>
+                      <option value="admin">System Administrator</option>
                     </select>
                   </div>
                 </div>

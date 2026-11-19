@@ -317,8 +317,8 @@ function InstructorDashboard() {
               <table className="bx-id-radar-table w-100">
                 <thead>
                   <tr>
-                    <th>Student Node</th>
-                    <th>Status Matrix</th>
+                    <th>Student Name</th>
+                    <th>Status</th>
                     <th className="text-end">Roster</th>
                   </tr>
                 </thead>

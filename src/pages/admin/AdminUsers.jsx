@@ -262,7 +262,7 @@ function AdminUsers() {
             </div>
 
             <p className="text-muted mb-0 small">
-              Audit, moderate, and authorize platform user nodes and security clearances.
+              Audit, manage, and assign platform user accounts and permissions.
             </p>
           </div>
 
@@ -295,7 +295,7 @@ function AdminUsers() {
             {[
               {
                 id: "all",
-                label: "All Nodes",
+                label: "All Users",
               },
               {
                 id: "superadmin",
@@ -360,7 +360,7 @@ function AdminUsers() {
 
             <thead>
               <tr>
-                <th>Profile Node</th>
+                <th>User Profile</th>
                 <th>System Role</th>
                 <th>Status</th>
                 <th className="text-end">

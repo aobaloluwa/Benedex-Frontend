@@ -56,7 +56,7 @@ function AdminAnalytics() {
     labels: ["Students", "Instructors"],
     datasets: [
       {
-        label: "Registered Nodes",
+        label: "Registered Users",
         data: [
           overview.totalStudents || 0,
           overview.totalInstructors || 0

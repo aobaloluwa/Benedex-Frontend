@@ -443,23 +443,23 @@ function AdminPayments() {
               <tr>
 
                 <th>
-                  Student Profile Node
+                  Student Profile
                 </th>
 
                 <th>
-                  Target Syllabus Module
+                  Course Name
                 </th>
 
                 <th>
-                  Paystack Token Reference
+                  Payment Reference
                 </th>
 
                 <th>
-                  Transaction Node Value
+                  Amount
                 </th>
 
                 <th>
-                  Ecosystem Token Status
+                  Status
                 </th>
 
               </tr>
@@ -518,7 +518,7 @@ function AdminPayments() {
                         <span className="bx-pm-text-primary">
                           {payment.course
                             ?.title ||
-                            "Purged Syllabus Node"}
+                            "Deleted Course"}
                         </span>
 
                       </td>

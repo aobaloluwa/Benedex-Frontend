@@ -396,11 +396,11 @@ function AdminDashboard() {
               <table className="bx-ad-data-table">
                 <thead>
                   <tr>
-                    <th>Student Entity</th>
-                    <th>Target Course Architecture</th>
-                    <th>Date / Timeline Node</th>
-                    <th>Transaction Value</th>
-                    <th>Transaction Token Status</th>
+                    <th>Student</th>
+                    <th>Course Title</th>
+                    <th>Payment Date</th>
+                    <th>Amount</th>
+                    <th>Status</th>
                   </tr>
                 </thead>
                 <tbody>

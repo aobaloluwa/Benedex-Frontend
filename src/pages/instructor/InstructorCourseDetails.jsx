@@ -57,7 +57,7 @@ function InstructorCourseDetails() {
     return (
       <div className="bx-details-workspace container py-5 text-center">
         <h2 className="font-weight-bold">Course Not Found</h2>
-        <p className="text-muted">The requested syllabus node registry could not be located.</p>
+        <p className="text-muted">The requested course could not be found.</p>
         <button onClick={() => navigate(-1)} className="bx-details-back-btn mx-auto mt-3">
           <FiArrowLeft /> <span>Go Back</span>
         </button>
@@ -97,7 +97,7 @@ function InstructorCourseDetails() {
                 </div>
                 <div className="d-flex align-items-center gap-2">
                   <FiActivity className="text-info" />
-                  <span>Price Node: <strong>{Number(course.price) === 0 ? "Free" : `₦${Number(course.price).toLocaleString()}`}</strong></span>
+                  <span>Price: <strong>{Number(course.price) === 0 ? "Free" : `₦${Number(course.price).toLocaleString()}`}</strong></span>
                 </div>
               </div>
             </div>

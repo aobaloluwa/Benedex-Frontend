@@ -160,7 +160,7 @@ function InstructorLessons() {
               </div>
 
               <div className="bx-il-form-group">
-                <label className="bx-il-label">Deliverable Node Type</label>
+                <label className="bx-il-label">Lesson Content Type</label>
                 <div className="bx-il-select-wrapper">
                   <select name="type" value={formData.type} onChange={handleChange}>
                     <option value="video">🎥 High-Definition Streaming Video Track</option>

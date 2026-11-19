@@ -208,7 +208,7 @@ function InstructorQuizBuilder() {
                     {loading ? (
                       <>
                         <div className="bx-qb-spinner-sm" />
-                        <span>Deploying Nodes...</span>
+                        <span>Saving Quiz...</span>
                       </>
                     ) : (
                       <>
@@ -238,7 +238,7 @@ function InstructorQuizBuilder() {
                     <div className="bx-qb-question-top d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
                       <div className="d-flex align-items-center gap-2">
                         <span className="bx-qb-index-badge">#{qIndex + 1}</span>
-                        <h3 className="h6 font-weight-bold mb-0 text-dark">Syllabus Evaluation Node</h3>
+                        <h3 className="h6 font-weight-bold mb-0 text-dark">Quiz Question</h3>
                       </div>
                       
                       <button

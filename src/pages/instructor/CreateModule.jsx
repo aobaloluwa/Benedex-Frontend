@@ -190,7 +190,7 @@ function CreateModule() {
                   {loading ? (
                     <>
                       <div className="bx-cm-spinner-sm me-2" />
-                      <span>Appending Unit Node...</span>
+                      <span>Adding Module...</span>
                     </>
                   ) : (
                     <>
