@@ -1064,9 +1064,6 @@
   display: block;
   margin: 0 auto;
 }
-  width: auto;
-  object-fit: contain;
-}
 
 /* BACK SIDE STYLING */
 .prf-id-back-content {
