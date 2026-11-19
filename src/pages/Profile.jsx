@@ -1068,7 +1068,9 @@ function Profile() {
                                 </div>
                                 <div className="prf-id-meta-row">
                                   <span>Email:</span>
-                                  <strong>{user?.email || "admin@benedex.org"}</strong>
+                                  <strong title={user?.email || "admin@benedex.org"}>
+                                    {user?.email || "admin@benedex.org"}
+                                  </strong>
                                 </div>
                                 <div className="prf-id-meta-row">
                                   <span>Issue Date:</span>

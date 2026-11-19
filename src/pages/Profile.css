@@ -982,12 +982,12 @@
   margin-bottom: 8px;
   position: relative;
   z-index: 2;
-  padding-right: 20px;
+  padding-right: 48px;
 }
 
 .prf-id-avatar-img {
-  width: 110px;
-  height: 110px;
+  width: 104px;
+  height: 104px;
   border-radius: 50%;
   object-fit: cover;
   border: 3.5px solid #ffffff;
@@ -998,12 +998,13 @@
 .prf-id-details {
   text-align: center;
   width: 100%;
-  padding-right: 20px;
+  padding-right: 48px;
+  box-sizing: border-box;
   z-index: 2;
 }
 
 .prf-id-name {
-  font-size: 20px;
+  font-size: 19px;
   font-weight: 700;
   color: #07335c;
   line-height: 1.25;
@@ -1012,7 +1013,7 @@
 }
 
 .prf-id-title {
-  font-size: 11px;
+  font-size: 10.5px;
   font-weight: 500;
   color: #2e7fc1;
   text-transform: uppercase;
@@ -1027,11 +1028,15 @@
   padding: 10px 12px;
   text-align: left;
   margin-bottom: 10px;
+  box-sizing: border-box;
+  width: 100%;
 }
 
 .prf-id-meta-row {
   display: flex;
+  align-items: center;
   justify-content: space-between;
+  gap: 8px;
   font-size: 10px;
   color: #5f6b7a;
   margin-bottom: 4px;
@@ -1041,9 +1046,18 @@
   margin-bottom: 0;
 }
 
+.prf-id-meta-row span {
+  flex-shrink: 0;
+}
+
 .prf-id-meta-row strong {
   color: #07335c;
   font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 135px;
+  text-align: right;
 }
 
 /* BRAND LOGO FOOTER */
@@ -1052,7 +1066,8 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  padding-right: 20px;
+  padding-right: 48px;
+  box-sizing: border-box;
   z-index: 2;
   margin-bottom: 4px;
 }
