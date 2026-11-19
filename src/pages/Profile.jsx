@@ -1010,7 +1010,7 @@ function Profile() {
                       <div className="prf-id-card-stage">
                         <div className={`prf-id-card-3d ${isCardFlipped ? "flipped" : ""}`}>
                           {/* FRONT FACE */}
-                          <div className="prf-id-card-face prf-id-card-front">
+                          <div className={`prf-id-card-face prf-id-card-front ${isCardFlipped ? "is-hidden" : ""}`}>
                             {/* GEOMETRIC CHECKERED STRIP (RIGHT EDGE) */}
                             <div className="prf-id-geometric-strip">
                               <div className="prf-id-pattern-grid">
@@ -1092,7 +1092,7 @@ function Profile() {
                           </div>
 
                           {/* BACK FACE */}
-                          <div className="prf-id-card-face prf-id-card-back">
+                          <div className={`prf-id-card-face prf-id-card-back ${!isCardFlipped ? "is-hidden" : ""}`}>
                             <div className="prf-id-back-content">
                               {/* CENTERED LOGO AND TEXT UNDER IT */}
                               <div className="prf-id-back-header">

@@ -901,12 +901,16 @@
   align-items: center;
   gap: 20px;
   padding: 10px 0;
+  width: 100%;
 }
 
 .prf-id-card-stage {
   perspective: 1000px;
+  -webkit-perspective: 1000px;
   width: 320px;
+  max-width: calc(100vw - 32px);
   height: 510px;
+  margin: 0 auto;
 }
 
 .prf-id-card-3d {
@@ -914,11 +918,15 @@
   width: 100%;
   height: 100%;
   transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
   transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  -webkit-transition: -webkit-transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
 }
 
 .prf-id-card-3d.flipped {
   transform: rotateY(180deg);
+  -webkit-transform: rotateY(180deg);
 }
 
 .prf-id-card-face {
@@ -927,6 +935,7 @@
   width: 100%;
   height: 100%;
   backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
   background: #ffffff;
   border-radius: 24px;
   border: 1px solid #d7dde5;
@@ -938,11 +947,29 @@
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.prf-id-card-front {
+  transform: rotateY(0deg);
+  -webkit-transform: rotateY(0deg);
+  z-index: 2;
 }
 
 .prf-id-card-back {
   transform: rotateY(180deg);
+  -webkit-transform: rotateY(180deg);
   background: #ffffff;
+  z-index: 1;
+}
+
+/* HARDWARE SAFETY TOGGLE FOR MOBILE DEVICES WHERE 3D TRANSFORMS OVERLAP */
+.prf-id-card-face.is-hidden {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
 }
 
 /* RIGHT SIDE GEOMETRIC CHECKERED PATTERN STRIP */
