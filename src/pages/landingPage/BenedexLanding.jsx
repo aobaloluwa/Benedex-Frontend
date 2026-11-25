@@ -367,9 +367,11 @@ const BenedexLanding = () => {
           07 — OUR VISION
       ========================================== */}
       <section className="bx-section-padding bx-bg-light">
-        <div className="bx-container text-center">
-          <span className="bx-eyebrow-tag">LOOKING AHEAD</span>
-          <h2 className="bx-section-title mb-4">Building a Future of Possibilities Through Technology</h2>
+        <div className="bx-container">
+          <div className="bx-section-header text-center mb-5">
+            <span className="bx-eyebrow-tag">LOOKING AHEAD</span>
+            <h2 className="bx-section-title">Building a Future of Possibilities Through Technology</h2>
+          </div>
 
           <div className="bx-vision-card mx-auto">
             <p className="bx-vision-quote">
