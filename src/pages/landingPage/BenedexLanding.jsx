@@ -1,20 +1,25 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import React from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import {
   FiBookOpen,
   FiActivity,
-  FiCpu,
   FiShield,
   FiArrowRight,
+  FiCheckCircle,
+  FiMessageSquare,
+  FiDatabase,
+  FiBriefcase,
   FiZap,
-  FiCheck,
   FiAward,
+  FiGlobe,
+  FiExternalLink,
+  FiMail,
+  FiCheckSquare,
+  FiCompass,
   FiUsers,
-  FiHeart,
-  FiSmartphone,
-  FiLayers,
-  FiCheckCircle
+  FiLock,
+  FiCpu
 } from 'react-icons/fi';
 import Navbar from './Navbar';
 import Footer from './Footer';
@@ -22,7 +27,6 @@ import './BenedexLanding.css';
 
 const BenedexLanding = () => {
   const navigate = useNavigate();
-  const [activeDivision, setActiveDivision] = useState('elearning');
 
   return (
     <div className="bx-corp-wrapper">
@@ -30,15 +34,13 @@ const BenedexLanding = () => {
       <Navbar />
 
       {/* ==========================================
-          NEW HERO SECTION (CENTER-ALIGNED MASTER SHOWCASE)
+          01 — HERO SECTION
       ========================================== */}
       <section className="bx-hero-section bx-corp-hero-bg">
-        {/* ARCHITECTURAL LIGHT GRID OVERLAY */}
         <div className="bx-hero-grid-matrix" />
 
         <div className="bx-hero-container">
-
-          {/* BADGE CHIP */}
+          {/* EYEBROW BADGE CHIP */}
           <motion.div
             className="bx-hero-badge-chip"
             initial={{ opacity: 0, y: -15 }}
@@ -46,7 +48,7 @@ const BenedexLanding = () => {
             transition={{ duration: 0.5 }}
           >
             <span className="bx-hero-badge-icon">⚡</span>
-            <span>Benedex Innovations • Parent Technology Incubator</span>
+            <span>TECHNOLOGY • DIGITAL SOLUTIONS • PROFESSIONAL DEVELOPMENT</span>
           </motion.div>
 
           {/* MAIN HEADLINE */}
@@ -56,374 +58,355 @@ const BenedexLanding = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
           >
-            Architecting Next-Gen Intelligence for <br />
+            Empowering People and Organisations <br />
             <span className="bx-hero-title-accent text-gradient-corp">
-              Education & Healthcare.
+              Through Technology and Innovation
             </span>
           </motion.h1>
 
-          {/* SUBTITLE */}
+          {/* PARAGRAPH BODY */}
           <motion.p
             className="bx-corp-hero-centered-desc"
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            Benedex Innovations is the parent tech firm driving two flagship platforms: the <strong>Benedex E-Learning Platform</strong> and <strong>Vitaltron Health Mobile</strong>. Select a division below to launch its portal.
+            At <strong>Benedex Innovations Ltd</strong>, we develop and promote practical digital solutions that enhance communication, improve productivity, support education and professional development, and drive digital transformation. Our work brings together technology, information management, business solutions, digital learning, and innovation to help individuals and organisations connect, learn, work smarter, and grow.
           </motion.p>
 
-          {/* ACTION BUTTON CLUSTER */}
+          {/* ACTION BUTTONS */}
           <motion.div
             className="bx-hero-action-row justify-center-actions"
             initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5, delay: 0.25 }}
           >
-            <button
-              onClick={() => navigate('/elearning')}
-              className="bx-hero-btn-primary shadow-navy"
-            >
-              <FiBookOpen size={18} /> Benedex E-Learning
-            </button>
-            <button
-              onClick={() => navigate('/vitaltron')}
-              className="bx-hero-btn-green shadow-green"
-            >
-              <FiActivity size={18} /> Vitaltron Health App
-            </button>
-          </motion.div>
-
-          {/* METRICS STRIP BELOW CARDS */}
-          <div className="bx-hero-stats-banner">
-            <div className="bx-hero-stat">
-              <strong>2</strong>
-              <span>Product Ecosystems</span>
-            </div>
-            <div className="bx-hero-stat-sep" />
-            <div className="bx-hero-stat">
-              <strong>100+</strong>
-              <span>Active Users Worldwide</span>
-            </div>
-            <div className="bx-hero-stat-sep" />
-            <div className="bx-hero-stat">
-              <strong>99.99%</strong>
-              <span>Cloud Reliability Uptime</span>
-            </div>
-            <div className="bx-hero-stat-sep" />
-            <div className="bx-hero-stat">
-              <strong>24/7</strong>
-              <span>Real-Time Telemetry</span>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-      {/* ==========================================
-          WIDE INTERACTIVE EXPLORER (NO CARD BG)
-      ========================================== */}
-      <section className="bx-corp-tab-section" id="products">
-        <div className="bx-wide-explorer-container">
-
-          <div className="bx-features-badge">Interactive Explorer</div>
-          <h2 className="bx-features-main-heading">Inspect Product Capabilities</h2>
-
-          {/* TAB BUTTON SEGMENTED CONTROL */}
-          <div className="bx-explorer-tab-bar">
-            <button
-              className={`bx-exp-tab-btn ${activeDivision === 'elearning' ? 'active-blue-tab' : ''}`}
-              onClick={() => setActiveDivision('elearning')}
-            >
-              <FiBookOpen size={18} /> Benedex E-Learning Platform
-            </button>
-            <button
-              className={`bx-exp-tab-btn ${activeDivision === 'vitaltron' ? 'active-green-tab' : ''}`}
-              onClick={() => setActiveDivision('vitaltron')}
-            >
-              <FiActivity size={18} /> Vitaltron Health Mobile App
-            </button>
-          </div>
-
-          {/* SEAMLESS WIDE TAB DISPLAY */}
-          <div className="bx-explorer-display-clean">
-            <AnimatePresence mode="wait">
-              {activeDivision === 'elearning' ? (
-                <motion.div
-                  key="exp-elearning"
-                  initial={{ opacity: 0, y: 15 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -15 }}
-                  transition={{ duration: 0.3 }}
-                  className="bx-exp-grid-wide"
-                >
-                  {/* LEFT FEATURE TILES LIST */}
-                  <div className="bx-exp-left">
-                    <span className="bx-gw-badge badge-blue mb-2">EDTECH SUBSYSTEMS</span>
-                    <h3 className="bx-exp-heading">Empowering Global Learning Through AI</h3>
-                    <p className="bx-exp-desc">
-                      Our LMS workspace blends real-time AI assistance with powerful classroom management tools, empowering instructors to craft intelligent course structures and students to master complex skills.
-                    </p>
-
-                    {/* 3 STRUCTURED FEATURE CARDS */}
-                    <div className="bx-exp-tiles-stack">
-                      <div className="bx-exp-tile">
-                        <div className="bx-exp-tile-icon icon-blue-bg"><FiSmartphone size={20} /></div>
-                        <div>
-                          <strong>PWA Mobile Home Screen Access</strong>
-                          <span>Add Benedex Portal directly to your smartphone home screen for offline learning & instant push alerts.</span>
-                        </div>
-                      </div>
-
-                      <div className="bx-exp-tile">
-                        <div className="bx-exp-tile-icon icon-blue-bg"><FiBookOpen size={20} /></div>
-                        <div>
-                          <strong>Live Virtual Classrooms & Video Lessons</strong>
-                          <span>HD virtual video streaming, interactive whiteboards, and downloadable lesson resources.</span>
-                        </div>
-                      </div>
-
-                      <div className="bx-exp-tile">
-                        <div className="bx-exp-tile-icon icon-blue-bg"><FiAward size={20} /></div>
-                        <div>
-                          <strong>Verified Public Credentials</strong>
-                          <span>Public verification portal for authenticating student certificates and digital transcripts.</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    <button onClick={() => navigate('/elearning')} className="bx-hero-btn-primary mt-4">
-                      <span>Launch E-Learning Portal</span>
-                      <FiArrowRight />
-                    </button>
-                  </div>
-
-                  {/* RIGHT MOCKUP DISPLAY CARD */}
-                  <div className="bx-exp-right">
-                    <div className="bx-exp-mockup-frame">
-                      <div className="bx-exp-mockup-top">
-                        <div className="bx-mockup-dots">
-                          <span className="dot-red" /><span className="dot-yellow" /><span className="dot-green" />
-                        </div>
-                        <span className="bx-exp-mockup-label">Benedex E-Learning Web App Features</span>
-                      </div>
-
-                      <div className="bx-exp-mockup-content">
-                        <div className="bx-exp-mock-item">
-                          <div className="bx-mock-icon-box"><FiSmartphone size={18} /></div>
-                          <div className="bx-mock-details">
-                            <strong>PWA Home Screen Installation</strong>
-                            <span>Add Benedex Portal to your phone home screen for offline access</span>
-                          </div>
-                          <span className="bx-mock-pill pill-blue">PWA Ready</span>
-                        </div>
-
-                        <div className="bx-exp-mock-item">
-                          <div className="bx-mock-icon-box icon-green-bg"><FiBookOpen size={18} /></div>
-                          <div className="bx-mock-details">
-                            <strong>Live Virtual Classroom Stream</strong>
-                            <span>HD interactive video sessions & live instructor chat</span>
-                          </div>
-                          <span className="bx-mock-pill pill-green">Live Class</span>
-                        </div>
-
-                        <div className="bx-exp-mock-item">
-                          <div className="bx-mock-icon-box icon-purple-bg"><FiAward size={18} /></div>
-                          <div className="bx-mock-details">
-                            <strong>Verified Digital Certificates</strong>
-                            <span>Public QR code verification & shareable digital credentials</span>
-                          </div>
-                          <span className="bx-mock-pill pill-purple">Verified</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </motion.div>
-              ) : (
-                <motion.div
-                  key="exp-vitaltron"
-                  initial={{ opacity: 0, y: 15 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -15 }}
-                  transition={{ duration: 0.3 }}
-                  className="bx-exp-grid-wide"
-                >
-                  {/* LEFT FEATURE TILES LIST */}
-                  <div className="bx-exp-left">
-                    <span className="bx-gw-badge badge-green mb-2">HEALTH TELEMETRY</span>
-                    <h3 className="bx-exp-heading">Clinical-Grade Mobile Health & AI Warnings</h3>
-                    <p className="bx-exp-desc">
-                      Vitaltron brings real-time vital sign tracking, AI diagnostic warnings, and smartwatch telemetry sync right to your smartphone with bank-grade security.
-                    </p>
-
-                    {/* 3 STRUCTURED FEATURE CARDS */}
-                    <div className="bx-exp-tiles-stack">
-                      <div className="bx-exp-tile">
-                        <div className="bx-exp-tile-icon icon-green-bg"><FiHeart size={20} /></div>
-                        <div>
-                          <strong>24/7 Vital Telemetry Stream</strong>
-                          <span>Continuous real-time tracking of Heart Rate Variability (HRV), SpO2, and Stress.</span>
-                        </div>
-                      </div>
-
-                      <div className="bx-exp-tile">
-                        <div className="bx-exp-tile-icon icon-green-bg"><FiSmartphone size={20} /></div>
-                        <div>
-                          <strong>Universal Smartwatch BLE Sync</strong>
-                          <span>Direct Bluetooth connection with Apple Watch, WearOS, and clinical sensors.</span>
-                        </div>
-                      </div>
-
-                      <div className="bx-exp-tile">
-                        <div className="bx-exp-tile-icon icon-green-bg"><FiZap size={20} /></div>
-                        <div>
-                          <strong>AI Sentinel & Emergency SOS</strong>
-                          <span>Automated early risk alerts and instant emergency contact location dispatch.</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    <button onClick={() => navigate('/vitaltron')} className="bx-hero-btn-green mt-4">
-                      <span>Explore Vitaltron App</span>
-                      <FiArrowRight />
-                    </button>
-                  </div>
-
-                  {/* RIGHT MOCKUP DISPLAY CARD */}
-                  <div className="bx-exp-right">
-                    <div className="bx-exp-mockup-frame green-mockup">
-                      <div className="bx-exp-mockup-top">
-                        <div className="bx-mockup-dots">
-                          <span className="dot-red" /><span className="dot-yellow" /><span className="dot-green" />
-                        </div>
-                        <span className="bx-exp-mockup-label">Vitaltron Telemetry Console</span>
-                      </div>
-
-                      <div className="bx-exp-mockup-content">
-                        <div className="bx-exp-mock-item">
-                          <div className="bx-mock-icon-box icon-red-bg"><FiHeart size={18} /></div>
-                          <div className="bx-mock-details">
-                            <strong>Heart Rate Monitoring</strong>
-                            <span>72 BPM • Resting Baseline Normal</span>
-                          </div>
-                          <span className="bx-mock-pill pill-green">Normal</span>
-                        </div>
-
-                        <div className="bx-exp-mock-item">
-                          <div className="bx-mock-icon-box icon-cyan-bg"><FiActivity size={18} /></div>
-                          <div className="bx-mock-details">
-                            <strong>Blood Oxygen (SpO2)</strong>
-                            <span>98% Saturation Level</span>
-                          </div>
-                          <span className="bx-mock-pill pill-green">Optimal</span>
-                        </div>
-
-                        <div className="bx-exp-mock-item">
-                          <div className="bx-mock-icon-box icon-green-bg"><FiCpu size={18} /></div>
-                          <div className="bx-mock-details">
-                            <strong>AI Diagnostic Sentinel</strong>
-                            <span>Cardiovascular rhythm stable • 94% Recovery</span>
-                          </div>
-                          <span className="bx-mock-pill pill-purple">AI Active</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-
-        </div>
-      </section>
-
-      {/* ==========================================
-          CORE INNOVATION PILLARS
-      ========================================== */}
-      <section className="bx-features-section">
-        <div className="bx-features-container">
-
-          <div className="bx-features-badge">Parent Firm Foundation</div>
-          <h2 className="bx-features-main-heading">Architected for Quality & Security</h2>
-
-          <div className="bx-features-grid-shell">
-            <motion.div className="bx-feature-card" whileHover={{ y: -6 }}>
-              <div className="bx-feature-card-inner">
-                <div className="bx-feature-icon-box icon-blue">
-                  <FiCpu size={22} />
-                </div>
-                <h3 className="bx-feature-card-title">Human-Centric AI Layer</h3>
-                <p className="bx-feature-card-desc">
-                  Intelligent algorithms that generate educational content and monitor vital health telemetry without replacing human oversight.
-                </p>
-              </div>
-            </motion.div>
-
-            <motion.div className="bx-feature-card" whileHover={{ y: -6 }}>
-              <div className="bx-feature-card-inner">
-                <div className="bx-feature-icon-box icon-green">
-                  <FiShield size={22} />
-                </div>
-                <h3 className="bx-feature-card-title">Enterprise & HIPAA Security</h3>
-                <p className="bx-feature-card-desc">
-                  Built on 256-bit AES encryption, multi-tenant isolation, and strict compliance for academic data and health telemetry.
-                </p>
-              </div>
-            </motion.div>
-
-            <motion.div className="bx-feature-card" whileHover={{ y: -6 }}>
-              <div className="bx-feature-card-inner">
-                <div className="bx-feature-icon-box icon-dark">
-                  <FiZap size={22} />
-                </div>
-                <h3 className="bx-feature-card-title">High Reliability Cloud</h3>
-                <p className="bx-feature-card-desc">
-                  Distributed multi-region cloud infrastructure ensuring 99.99% system availability and sub-second response times.
-                </p>
-              </div>
-            </motion.div>
-          </div>
-
-        </div>
-      </section>
-
-      {/* ==========================================
-          SIGNATURE BENEDEX CTA BANNER
-      ========================================== */}
-      <section className="bx-cta-outer-wrapper">
-        <div className="bx-cta-grid-bg">
-          <div className="bx-cta-grid-lines" />
-        </div>
-
-        <div className="bx-cta-content-container">
-          <motion.div
-            className="bx-cta-card-shell"
-            initial={{ opacity: 0, scale: 0.95, y: 30 }}
-            whileInView={{ opacity: 1, scale: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7 }}
-          >
-            <div className="bx-cta-radial-glow" />
-
-            <div className="bx-cta-card-inner">
-              <span className="bx-cta-subtitle">Benedex Innovations Inc.</span>
-              <h2 className="bx-cta-main-text">
-                Shaping the Future of Learning & Healthcare Technology.
-              </h2>
-
-              <div className="bx-cta-button-cluster">
-                <button onClick={() => navigate('/elearning')} className="bx-btn-primary-green">
-                  Benedex E-Learning
-                </button>
-                <button onClick={() => navigate('/vitaltron')} className="bx-btn-secondary-outline">
-                  Vitaltron Health App
-                </button>
-              </div>
-            </div>
+            <a href="#services" className="bx-hero-btn-primary shadow-navy">
+              Explore Our Services <FiArrowRight size={16} />
+            </a>
+            <a href="#about" className="bx-hero-btn-secondary">
+              About Benedex <FiArrowRight size={16} />
+            </a>
           </motion.div>
         </div>
       </section>
 
-      {/* SHARED FOOTER */}
+      {/* ==========================================
+          02 — WHO WE ARE (ABOUT BENEDEX)
+      ========================================== */}
+      <section id="about" className="bx-section-padding bx-bg-white">
+        <div className="bx-container">
+          <div className="bx-section-header text-center mb-5">
+            <span className="bx-eyebrow-tag">ABOUT BENEDEX</span>
+            <h2 className="bx-section-title">Connecting Technology with Real-World Needs</h2>
+          </div>
+
+          <div className="bx-about-content-box">
+            <p className="bx-lead-paragraph">
+              <strong>Benedex Innovations Ltd</strong> is a Nigerian technology and innovation company committed to advancing digital transformation through practical solutions, professional development, and emerging technologies.
+            </p>
+            <p className="bx-body-paragraph">
+              Our areas of activity encompass digital communication, information management, business automation, e-learning, digital business solutions, cybersecurity, and technology-driven innovation.
+            </p>
+            <p className="bx-body-paragraph">
+              We believe technology should simplify processes, expand opportunities, improve access to information, and empower individuals and organisations to achieve more. Through our services, digital platforms, and developing initiatives, we aim to respond to evolving educational, professional, business, and societal needs.
+            </p>
+
+            <div className="text-center mt-4">
+              <Link to="/about" className="bx-inline-link">
+                Learn More About Us <FiArrowRight />
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ==========================================
+          03 — WHAT WE DO (OUR AREAS OF ACTIVITY)
+      ========================================== */}
+      <section id="services" className="bx-section-padding bx-bg-light">
+        <div className="bx-container">
+          <div className="bx-section-header text-center mb-5">
+            <span className="bx-eyebrow-tag">OUR AREAS OF ACTIVITY</span>
+            <h2 className="bx-section-title">Practical Digital Solutions for a Connected World</h2>
+            <p className="bx-section-desc">
+              Our work spans key areas of technology, education, and digital transformation, with a focus on improving efficiency, expanding access to opportunities, and supporting sustainable growth.
+            </p>
+          </div>
+
+          {/* 3x2 CARDS GRID */}
+          <div className="bx-activity-grid">
+            <div className="bx-activity-card">
+              <div className="bx-activity-icon-box">
+                <FiMessageSquare size={22} />
+              </div>
+              <h3>Digital Communication & Collaboration</h3>
+              <p>
+                We explore and support digital communication solutions that enable individuals, teams, and organisations to connect, exchange information, and collaborate effectively across different locations.
+              </p>
+            </div>
+
+            <div className="bx-activity-card">
+              <div className="bx-activity-icon-box">
+                <FiDatabase size={22} />
+              </div>
+              <h3>Information Management & Business Automation</h3>
+              <p>
+                We focus on solutions that simplify information collection, storage, retrieval, and sharing, while supporting workflow automation, operational efficiency, and informed decision-making.
+              </p>
+            </div>
+
+            <div className="bx-activity-card">
+              <div className="bx-activity-icon-box">
+                <FiBookOpen size={22} />
+              </div>
+              <h3>Digital Learning & Professional Development</h3>
+              <p>
+                We promote accessible education, skills development, and continuous professional learning through digital learning environments, structured training programmes, virtual classrooms, and educational resources.
+              </p>
+            </div>
+
+            <div className="bx-activity-card">
+              <div className="bx-activity-icon-box">
+                <FiBriefcase size={22} />
+              </div>
+              <h3>Digital Business & Technology Solutions</h3>
+              <p>
+                We support the adoption of digital tools and technologies that enhance business operations, e-commerce, digital marketing, remote collaboration, and organisational transformation.
+              </p>
+            </div>
+
+            <div className="bx-activity-card">
+              <div className="bx-activity-icon-box">
+                <FiShield size={22} />
+              </div>
+              <h3>Cybersecurity & Information Protection</h3>
+              <p>
+                We promote responsible digital practices, information security, data protection, access control, and the use of appropriate technologies to safeguard digital information and systems.
+              </p>
+            </div>
+
+            <div className="bx-activity-card">
+              <div className="bx-activity-icon-box">
+                <FiZap size={22} />
+              </div>
+              <h3>Research, Technology & Innovation</h3>
+              <p>
+                We explore emerging technologies, innovative ideas, and practical digital solutions that address evolving challenges and create opportunities for individuals, businesses, and communities.
+              </p>
+            </div>
+          </div>
+
+          <div className="text-center mt-5">
+            <Link to="/services" className="bx-inline-link">
+              Discover Our Services <FiArrowRight />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ==========================================
+          04 — OUR PLATFORMS & INITIATIVES
+      ========================================== */}
+      <section id="solutions" className="bx-section-padding bx-bg-white">
+        <div className="bx-container">
+          <div className="bx-section-header text-center mb-5">
+            <span className="bx-eyebrow-tag">OUR PLATFORMS & INITIATIVES</span>
+            <h2 className="bx-section-title">Turning Ideas into Practical Digital Experiences</h2>
+            <p className="bx-section-desc">
+              At Benedex Innovations Ltd, we are building and developing digital platforms designed to address specific needs in education, professional development, healthcare, and everyday life. Our initiatives reflect our commitment to making technology more accessible, practical, and beneficial.
+            </p>
+          </div>
+
+          <div className="bx-platforms-dual-grid">
+            {/* PLATFORM 1: E-LEARNING */}
+            <div className="bx-platform-card card-elearning">
+              <div className="bx-platform-card-header">
+                <span className="bx-status-badge badge-active">
+                  <FiCheckCircle size={12} /> Existing Platform
+                </span>
+                <span className="bx-platform-tagline">Learn. Develop. Achieve.</span>
+              </div>
+              <h3>Benedex E-Learning</h3>
+              <p>
+                Benedex E-Learning is our digital learning platform designed to support education, professional training, skills acquisition, and lifelong learning. The platform provides an environment for structured courses, virtual learning experiences, educational resources, learner engagement, and professional development.
+              </p>
+              <p className="bx-platform-subtext">
+                Our goal is to make learning more accessible, flexible, and relevant to the evolving needs of students, professionals, educators, and organisations.
+              </p>
+              <div className="bx-platform-action">
+                <button
+                  onClick={() => navigate('/login')}
+                  className="bx-hero-btn-primary shadow-navy"
+                >
+                  <FiBookOpen size={16} /> Explore Benedex E-Learning <FiArrowRight size={16} />
+                </button>
+              </div>
+            </div>
+
+            {/* PLATFORM 2: VITALTRON HEALTH */}
+            <div className="bx-platform-card card-vitaltron">
+              <div className="bx-platform-card-header">
+                <span className="bx-status-badge badge-dev">
+                  <FiCompass size={12} /> In Development
+                </span>
+                <span className="bx-platform-tagline">Your Health. Your Identity. Your Journey.</span>
+              </div>
+              <h3>Vitaltron Health</h3>
+              <p>
+                Vitaltron Health is an emerging digital health initiative focused on improving how individuals access, organise, and manage their personal health information.
+              </p>
+              <p className="bx-platform-subtext">
+                The platform is being developed with a vision to support personal health records, health tracking, and convenient access to relevant health information through a secure and user-friendly digital experience.
+              </p>
+              <div className="bx-platform-action">
+                <Link to="/vitaltron" className="bx-hero-btn-secondary">
+                  <FiActivity size={16} /> Discover Vitaltron Health <FiArrowRight size={16} />
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ==========================================
+          05 — TRAINING & PROFESSIONAL DEVELOPMENT
+      ========================================== */}
+      <section id="training" className="bx-section-padding bx-bg-light">
+        <div className="bx-container">
+          <div className="bx-section-header text-center mb-5">
+            <span className="bx-eyebrow-tag">PROFESSIONAL LEARNING</span>
+            <h2 className="bx-section-title">Advancing Knowledge. Building Skills. Creating Opportunities.</h2>
+          </div>
+
+          <div className="bx-training-overview-box mb-5">
+            <p className="bx-lead-paragraph text-center">
+              At Benedex Innovations Ltd, we recognise the importance of continuous learning in an increasingly digital and competitive world.
+            </p>
+            <p className="bx-body-paragraph text-center">
+              Through our educational initiatives, we aim to provide accessible, relevant, and practical learning opportunities that support academic advancement, professional competence, career development, and lifelong learning. Our training interests span digital skills, technology, professional education, business development, and other emerging areas of knowledge.
+            </p>
+          </div>
+
+          {/* CPD PROVIDER RECOGNITION BOX */}
+          <div className="bx-cpd-showcase-card">
+            <div className="bx-cpd-badge-header">
+              <FiAward size={28} className="text-navy" />
+              <div>
+                <span className="bx-cpd-eyebrow">STANDARDS & ACCREDITATION</span>
+                <h3>Committed to Professional Learning Standards</h3>
+              </div>
+            </div>
+
+            <p className="bx-cpd-body-text">
+              Benedex Innovations Ltd is an <strong>Approved CPD Provider with The CPD Group</strong>, reflecting an important milestone in our commitment to structured professional development. As we continue to develop our training portfolio, we aim to deliver programmes that promote meaningful learning experiences and practical skills development.
+            </p>
+
+            <div className="bx-cpd-actions-row">
+              <Link to="/training" className="bx-hero-btn-primary">
+                Explore Learning Opportunities <FiArrowRight />
+              </Link>
+              <a
+                href="https://thecpdregister.com/providers/cpd-group--providers--791495"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bx-inline-link d-inline-flex align-items-center gap-2"
+              >
+                View Our CPD Provider Listing <FiExternalLink />
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ==========================================
+          06 — WHY BENEDEX? (OUR APPROACH)
+      ========================================== */}
+      <section className="bx-section-padding bx-bg-white">
+        <div className="bx-container">
+          <div className="bx-section-header text-center mb-5">
+            <span className="bx-eyebrow-tag">OUR APPROACH</span>
+            <h2 className="bx-section-title">Driven by Innovation. Focused on Impact.</h2>
+          </div>
+
+          <div className="bx-approach-pillars-grid">
+            <div className="bx-pillar-card">
+              <div className="bx-pillar-num">01</div>
+              <h3>Practical Solutions</h3>
+              <p>We focus on technologies and approaches that address real-world challenges, simplify processes, and improve everyday experiences.</p>
+            </div>
+
+            <div className="bx-pillar-card">
+              <div className="bx-pillar-num">02</div>
+              <h3>Continuous Learning</h3>
+              <p>We recognise knowledge and skills development as essential foundations for personal, professional, and organisational growth.</p>
+            </div>
+
+            <div className="bx-pillar-card">
+              <div className="bx-pillar-num">03</div>
+              <h3>Innovation & Adaptability</h3>
+              <p>We embrace new ideas, emerging technologies, and opportunities for continuous improvement in a changing digital environment.</p>
+            </div>
+
+            <div className="bx-pillar-card">
+              <div className="bx-pillar-num">04</div>
+              <h3>Responsible Technology</h3>
+              <p>We value privacy, information security, ethical practices, and responsible technology adoption.</p>
+            </div>
+
+            <div className="bx-pillar-card bx-pillar-wide">
+              <div className="bx-pillar-num">05</div>
+              <h3>People-Centred Approach</h3>
+              <p>We place individuals, learners, professionals, and organisations at the centre of our thinking and development priorities.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ==========================================
+          07 — OUR VISION
+      ========================================== */}
+      <section className="bx-section-padding bx-bg-light">
+        <div className="bx-container text-center">
+          <span className="bx-eyebrow-tag">LOOKING AHEAD</span>
+          <h2 className="bx-section-title mb-4">Building a Future of Possibilities Through Technology</h2>
+
+          <div className="bx-vision-card mx-auto">
+            <p className="bx-vision-quote">
+              “We envision a world where technology expands access to knowledge, strengthens communication, improves productivity, and creates opportunities for individuals and organisations to thrive. At Benedex Innovations Ltd, we are committed to contributing to that future through continuous learning, responsible innovation, and practical digital solutions.”
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ==========================================
+          08 — FINAL CALL TO ACTION (CTA)
+      ========================================== */}
+      <section className="bx-cta-section">
+        <div className="bx-container">
+          <div className="bx-cta-navy-card">
+            <div className="bx-cta-inner-content text-center">
+              <h2 className="bx-cta-heading">Let’s Build Something Meaningful</h2>
+              <h3 className="bx-cta-subheading">Explore Opportunities with Benedex Innovations Ltd</h3>
+              <p className="bx-cta-desc">
+                Whether you are seeking professional development, exploring digital solutions, or interested in technology-driven collaboration, we welcome opportunities to connect and explore possibilities.
+              </p>
+              <div className="bx-cta-btn-cluster">
+                <Link to="/services" className="bx-btn-primary-green">
+                  Explore Our Services <FiArrowRight />
+                </Link>
+                <Link to="/contact" className="bx-btn-secondary-outline">
+                  Contact Us <FiArrowRight />
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ==========================================
+          09 — FOOTER
+      ========================================== */}
       <Footer />
     </div>
   );

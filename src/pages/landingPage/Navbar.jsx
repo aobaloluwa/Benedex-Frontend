@@ -24,15 +24,16 @@ function Navbar() {
 
         {/* DESKTOP CENTER LINKS */}
         <div className="bx-nav-desktop-center">
-          <Link to="/" className="bx-nav-link">Benedex Corporate</Link>
-          <Link to="/elearning" className="bx-nav-link">E-Learning</Link>
-          <Link to="/vitaltron" className="bx-nav-link text-emerald-400">Vitaltron Health</Link>
-          <Link to="/privacy" className="bx-nav-link">Privacy & Legal</Link>
+          <Link to="/" className="bx-nav-link">Home</Link>
+          <Link to="/about" className="bx-nav-link">About Us</Link>
+          <Link to="/services" className="bx-nav-link">Services</Link>
+          <Link to="/training" className="bx-nav-link">Training & Development</Link>
+          <Link to="/solutions" className="bx-nav-link">Our Solutions</Link>
+          <Link to="/contact" className="bx-nav-link">Contact Us</Link>
         </div>
 
         {/* DESKTOP ACTION CTA BUTTONS */}
         <div className="bx-nav-desktop-right">
-          <Link to="/security" className="bx-nav-btn-outline">Data Security</Link>
           <Link to="/login" className="bx-nav-btn-solid">Sign In</Link>
         </div>
 
@@ -57,12 +58,13 @@ function Navbar() {
 
           <div className="bx-nav-drawer-body">
             <div className="bx-nav-drawer-links">
-              <Link to="/" className="bx-nav-drawer-link" onClick={toggleMenu}>Benedex Corporate</Link>
-              <Link to="/elearning" className="bx-nav-drawer-link" onClick={toggleMenu}>E-Learning Portal</Link>
-              <Link to="/vitaltron" className="bx-nav-drawer-link" onClick={toggleMenu}>Vitaltron Health</Link>
+              <Link to="/" className="bx-nav-drawer-link" onClick={toggleMenu}>Home</Link>
+              <Link to="/about" className="bx-nav-drawer-link" onClick={toggleMenu}>About Us</Link>
+              <Link to="/services" className="bx-nav-drawer-link" onClick={toggleMenu}>Services</Link>
+              <Link to="/training" className="bx-nav-drawer-link" onClick={toggleMenu}>Training & Development</Link>
+              <Link to="/solutions" className="bx-nav-drawer-link" onClick={toggleMenu}>Our Solutions</Link>
+              <Link to="/contact" className="bx-nav-drawer-link" onClick={toggleMenu}>Contact Us</Link>
               <Link to="/privacy" className="bx-nav-drawer-link" onClick={toggleMenu}>Privacy Policy</Link>
-              <Link to="/terms" className="bx-nav-drawer-link" onClick={toggleMenu}>Terms of Service</Link>
-              <Link to="/security" className="bx-nav-drawer-link" onClick={toggleMenu}>Data Security</Link>
             </div>
 
             <div className="bx-nav-drawer-actions">
