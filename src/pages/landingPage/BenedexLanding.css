@@ -925,10 +925,8 @@
    CORPORATE PAGE STRUCTURE & SECTION STYLING
 ========================================== */
 
-.bx-nav-container,
 .bx-container,
-.bx-hero-container,
-.bx-footer-container {
+.bx-hero-container {
   width: 100% !important;
   max-width: 1200px !important;
   margin: 0 auto !important;
@@ -1336,10 +1334,8 @@
 }
 
 @media (max-width: 991px) {
-  .bx-nav-container,
   .bx-container,
-  .bx-hero-container,
-  .bx-footer-container {
+  .bx-hero-container {
     padding-left: 1.25rem !important;
     padding-right: 1.25rem !important;
   }
@@ -1367,10 +1363,8 @@
 }
 
 @media (max-width: 575px) {
-  .bx-nav-container,
   .bx-container,
-  .bx-hero-container,
-  .bx-footer-container {
+  .bx-hero-container {
     padding-left: 1.0rem !important;
     padding-right: 1.0rem !important;
   }
