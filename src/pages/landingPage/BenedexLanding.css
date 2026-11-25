@@ -935,7 +935,12 @@
   box-sizing: border-box !important;
 }
 
-.bx-hero-section,
+.bx-hero-section {
+  padding-top: 7.5rem !important;
+  padding-bottom: 4.5rem !important;
+  box-sizing: border-box !important;
+}
+
 .bx-section-padding,
 .bx-cta-section {
   padding-top: 4.5rem !important;
@@ -1307,7 +1312,11 @@
     padding-right: 1.25rem !important;
   }
 
-  .bx-hero-section,
+  .bx-hero-section {
+    padding-top: 6.5rem !important;
+    padding-bottom: 3.5rem !important;
+  }
+
   .bx-section-padding,
   .bx-cta-section {
     padding-top: 3.5rem !important;
@@ -1332,7 +1341,11 @@
     padding-right: 1.0rem !important;
   }
 
-  .bx-hero-section,
+  .bx-hero-section {
+    padding-top: 5.5rem !important;
+    padding-bottom: 2.75rem !important;
+  }
+
   .bx-section-padding,
   .bx-cta-section {
     padding-top: 2.75rem !important;
