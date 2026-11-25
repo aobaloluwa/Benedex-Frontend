@@ -26,6 +26,11 @@ import IdentityVerification from "./pages/public/IdentityVerification";
 import PrivacyPolicy from "./pages/public/PrivacyPolicy";
 import TermsOfService from "./pages/public/TermsOfService";
 import DataSecurity from "./pages/public/DataSecurity";
+import AboutUs from "./pages/public/AboutUs";
+import ServicesPage from "./pages/public/ServicesPage";
+import TrainingPage from "./pages/public/TrainingPage";
+import SolutionsPage from "./pages/public/SolutionsPage";
+import ContactUs from "./pages/public/ContactUs";
 import NotFound from "./pages/public/NotFound";
 
 import StudentLayout from "./layouts/StudentLayout";
@@ -134,6 +139,31 @@ function App() {
         <Route
           path="/"
           element={<BenedexLanding />}
+        />
+
+        <Route
+          path="/about"
+          element={<AboutUs />}
+        />
+
+        <Route
+          path="/services"
+          element={<ServicesPage />}
+        />
+
+        <Route
+          path="/training"
+          element={<TrainingPage />}
+        />
+
+        <Route
+          path="/solutions"
+          element={<SolutionsPage />}
+        />
+
+        <Route
+          path="/contact"
+          element={<ContactUs />}
         />
 
         <Route
