@@ -101,18 +101,18 @@ const BenedexLanding = () => {
             <h2 className="bx-section-title">Connecting Technology with Real-World Needs</h2>
           </div>
 
-          <div className="bx-about-content-box">
-            <p className="bx-lead-paragraph">
+          <div className="bx-about-content-box text-center mx-auto">
+            <p className="bx-lead-paragraph text-center">
               <strong>Benedex Innovations Ltd</strong> is a Nigerian technology and innovation company committed to advancing digital transformation through practical solutions, professional development, and emerging technologies.
             </p>
-            <p className="bx-body-paragraph">
+            <p className="bx-body-paragraph text-center">
               Our areas of activity encompass digital communication, information management, business automation, e-learning, digital business solutions, cybersecurity, and technology-driven innovation.
             </p>
-            <p className="bx-body-paragraph">
+            <p className="bx-body-paragraph text-center">
               We believe technology should simplify processes, expand opportunities, improve access to information, and empower individuals and organisations to achieve more. Through our services, digital platforms, and developing initiatives, we aim to respond to evolving educational, professional, business, and societal needs.
             </p>
 
-            <div className="text-center mt-4">
+            <div className="text-center mt-4 d-flex justify-content-center">
               <Link to="/about" className="bx-inline-link">
                 Learn More About Us <FiArrowRight />
               </Link>
