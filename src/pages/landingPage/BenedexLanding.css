@@ -1262,39 +1262,36 @@
   margin: 0;
 }
 
-/* CTA NAVY CARD */
+/* CTA NAVY CARD RESTYLE */
 .bx-cta-section {
-  padding: 4rem 0;
+  padding: 4.5rem 0;
 }
 
 .bx-cta-navy-card {
-  background: #07335c;
-  border-radius: 24px;
-  padding: 4rem 2rem;
+  background: linear-gradient(135deg, #07335c 0%, #0d4a82 100%) !important;
+  border-radius: 28px;
+  padding: 4.5rem 3rem;
   color: #ffffff;
-  box-shadow: 0 20px 40px rgba(7, 51, 92, 0.2);
+  box-shadow: 0 20px 50px rgba(7, 51, 92, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
 }
 
 .bx-cta-heading {
-  font-size: 1.8rem;
+  font-size: 2.2rem;
   font-weight: 700;
   color: #ffffff;
-  margin-bottom: 0.5rem;
-}
-
-.bx-cta-subheading {
-  font-size: 1.1rem;
-  font-weight: 500;
-  color: #a7f3d0;
-  margin-bottom: 1.25rem;
+  margin-bottom: 1rem;
+  letter-spacing: -0.5px;
 }
 
 .bx-cta-desc {
-  font-size: 0.95rem;
-  color: rgba(255, 255, 255, 0.85);
-  max-width: 720px;
-  margin: 0 auto 2.25rem auto;
-  line-height: 1.6;
+  font-size: 1.05rem;
+  color: rgba(255, 255, 255, 0.9);
+  max-width: 740px;
+  margin: 0 auto 2.5rem auto;
+  line-height: 1.65;
 }
 
 .bx-cta-btn-cluster {
@@ -1303,6 +1300,28 @@
   justify-content: center;
   gap: 16px;
   flex-wrap: wrap;
+}
+
+.bx-corp-wrapper .bx-btn-primary-green,
+.bx-corp-wrapper button.bx-btn-primary-green {
+  text-decoration: none !important;
+  font-weight: 600 !important;
+}
+
+.bx-corp-wrapper .bx-btn-secondary-outline,
+.bx-corp-wrapper button.bx-btn-secondary-outline {
+  text-decoration: none !important;
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.4) !important;
+  font-weight: 500 !important;
+}
+
+.bx-corp-wrapper .bx-btn-secondary-outline:hover,
+.bx-corp-wrapper button.bx-btn-secondary-outline:hover {
+  text-decoration: none !important;
+  border-color: rgba(255, 255, 255, 0.8) !important;
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  color: #ffffff !important;
 }
 
 @media (max-width: 991px) {

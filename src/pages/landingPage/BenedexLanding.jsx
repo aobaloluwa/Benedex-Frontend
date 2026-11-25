@@ -387,7 +387,6 @@ const BenedexLanding = () => {
           <div className="bx-cta-navy-card">
             <div className="bx-cta-inner-content text-center">
               <h2 className="bx-cta-heading">Let’s Build Something Meaningful</h2>
-              <h3 className="bx-cta-subheading">Explore Opportunities with Benedex Innovations Ltd</h3>
               <p className="bx-cta-desc">
                 Whether you are seeking professional development, exploring digital solutions, or interested in technology-driven collaboration, we welcome opportunities to connect and explore possibilities.
               </p>

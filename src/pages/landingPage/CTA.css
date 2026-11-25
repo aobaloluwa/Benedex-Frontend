@@ -142,19 +142,21 @@
 /* Corporate Secondary Deep Transparent Outline Button Profile */
 .bx-btn-secondary-outline {
   background-color: transparent;
-  color: #ffffff;
+  color: #ffffff !important;
   font-family: 'Poppins', sans-serif;
   font-size: 0.95rem;
   font-weight: 500;
+  text-decoration: none !important;
   padding: 13px 28px;
-  border: 1px solid rgba(255, 255, 255, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.35);
   border-radius: 100px;
   cursor: pointer;
   transition: transform 0.2s, background-color 0.2s, border-color 0.2s;
 }
 
 .bx-btn-secondary-outline:hover {
-  border-color: rgba(255, 255, 255, 0.6);
+  border-color: rgba(255, 255, 255, 0.7);
+  text-decoration: none !important;
 }
 
 /* --- RESPONSIVE MEDIA VIEWPORT ADAPTATIONS --- */
