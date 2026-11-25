@@ -27,12 +27,12 @@
 }
 
 .bx-corp-hero-centered-desc {
-  font-size: 1.1rem;
-  color: #475569;
-  line-height: 1.65;
-  margin: 0 auto 2.5rem auto;
-  max-width: 760px;
-  text-align: center;
+  font-size: 0.95rem !important;
+  color: #5f6b7a !important;
+  line-height: 1.65 !important;
+  margin: 0 auto 2.25rem auto !important;
+  max-width: 960px !important;
+  text-align: center !important;
 }
 
 .justify-center-actions {
@@ -925,15 +925,22 @@
    CORPORATE PAGE STRUCTURE & SECTION STYLING
 ========================================== */
 
-.bx-container {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 1.5rem;
+.bx-container,
+.bx-hero-container {
+  width: 100% !important;
+  max-width: 1200px !important;
+  margin: 0 auto !important;
+  padding-left: 1.5rem !important;
+  padding-right: 1.5rem !important;
+  box-sizing: border-box !important;
 }
 
-.bx-section-padding {
-  padding: 5rem 0;
+.bx-hero-section,
+.bx-section-padding,
+.bx-cta-section {
+  padding-top: 4.5rem !important;
+  padding-bottom: 4.5rem !important;
+  box-sizing: border-box !important;
 }
 
 .bx-bg-white {
@@ -1294,6 +1301,19 @@
 }
 
 @media (max-width: 991px) {
+  .bx-container,
+  .bx-hero-container {
+    padding-left: 1.25rem !important;
+    padding-right: 1.25rem !important;
+  }
+
+  .bx-hero-section,
+  .bx-section-padding,
+  .bx-cta-section {
+    padding-top: 3.5rem !important;
+    padding-bottom: 3.5rem !important;
+  }
+
   .bx-activity-grid,
   .bx-approach-pillars-grid,
   .bx-platforms-dual-grid {
@@ -1302,6 +1322,21 @@
 
   .bx-pillar-wide {
     grid-column: span 1;
+  }
+}
+
+@media (max-width: 575px) {
+  .bx-container,
+  .bx-hero-container {
+    padding-left: 1.0rem !important;
+    padding-right: 1.0rem !important;
+  }
+
+  .bx-hero-section,
+  .bx-section-padding,
+  .bx-cta-section {
+    padding-top: 2.75rem !important;
+    padding-bottom: 2.75rem !important;
   }
 }
 
