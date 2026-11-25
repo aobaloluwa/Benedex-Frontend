@@ -84,9 +84,9 @@ const BenedexLanding = () => {
             <a href="#services" className="bx-hero-btn-primary shadow-navy">
               Explore Our Services <FiArrowRight size={16} />
             </a>
-            <a href="#about" className="bx-hero-btn-secondary">
+            <Link to="/about" className="bx-hero-btn-secondary">
               About Benedex <FiArrowRight size={16} />
-            </a>
+            </Link>
           </motion.div>
         </div>
       </section>
